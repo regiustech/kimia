@@ -1,0 +1,273 @@
+<script>
+    import {Swiper,SwiperSlide} from 'swiper/vue';
+    import 'swiper/css';
+    import 'swiper/css/navigation';
+    import {Autoplay,Pagination,Navigation} from 'swiper/modules';
+    export default {
+        data(){
+            return {
+                activeTab: "amine",
+                searchTxt: ""
+            }
+        },
+        components: {
+            Swiper,
+            SwiperSlide
+        },
+        setup(){
+            return {
+                modules: [Autoplay,Pagination,Navigation],
+            };
+        },
+        methods: {
+            changeTab(tab){
+                if(this.activeTab != tab){
+                    this.activeTab = tab;
+                }
+            },
+            searchProducts(){
+                this.$inertia.visit(this.route('products',{search: this.searchTxt}));
+            }
+        }
+    }
+</script>
+<script setup>
+    import axios from "axios";
+    import FrontendLayout from '@/Layouts/FrontendLayout.vue';
+    import {Head} from '@inertiajs/vue3';
+    import {toast} from "vue3-toastify";
+    import "vue3-toastify/dist/index.css";
+    defineProps({
+        amineProducts: {type: Array},
+        acidProducts: {type: Array},
+        aldehydeProducts: {type: Array},
+        halideProducts: {type: Array}
+    });
+    const addToCart = (product_id,quantity = 1) => {
+        document.getElementById("rt-custom-loader").style.display = "block";
+        try{
+            axios.post(route('cart.add'),{product_id,quantity}).then(({data}) => {
+                document.getElementById("rt-custom-loader").style.display = "none";
+                toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                document.querySelector(".rtCartCount").innerHTML = data.itemCount;
+            });
+        }catch(e){
+            document.getElementById("rt-custom-loader").style.display = "none";
+        }
+    }
+</script>
+<template>
+    <FrontendLayout>
+        <Head>
+            <title>Kimia</title>
+            <meta name="description" content="Kimia description">
+        </Head>
+        <section class="hero">
+            <div class="container flex">
+                <div class="col-50 banner-text">
+                    <div class="col-50-wrapper">
+                        <h1 class="text-white mb-3">Global Supplier of Chemistry Services</h1>
+                        <p class="text-white"><strong class="text-primary">Kimia Corporation</strong> is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc.</p>
+                        <a class="btn secondary-btn mt-3" :href="route('products')"><span class="btn-text">View all products</span></a>
+                        <div class="input search-input mt-10">
+                            <input type="text" v-model="searchTxt" placeholder="Search by Name, CAS Number, Catalog Number or Molecular Formula"/>
+                            <button type="submit" class="submit-icon" @click="searchProducts"><i class="icon-kimia-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-50">
+                    <div class="col-50-wrapper banner-image-wrapper">
+                        <img src="/assets/images/banner-image.jpg" alt="Global Supplier of  Chemistry Services"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="pad-100-15 product-section">
+            <div class="container flex">
+                <div class="row mb-5 text-center">
+                    <h5 class="sub-heading mt-0 mb-2">Products</h5>
+                    <h2 class="h2 mb-0 mt-0">Our Products</h2>
+                </div>
+                <div class="row">
+                    <ul class="product-nav flex items-verticaly-center gap-50 mt-0 text-center mb-5">
+                        <li><a :class="activeTab == 'amine' ? 'active' : ''" @click="changeTab('amine')">Amine</a></li>
+                        <li><a :class="activeTab == 'acid' ? 'active' : ''" @click="changeTab('acid')">Acid</a></li>
+                        <li><a :class="activeTab == 'aldehyde' ? 'active' : ''" @click="changeTab('aldehyde')">Aldehydes</a></li>
+                        <li><a :class="activeTab == 'halide' ? 'active' : ''" @click="changeTab('halide')">Halides </a></li>
+                    </ul>
+                    <div :class="activeTab == 'amine' ? 'tab-content active' : 'tab-content'">
+                        <div class="row flex gap-20" v-if="amineProducts.length">
+                            <div class="card product-card" v-for="item in amineProducts" :key="item.id">
+                                <div class="product-feature-image flex text-center">
+                                    <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
+                                </div>
+                                <div class="product-content text-center">
+                                    <div class="sku mt-0 mb-1">{{item.catalog_number}}</div>
+                                    <h4 class="product-title mt-0 mb-1"><a :href="route('productDetail',item.slug)">{{item.name}}</a></h4>
+                                    <div class="btn-wrap">
+                                        <a class="btn secondary-btn" @click="addToCart(item.id,1)"><span class="btn-text">Add to cart</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center mt-5">
+                            <a class="btn primary-btn" :href="route('productByCat','amine')"><span class="btn-text">View All Products</span></a>
+                        </div>
+                    </div>
+                    <div :class="activeTab == 'acid' ? 'tab-content active' : 'tab-content'">
+                        <div class="row flex gap-20" v-if="acidProducts.length">
+                            <div class="card product-card" v-for="item in acidProducts" :key="item.id">
+                                <div class="product-feature-image flex text-center">
+                                    <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
+                                </div>
+                                <div class="product-content text-center">
+                                    <div class="sku mt-0 mb-1">{{item.catalog_number}}</div>
+                                    <h4 class="product-title mt-0 mb-1"><a :href="route('productDetail',item.slug)">{{item.name}}</a></h4>
+                                    <div class="btn-wrap">
+                                        <a class="btn secondary-btn" @click="addToCart(item.id,1)"><span class="btn-text">Add to cart</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center mt-5">
+                            <a class="btn primary-btn" :href="route('productByCat','acid')"><span class="btn-text">View All Products</span></a>
+                        </div>
+                    </div>
+                    <div :class="activeTab == 'aldehyde' ? 'tab-content active' : 'tab-content'">
+                        <div class="row flex gap-20" v-if="aldehydeProducts.length">
+                            <div class="card product-card" v-for="item in aldehydeProducts" :key="item.id">
+                                <div class="product-feature-image flex text-center">
+                                    <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
+                                </div>
+                                <div class="product-content text-center">
+                                    <div class="sku mt-0 mb-1">{{item.catalog_number}}</div>
+                                    <h4 class="product-title mt-0 mb-1"><a :href="route('productDetail',item.slug)">{{item.name}}</a></h4>
+                                    <div class="btn-wrap">
+                                        <a class="btn secondary-btn" @click="addToCart(item.id,1)"><span class="btn-text">Add to cart</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center mt-5">
+                            <a class="btn primary-btn" :href="route('productByCat','aldehyde')"><span class="btn-text">View All Products </span></a>
+                        </div>
+                    </div>
+                    <div :class="activeTab == 'halide' ? 'tab-content active' : 'tab-content'">
+                        <div class="row flex gap-20" v-if="halideProducts.length">
+                            <div class="card product-card" v-for="item in halideProducts" :key="item.id">
+                                <div class="product-feature-image flex text-center">
+                                    <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
+                                </div>
+                                <div class="product-content text-center">
+                                    <div class="sku mt-0 mb-1">{{item.catalog_number}}</div>
+                                    <h4 class="product-title mt-0 mb-1"><a :href="route('productDetail',item.slug)">{{item.name}}</a></h4>
+                                    <div class="btn-wrap">
+                                        <a class="btn secondary-btn" @click="addToCart(item.id,1)"><span class="btn-text">Add to cart</span></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row text-center mt-5">
+                            <a class="btn primary-btn" :href="route('productByCat','halide')"><span class="btn-text">View All Products </span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="pad-100-15 slider-section bg-dark ">
+            <div class="container">
+                <div class="row flex gap-50 mb-5 wrap-unset">
+                    <div class="col-40">
+                        <h5 class="sub-heading mt-0 mb-1">We Are Good At What We Do</h5>
+                        <h2 class="h2 text-white mb-0">We Are Here To Assist</h2>
+                    </div>
+                    <div class="col-60">
+                        <p class="text-white mb-0">Kimia Corp. offers a wide variety of services for your synthetic organic chemistry needs. Whether you need a complex compound or route scouting Kimia’s experienced scientists can help.</p>
+                    </div>
+                </div>
+                <swiper 
+                    :centeredSlides="true"
+                    :slidesPerView="1"
+                    :grabCursor="true"
+                    :freeMode="false"
+                    :loop="true"
+                    :mousewheel="false"
+                    :keyboard="{enabled: true}"
+                    :autoplay="{delay: 3000,disableOnInteraction: false}"
+                    :navigation="true" 
+                    :breakpoints="{360: {slidesPerView: 1,spaceBetween: 20},768: {slidesPerView: 3,spaceBetween: 20},1200: {slidesPerView: 5,spaceBetween: 20}}"
+                    :modules="modules"
+                    class="swiper-slider"
+                >
+                    <swiper-slide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/design-of-synthesis-img.jpg" alt="Design of Synthesis"/>
+                            </div>
+                            <h3 class="mb-1">Design of Synthesis</h3>
+                            <p class="mb-0  text-white">Kimia designs the synthesis of the desired organic compound(s) with or without a reference protocol.</p>
+                        </a>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/custom-synthesis-img.jpg" alt="Custom Synthesis​"/>
+                            </div>
+                            <h3 class="mb-1">Custom Synthesis​</h3>
+                            <p class="mb-0 text-white">Kimia carries out the custom synthesis of the desired compound(s) using a reference provided by the customer</p>
+                        </a>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/design-and-synthesis.jpg" alt="Design and Synthesis​"/>
+                            </div>
+                            <h3 class="mb-1">Design and Synthesis​</h3>
+                            <p class="mb-0 text-white"> Kimia handles route design and the custom synthesis of the desired compound(s).</p>
+                        </a>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/provide-synthetic-method-img.jpg" alt="Provide Synthetic Method"/>
+                            </div>
+                            <h3 class="mb-1">Provide Synthetic Method</h3>
+                            <p class="mb-0 text-white">Kimia can provide the synthetic method of internally synthesized compounds.</p>
+                        </a>
+                    </swiper-slide>
+                    <swiper-slide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/interpretation-of-analytical-data-img.jpg" alt="Interpretation of Analytical data"/>
+                            </div>
+                            <h3 class="mb-1">Interpretation of Analytical data</h3>
+                            <p class="mb-0 text-white">Kimia provides interpretation of analytical data such as LCMS, NMR, FTIR, etc. of organic compounds.</p>
+                        </a>
+                    </swiper-slide>
+                </swiper>
+            </div>
+        </section>
+        <section class="about-section">
+            <div class="container flex">
+                <div class="col-40 flex items-verticaly-center">
+                    <div class="dual-image-wrapper">
+                        <img class="dual-img-1" src="/assets/images/about-image-1.jpg"/>
+                        <img class="dual-img-2" src="/assets/images/about-image-2.jpg"/>
+                    </div>
+                </div>
+                <div class="col-60">
+                    <div class="abot-text-wrapper">
+                        <div class="about-text">
+                            <img class="bg-1" src="/assets/images/about-bg-1.svg"/>
+                            <img class="bg-2" src="/assets/images/about-bg-2.svg"/>
+                            <h5 class="sub-heading mb-2">About Us</h5>
+                            <h2 class="h2 mb-3 mt-0">About Kimia Corp.</h2>
+                            <p>Kimia Corporation is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc. Kimia also has a catalog of small molecules that continues to expand.</p>
+                            <a class="btn primary-btn mt-2" :href="route('about')"><span class="btn-text">Read More</span></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </FrontendLayout>
+</template>
