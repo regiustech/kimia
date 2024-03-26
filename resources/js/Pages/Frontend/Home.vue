@@ -1,8 +1,8 @@
 <script>
-    import {Swiper,SwiperSlide} from 'swiper/vue';
-    import 'swiper/css';
-    import 'swiper/css/navigation';
-    import {Autoplay,Pagination,Navigation} from 'swiper/modules';
+    // import {Swiper,SwiperSlide} from 'swiper/vue';
+    // import 'swiper/css';
+    // import 'swiper/css/navigation';
+    // import {Autoplay,Pagination,Navigation} from 'swiper/modules';
     export default {
         data(){
             return {
@@ -10,15 +10,15 @@
                 searchTxt: ""
             }
         },
-        components: {
-            Swiper,
-            SwiperSlide
-        },
-        setup(){
-            return {
-                modules: [Autoplay,Pagination,Navigation],
-            };
-        },
+        // components: {
+        //     Swiper,
+        //     SwiperSlide
+        // },
+        // setup(){
+        //     return {
+        //         modules: [Autoplay,Pagination,Navigation],
+        //     };
+        // },
         methods: {
             changeTab(tab){
                 if(this.activeTab != tab){
@@ -174,7 +174,7 @@
                 </div>
             </div>
         </section>
-        <section class="pad-100-15 slider-section bg-dark ">
+        <!-- <section class="pad-100-15 slider-section bg-dark ">
             <div class="container">
                 <div class="row flex gap-50 mb-5 wrap-unset">
                     <div class="col-40">
@@ -246,7 +246,7 @@
                     </swiper-slide>
                 </swiper>
             </div>
-        </section>
+        </section> -->
         <section class="about-section">
             <div class="container flex">
                 <div class="col-40 flex items-verticaly-center">
