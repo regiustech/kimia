@@ -4,7 +4,6 @@
         data(){
             let stripe = window.Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
             let user = this.$page.props.auth.user;
-            console.log({user});
             return {
                 stripe: stripe,
                 cartItems: ((this.cart && this.cart.cartItems.length) ? this.cart.cartItems : []),
