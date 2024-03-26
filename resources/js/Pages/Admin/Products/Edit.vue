@@ -72,7 +72,7 @@
     import {Head} from '@inertiajs/vue3';
 </script>
 <template>
-    <Head :title="this.product.id ? 'Update Product' : 'Create Product'"/>
+    <Head :title="product.id ? 'Update Product' : 'Create Product'"/>
     <BackendLayout>
         <div class="rt-head-wrap">
             <div class="heading">{{product.id ? 'Update' : 'Create'}} Products</div>
