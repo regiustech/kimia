@@ -9,6 +9,10 @@ import {ZiggyVue} from '../../vendor/tightenco/ziggy';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
+import VueSplide from '@splidejs/vue-splide';
+import '@splidejs/vue-splide/css';
+import '@splidejs/vue-splide/css/core';
+
 import 'vuetify/styles'
 import {createVuetify} from 'vuetify';
 import {aliases,mdi} from 'vuetify/iconsets/mdi'
@@ -29,6 +33,7 @@ createInertiaApp({
             .use(ZiggyVue)
             .use(vuetify)
             .use(VueSweetalert2)
+            .use(VueSplide)
             .mixin({
                 methods: {
                     route,

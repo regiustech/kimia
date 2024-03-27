@@ -1,24 +1,26 @@
 <script>
-    // import {Swiper,SwiperSlide} from 'swiper/vue';
-    // import 'swiper/css';
-    // import 'swiper/css/navigation';
-    // import {Autoplay,Pagination,Navigation} from 'swiper/modules';
     export default {
         data(){
             return {
                 activeTab: "amine",
-                searchTxt: ""
+                searchTxt: "",
+                sliderOptions: {
+                    autoplay: true,
+                    interval: 3000,
+                    pauseOnHover: true,
+                    type: 'loop',
+                    perPage: 4,
+                    gap: 20,
+                    pagination: false,
+                    perMove: 1,
+                    breakpoints: {
+                        1199: {perPage: 3},
+                        767: {perPage: 2},
+                        479: {perPage: 1}
+                    }
+                }
             }
         },
-        // components: {
-        //     Swiper,
-        //     SwiperSlide
-        // },
-        // setup(){
-        //     return {
-        //         modules: [Autoplay,Pagination,Navigation],
-        //     };
-        // },
         methods: {
             changeTab(tab){
                 if(this.activeTab != tab){
@@ -179,7 +181,7 @@
                 </div>
             </div>
         </section>
-        <!-- <section class="pad-100-15 slider-section bg-dark ">
+        <section class="pad-100-15 slider-section bg-dark ">
             <div class="container">
                 <div class="row flex gap-50 mb-5 wrap-unset">
                     <div class="col-40">
@@ -190,6 +192,53 @@
                         <p class="text-white mb-0">Kimia Corp. offers a wide variety of services for your synthetic organic chemistry needs. Whether you need a complex compound or route scouting Kimia’s experienced scientists can help.</p>
                     </div>
                 </div>
+                <Splide :options="sliderOptions">
+                    <SplideSlide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/design-of-synthesis-img.jpg" alt="Design of Synthesis"/>
+                            </div>
+                            <h3 class="mb-1">Design of Synthesis</h3>
+                            <p class="mb-0 text-white">Kimia designs the synthesis of the desired organic compound(s) with or without a reference protocol.</p>
+                        </a>
+                    </SplideSlide>
+                    <SplideSlide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/custom-synthesis-img.jpg" alt="Custom Synthesis​"/>
+                            </div>
+                            <h3 class="mb-1">Custom Synthesis​</h3>
+                            <p class="mb-0 text-white">Kimia carries out the custom synthesis of the desired compound(s) using a reference provided by the customer</p>
+                        </a>
+                    </SplideSlide>
+                    <SplideSlide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/design-and-synthesis.jpg" alt="Design and Synthesis​"/>
+                            </div>
+                            <h3 class="mb-1">Design and Synthesis​</h3>
+                            <p class="mb-0 text-white"> Kimia handles route design and the custom synthesis of the desired compound(s).</p>
+                        </a>
+                    </SplideSlide>
+                    <SplideSlide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/provide-synthetic-method-img.jpg" alt="Provide Synthetic Method"/>
+                            </div>
+                            <h3 class="mb-1">Provide Synthetic Method</h3>
+                            <p class="mb-0 text-white">Kimia can provide the synthetic method of internally synthesized compounds.</p>
+                        </a>
+                    </SplideSlide>
+                    <SplideSlide>
+                        <a :href="route('services')" class="services-card">
+                            <div class="services-image mb-1">
+                                <img src="/assets/images/interpretation-of-analytical-data-img.jpg" alt="Interpretation of Analytical data"/>
+                            </div>
+                            <h3 class="mb-1">Interpretation of Analytical data</h3>
+                            <p class="mb-0 text-white">Kimia provides interpretation of analytical data such as LCMS, NMR, FTIR, etc. of organic compounds.</p>
+                        </a>
+                    </SplideSlide>
+                </Splide>
                 <swiper 
                     :centeredSlides="true"
                     :slidesPerView="1"
@@ -205,53 +254,23 @@
                     class="swiper-slider"
                 >
                     <swiper-slide>
-                        <a :href="route('services')" class="services-card">
-                            <div class="services-image mb-1">
-                                <img src="/assets/images/design-of-synthesis-img.jpg" alt="Design of Synthesis"/>
-                            </div>
-                            <h3 class="mb-1">Design of Synthesis</h3>
-                            <p class="mb-0  text-white">Kimia designs the synthesis of the desired organic compound(s) with or without a reference protocol.</p>
-                        </a>
+                        
                     </swiper-slide>
                     <swiper-slide>
-                        <a :href="route('services')" class="services-card">
-                            <div class="services-image mb-1">
-                                <img src="/assets/images/custom-synthesis-img.jpg" alt="Custom Synthesis​"/>
-                            </div>
-                            <h3 class="mb-1">Custom Synthesis​</h3>
-                            <p class="mb-0 text-white">Kimia carries out the custom synthesis of the desired compound(s) using a reference provided by the customer</p>
-                        </a>
+                        
                     </swiper-slide>
                     <swiper-slide>
-                        <a :href="route('services')" class="services-card">
-                            <div class="services-image mb-1">
-                                <img src="/assets/images/design-and-synthesis.jpg" alt="Design and Synthesis​"/>
-                            </div>
-                            <h3 class="mb-1">Design and Synthesis​</h3>
-                            <p class="mb-0 text-white"> Kimia handles route design and the custom synthesis of the desired compound(s).</p>
-                        </a>
+                        
                     </swiper-slide>
                     <swiper-slide>
-                        <a :href="route('services')" class="services-card">
-                            <div class="services-image mb-1">
-                                <img src="/assets/images/provide-synthetic-method-img.jpg" alt="Provide Synthetic Method"/>
-                            </div>
-                            <h3 class="mb-1">Provide Synthetic Method</h3>
-                            <p class="mb-0 text-white">Kimia can provide the synthetic method of internally synthesized compounds.</p>
-                        </a>
+                        
                     </swiper-slide>
                     <swiper-slide>
-                        <a :href="route('services')" class="services-card">
-                            <div class="services-image mb-1">
-                                <img src="/assets/images/interpretation-of-analytical-data-img.jpg" alt="Interpretation of Analytical data"/>
-                            </div>
-                            <h3 class="mb-1">Interpretation of Analytical data</h3>
-                            <p class="mb-0 text-white">Kimia provides interpretation of analytical data such as LCMS, NMR, FTIR, etc. of organic compounds.</p>
-                        </a>
+                        
                     </swiper-slide>
                 </swiper>
             </div>
-        </section> -->
+        </section>
         <section class="about-section">
             <div class="container flex">
                 <div class="col-40 flex items-verticaly-center">
@@ -276,3 +295,8 @@
         </section>
     </FrontendLayout>
 </template>
+<style>
+    .splide__arrows{position:absolute;bottom:-30px;}
+    .splide__arrows .splide__arrow--prev{left:0;}
+    .splide__arrows .splide__arrow--next{left:45px;}
+</style>
