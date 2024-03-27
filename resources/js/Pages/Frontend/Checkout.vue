@@ -29,7 +29,8 @@
                     shipping_state: "",
                     shipping_zipcode: "",
                     additional_notes: "",
-                    card_name: ""
+                    card_name: "",
+                    policy: 0
                 },
                 submitting: false,
                 errors: []
@@ -205,6 +206,9 @@
                     newError["card_name"] = "Maximum 100 characters allowed";
                     positionFocus = positionFocus || "card_name";
                 }
+                if(this.form.policy == 0){
+                    newError["policy"] = "Required";
+                }
                 this.errors = newError;
                 if(positionFocus){
                     if(document.getElementById(positionFocus)){
@@ -249,6 +253,9 @@
                 this.$inertia.post($vm.route('checkout.order'),$vm.form,{
                     onFinish: () => document.getElementById("rt-custom-loader").style.display = "none"
                 });
+            },
+            onPolicyChange(){
+                this.form.policy = ((this.form.policy == "1") ? "0" : "1");
             }
         }
     }
@@ -440,10 +447,11 @@
                         </div>
                         <div class="form-full-field form-field">
                             <div class="checkbox_field privacy-policy-text flex gap-10 wrap-unset">
-                                <input type ="checkbox" id="agree_withi_policies">
-                                <label>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.
+                                <input type ="checkbox" id="agree_withi_policies" @change="onPolicyChange" :checked="(form.policy == 1)">
+                                <label for="agree_withi_policies">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.
                                 </label>
                             </div>
+                            <label class="rt-cust-error" v-if="hasValidationError(errors,'policy')">{{ validationError(errors,'policy') }}</label>
                             <div class="form-full-field mt-1">
                                 <button class="btn secondary-btn flex-1 mt-1" @click="submitOrder"><span class="btn-text">Place your order</span></button>
                             </div>

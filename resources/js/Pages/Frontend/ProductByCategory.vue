@@ -59,8 +59,7 @@
             <meta name="description" content="Kimia Products description">
         </Head>
         <section class="inner-banner" style="background-image: url('/assets/images/about-banner.jpg');">
-            <div class="container  flex text-center">
-                <span class="banner-subheading mb-2 row">Explore products</span>
+            <div class="container flex text-center">
                 <h1 class="mt-0 mb-0 row text-white text-capitalize">{{category}}</h1>       
             </div>
         </section>

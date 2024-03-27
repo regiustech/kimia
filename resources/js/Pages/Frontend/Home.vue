@@ -27,6 +27,11 @@
             },
             searchProducts(){
                 this.$inertia.visit(this.route('products',{search: this.searchTxt}));
+            },
+            onKeyPress(evt){
+                if(evt.key == "Enter"){
+                    this.$inertia.visit(this.route('products',{search: this.searchTxt}));
+                }
             }
         }
     }
@@ -70,7 +75,7 @@
                         <p class="text-white"><strong class="text-primary">Kimia Corporation</strong> is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc.</p>
                         <a class="btn secondary-btn mt-3" :href="route('products')"><span class="btn-text">View all products</span></a>
                         <div class="input search-input mt-10">
-                            <input type="text" v-model="searchTxt" placeholder="Search by Name, CAS Number, Catalog Number or Molecular Formula"/>
+                            <input type="text" v-model="searchTxt" @keypress="onKeyPress($event)" placeholder="Search by Name, CAS Number, Catalog Number or Molecular Formula"/>
                             <button type="submit" class="submit-icon" @click="searchProducts"><i class="icon-kimia-search"></i></button>
                         </div>
                     </div>
@@ -111,7 +116,7 @@
                             </div>
                         </div>
                         <div class="row text-center mt-5">
-                            <a class="btn primary-btn" :href="route('productByCat','amine')"><span class="btn-text">View All Products</span></a>
+                            <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products</span></a>
                         </div>
                     </div>
                     <div :class="activeTab == 'acid' ? 'tab-content active' : 'tab-content'">
@@ -130,7 +135,7 @@
                             </div>
                         </div>
                         <div class="row text-center mt-5">
-                            <a class="btn primary-btn" :href="route('productByCat','acid')"><span class="btn-text">View All Products</span></a>
+                            <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products</span></a>
                         </div>
                     </div>
                     <div :class="activeTab == 'aldehyde' ? 'tab-content active' : 'tab-content'">
@@ -149,7 +154,7 @@
                             </div>
                         </div>
                         <div class="row text-center mt-5">
-                            <a class="btn primary-btn" :href="route('productByCat','aldehyde')"><span class="btn-text">View All Products </span></a>
+                            <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products </span></a>
                         </div>
                     </div>
                     <div :class="activeTab == 'halide' ? 'tab-content active' : 'tab-content'">
@@ -168,7 +173,7 @@
                             </div>
                         </div>
                         <div class="row text-center mt-5">
-                            <a class="btn primary-btn" :href="route('productByCat','halide')"><span class="btn-text">View All Products </span></a>
+                            <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products </span></a>
                         </div>
                     </div>
                 </div>

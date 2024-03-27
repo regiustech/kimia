@@ -39,6 +39,11 @@
                     params.search = searchTxt;
                 }
                 this.$inertia.visit(this.route('products',params));
+            },
+            onKeyPress(evt){
+                if(evt.key == "Enter"){
+                    this.searchProducts(this.searchTxt,this.category);
+                }
             }
         }
     }
@@ -108,7 +113,7 @@
                         </ul>
                     </div>
                     <div class="input search-input">
-                        <input type="text" v-model="searchTxt" placeholder="Search by Name, CAS Number, Catalog Number or Molecular Formula">
+                        <input type="text" v-model="searchTxt" @keypress="onKeyPress($event)" placeholder="Search by Name, CAS Number, Catalog Number or Molecular Formula">
                         <button type="submit" class="submit-icon" @click="searchProducts(searchTxt,category)"><i class="icon-kimia-search"></i></button>
                     </div>
                 </div>
