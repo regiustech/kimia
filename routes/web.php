@@ -11,6 +11,8 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\VariantController;
+use App\Http\Controllers\Admin\VariantDetailController;
 use App\Http\Controllers\Admin\OrderController;
 
 /*
@@ -74,6 +76,16 @@ Route::middleware(["auth"])->group(function(){
   
         Route::get("products/all",[ProductController::class,"getAllProducts"])->name("products.all");
         Route::resource("products",ProductController::class,[
+            "except" => ["show"]
+        ]);
+  
+        Route::get("variants/all",[VariantController::class,"getAllVariants"])->name("variants.all");
+        Route::resource("variants",VariantController::class,[
+            "except" => ["show"]
+        ]);
+  
+        Route::get("variant-details/all",[VariantDetailController::class,"getAllVariantDetails"])->name("variant-details.all");
+        Route::resource("variant-details",VariantDetailController::class,[
             "except" => ["show"]
         ]);
 

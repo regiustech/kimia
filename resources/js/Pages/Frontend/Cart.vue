@@ -48,7 +48,7 @@
                 try{
                     var items = [];
                     for(let cartItem of this.cartItems){
-                        items.push({product_id: cartItem.product_id,quantity: cartItem.quantity});
+                        items.push({product_id: cartItem.product_id,product_variant_id: cartItem.product_variant_id,quantity: cartItem.quantity});
                     }
                     axios.post(route('cart.update'),{cart_id: this.cart.id,items: JSON.stringify(items)}).then(({data}) => {
                         document.getElementById("rt-custom-loader").style.display = "none";
@@ -113,7 +113,8 @@
                                 </td>
                                 <td data-title="Product">{{cartItem.product.name}}</td>
                                 <td data-title="Price">
-                                    <span class="price">{{(cartItem.product.price).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</span>
+                                    <span class="price" v-if="cartItem.product.product_type == 'regular'">{{(cartItem.product.price).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</span>
+                                    <span class="price" v-else-if="cartItem.product.product_type == 'variant'">{{(cartItem.product_variant.price).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</span>
                                 </td>
                                 <td data-title="Quantity">
                                     <span class="rt-quantity-field">
@@ -123,7 +124,8 @@
                                     </span>
                                 </td>
                                 <td data-title="Subtotal">
-                                    <span class="subtotal">{{(cartItem.product.price * cartItem.quantity).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</span>
+                                    <span class="subtotal" v-if="cartItem.product.product_type == 'regular'">{{(cartItem.product.price * cartItem.quantity).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</span>
+                                    <span class="subtotal" v-else-if="cartItem.product.product_type == 'variant'">{{(cartItem.product_variant.price * cartItem.quantity).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</span>
                                 </td>
                                 <td class="text-center">
                                     <span class="delete-product" @click="deleteItem(cartItem.id)"><i class="icon-trash-empty"></i></span>

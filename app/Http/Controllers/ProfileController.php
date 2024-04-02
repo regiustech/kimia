@@ -73,7 +73,7 @@ class ProfileController extends Controller
         if(!$order){
             return Redirect::route("customer.myOrders");
         }
-        $orderItems = $order->orderItems()->with('product')->get();
-        return Inertia::render('ViewOrder',compact("order","orderItems"));
+        $orderItems = $order->orderItems()->with("product","variantDetail")->get();
+        return Inertia::render("ViewOrder",compact("order","orderItems"));
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\OrderItem;
+use Carbon\Carbon;
 
 class Order extends Model
 {
@@ -16,9 +17,9 @@ class Order extends Model
         "total" => "float"
     ];
     public function orderItems(){
-        return $this->hasMany(OrderItem::class)->select("id","product_id","price","quantity","total");
+        return $this->hasMany(OrderItem::class);
     }
     public function getCreatedAtAttribute($value){
-        return \Carbon\Carbon::parse($value)->format("d M Y");
+        return Carbon::parse($value)->format("d M Y");
     }
 }

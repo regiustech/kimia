@@ -11,7 +11,7 @@ use App\Jobs\OrderChangeStatusEmailJob;
 class OrderController extends Controller
 {
     public function index(){
-        return Inertia::render('Admin/Orders/Index');
+        return Inertia::render("Admin/Orders/Index");
     }
     public function getAllOrders(Request $request){
         $length = $request->length ? $request->length : 10;
@@ -51,8 +51,8 @@ class OrderController extends Controller
         return json_encode($output);
     }
     public function show(Order $order){
-        $orderItems = $order->orderItems()->with('product')->get();
-        return Inertia::render('Admin/Orders/View',compact("order","orderItems"));
+        $orderItems = $order->orderItems()->with("product","variantDetail")->get();
+        return Inertia::render("Admin/Orders/View",compact("order","orderItems"));
     }
     public function changeOrderStatus(Request $request){
         $orderId = $request->order_id;

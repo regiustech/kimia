@@ -3,18 +3,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\VariantDetail;
+use App\Models\ProductVariant;
 use Carbon\Carbon;
 
-class Product extends Model
+class Variant extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable = ["name","product_type","category","catalog_number","cas_number","price","image","description","specifications"];
+    protected $fillable = ["name"];
     protected $hidden = [];
-    protected $casts = [
-        "price" => "float",
-        "specifications" => "array"
-    ];
+    protected $casts = [];
     public function getCreatedAtAttribute($value){
         return Carbon::parse($value)->format("d M Y");
+    }
+    public function variantDetails(){
+        return $this->hasMany(VariantDetail::class);
+    }
+    public function productVariants(){
+        return $this->belongsTo(ProductVariant::class);
     }
 }

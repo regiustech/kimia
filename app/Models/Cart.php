@@ -3,6 +3,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\CartItem;
+use Carbon\Carbon;
 
 class Cart extends Model
 {
@@ -12,7 +13,7 @@ class Cart extends Model
     protected $casts = [];
 
     public function cartItems(){
-        return $this->hasMany(CartItem::class)->select("id","product_id","quantity");
+        return $this->hasMany(CartItem::class);
     }
     public function scopeUserSession($query,$userId = null,$sessionId = null){
         if($userId){
@@ -23,6 +24,6 @@ class Cart extends Model
         return $query;
     }
     public function getCreatedAtAttribute($value){
-        return \Carbon\Carbon::parse($value)->format("d M Y");
+        return Carbon::parse($value)->format("d M Y");
     }
 }

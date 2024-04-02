@@ -6,16 +6,17 @@ use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\Newsletter;
 use App\Jobs\ContactsEmailJob;
 
 class FrontendController extends Controller
 {
     public function index(Request $request): Response{
-        $amineProducts = Product::where(["category" => "amine"])->select("id","name","slug","catalog_number","price","image")->orderBy("id","DESC")->limit(6)->get();
-        $acidProducts = Product::where(["category" => "acid"])->select("id","name","slug","catalog_number","price","image")->orderBy("id","DESC")->limit(6)->get();
-        $aldehydeProducts = Product::where(["category" => "aldehyde"])->select("id","name","slug","catalog_number","price","image")->orderBy("id","DESC")->limit(6)->get();
-        $halideProducts = Product::where(["category" => "halide"])->select("id","name","slug","catalog_number","price","image")->orderBy("id","DESC")->limit(6)->get();
+        $amineProducts = Product::where(["category" => "amine"])->orderBy("id","DESC")->limit(6)->get();
+        $acidProducts = Product::where(["category" => "acid"])->orderBy("id","DESC")->limit(6)->get();
+        $aldehydeProducts = Product::where(["category" => "aldehyde"])->orderBy("id","DESC")->limit(6)->get();
+        $halideProducts = Product::where(["category" => "halide"])->orderBy("id","DESC")->limit(6)->get();
         return Inertia::render("Frontend/Home",[
             "amineProducts" => $amineProducts,
             "acidProducts" => $acidProducts,
@@ -48,13 +49,16 @@ class FrontendController extends Controller
         return Inertia::render("Frontend/Products",compact("products","category","search"));
     }
     public function productByCategory(Request $request,$slug): Response{
-        $products = Product::where("category",$slug)->select("id","name","slug","catalog_number","price","image")->paginate(12);
+        $products = Product::where("category",$slug)->paginate(12);
         return Inertia::render("Frontend/ProductByCategory",["category" => $slug,"products" => $products]);
     }
     public function productDetail(Request $request,$slug){
         $product = Product::where("slug",$slug)->first();
         if(!$product){
             return Redirect::route("home");
+        }
+        if($product->product_type == "variant"){
+            $product->productVariants = ProductVariant::with("variantDetail")->where("product_id",$product->id)->get(["id","variant_detail_id","price"]);
         }
         $relatedProducts = Product::where("category",$product->category)->where("slug","!=",$slug)->orderBy("id","DESC")->limit(4)->get();
         return Inertia::render("Frontend/ProductDetail",compact("product","relatedProducts"));

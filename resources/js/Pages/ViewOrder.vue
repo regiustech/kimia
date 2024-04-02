@@ -107,7 +107,8 @@
                                             <img :src="item.product.image" :alt="item.product.name" class="product-img"/>
                                             <div class="product-info">
                                                 <div class="rt-table-text">{{ item.product.name }}</div>
-                                                <div class="rt-table-text">{{ item.product.catalog_number }}</div>
+                                                <div class="rt-table-text"><strong>Catalog: </strong>{{ item.product.catalog_number }}</div>
+                                                <div class="rt-table-text" v-if="item.product.product_type == 'variant'"><strong>Unit: </strong>{{ item.variant_detail ? item.variant_detail.name : null }}</div>
                                             </div>
                                         </div>
                                     </td>

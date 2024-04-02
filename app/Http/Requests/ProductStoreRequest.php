@@ -9,13 +9,19 @@ class ProductStoreRequest extends FormRequest
         return true;
     }
     public function rules(){
-        return [
+        $rules = [
             'name' => 'required|string|max:255',
+            'product_type' => 'required|string',
             'category' => 'required|string|max:30',
             'catalog_number' => 'required|string|max:30',
             'cas_number' => 'required|string|max:30',
-            'price' => 'required|numeric|between:0,9999.99',
-            'image' => 'required|mimes:jpg,jpeg,svg,png|max:2048'
+            'image' => 'required|mimes:jpg,jpeg,svg,png'
         ];
+        if($this->product_type == "regular"){
+            $rules["price"] = 'required|numeric|between:0,999999.99';
+        }else if($this->product_type == "variant"){
+            $rules["productVariants"] = 'required';
+        }
+        return $rules;
     }
 }

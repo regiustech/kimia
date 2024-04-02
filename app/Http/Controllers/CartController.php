@@ -14,10 +14,14 @@ class CartController extends Controller
             return $cart;
         }
         $subtotal = $tax = $total = 0;
-        $cartItems = $cart->cartItems()->with("product")->get();
+        $cartItems = $cart->cartItems()->with("product","productVariant")->get();
         if(count($cartItems)){
             foreach($cartItems as $cartItem){
-                $subtotal += ((float)$cartItem->product->price * (int)$cartItem->quantity);
+                if($cartItem->product->product_type == "regular"){
+                    $subtotal += ((float)$cartItem->product->price * (int)$cartItem->quantity);
+                }else if($cartItem->product->product_type == "variant"){
+                    $subtotal += ((float)$cartItem->productVariant->price * (int)$cartItem->quantity);
+                }
             }
             $total = ((float)$subtotal + (float)$tax);
         }
@@ -36,6 +40,7 @@ class CartController extends Controller
     }
     public function add(Request $request){
         $productId = $request->product_id;
+        $pVariantId = $request->product_variant_id ? $request->product_variant_id : null;
         $quantity = $request->quantity ? $request->quantity : 1;
         $userId = Auth::user() ? Auth::user()->id : null;
         $sessionId = app("request")->session()->getId();
@@ -46,9 +51,9 @@ class CartController extends Controller
         $cart->user_id = $userId;
         $cart->session_id = $sessionId;
         $cart->save();
-        $cartItem = CartItem::where(["cart_id" => $cart->id,"product_id" => $productId])->first();
+        $cartItem = CartItem::where(["cart_id" => $cart->id,"product_id" => $productId,"product_variant_id" => $pVariantId])->first();
         if(!$cartItem){
-            $cartItem = new CartItem(["cart_id" => $cart->id,"product_id" => $productId,"quantity" => $quantity]);
+            $cartItem = new CartItem(["cart_id" => $cart->id,"product_id" => $productId,"product_variant_id" => $pVariantId,"quantity" => $quantity]);
         }else{
             $cartItem->quantity = ((int)$cartItem->quantity + (int)$quantity);
         }
@@ -64,7 +69,7 @@ class CartController extends Controller
             return json_encode(["status" => 412,"message" => "Cart not found."]);
         }
         foreach($items as $item){
-            $cartItem = CartItem::where(["cart_id" => $cartId,"product_id" => $item->product_id])->first();
+            $cartItem = CartItem::where(["cart_id" => $cartId,"product_id" => $item->product_id,"product_variant_id" => $item->product_variant_id])->first();
             if($cartItem){
                 $cartItem->quantity = $item->quantity;
                 $cartItem->save();

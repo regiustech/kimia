@@ -1,5 +1,4 @@
 <script>
-    import axios from "axios";
     export default {
         props: ['products','search','category'],
         data(){
@@ -8,18 +7,6 @@
             }
         },
         methods: {
-            addToCart(product_id,quantity = 1){
-                document.getElementById("rt-custom-loader").style.display = "block";
-                try{
-                    axios.post(route('cart.add'),{product_id,quantity}).then(({data}) => {
-                        document.getElementById("rt-custom-loader").style.display = "none";
-                        toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
-                        document.querySelector(".rtCartCount").innerHTML = data.itemCount;
-                    });
-                }catch(e){
-                    document.getElementById("rt-custom-loader").style.display = "none";
-                }
-            },
             handleCategory(cat){
                 let params = {}
                 if(cat){
@@ -51,8 +38,6 @@
 <script setup>
     import FrontendLayout from '@/Layouts/FrontendLayout.vue';
     import {Head} from '@inertiajs/vue3';
-    import {toast} from "vue3-toastify";
-    import "vue3-toastify/dist/index.css";
     const pageRange = (currentPage,lastPage) => {
         const ranges = [];
         const pages = [];
@@ -128,7 +113,7 @@
                         <div class="sku mt-0 mb-1">{{product.catalog_number}}</div>
                         <h4 class="product-title mt-0 mb-1"><a :href="route('productDetail',product.slug)">{{product.name}}</a></h4>
                         <div class="btn-wrap">
-                            <a class="btn secondary-btn" @click="addToCart(product.id,1)"><span class="btn-text">Add to cart</span></a>
+                            <a class="btn secondary-btn" :href="route('productDetail',product.slug)"><span class="btn-text">View Detail</span></a>
                         </div>
                     </div>
                 </div>

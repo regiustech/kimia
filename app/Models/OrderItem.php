@@ -4,11 +4,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\VariantDetail;
+use Carbon\Carbon;
 
 class OrderItem extends Model
 {
     use HasFactory;
-    protected $fillable = ["order_id","product_id","price","quantity","total"];
+    protected $fillable = ["order_id","product_id","variant_detail_id","price","quantity","total"];
     protected $hidden = [];
     protected $casts = [
         "price" => "float",
@@ -18,9 +20,12 @@ class OrderItem extends Model
         return $this->belongsTo(Order::class);
     }
     public function product(){
-        return $this->belongsTo(Product::class)->select("id","name","slug","category","catalog_number","price","image");
+        return $this->belongsTo(Product::class);
+    }
+    public function variantDetail(){
+        return $this->belongsTo(VariantDetail::class);
     }
     public function getCreatedAtAttribute($value){
-        return \Carbon\Carbon::parse($value)->format("d M Y");
+        return Carbon::parse($value)->format("d M Y");
     }
 }

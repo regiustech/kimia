@@ -2,6 +2,7 @@
 namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Newsletter extends Model
 {
@@ -9,6 +10,6 @@ class Newsletter extends Model
     protected $fillable = ["email"];
 
     public function getCreatedAtAttribute($value){
-        return \Carbon\Carbon::parse($value)->format("d M Y");
+        return Carbon::parse($value)->format("d M Y");
     }
 }

@@ -1,24 +1,27 @@
 <script>
     export default {
-        props: ['errors','product','flash'],
+        props: ["errors","product","variantProductDetails","flash"],
         data(){
             return {
                 form: {
                     id: this.product.id || '',
+                    product_type: this.product.product_type || 'regular',
                     name: this.product.name || '',
                     category: this.product.category || '',
                     catalog_number: this.product.catalog_number || '',                
                     cas_number: this.product.cas_number || '',
                     price: this.product.price || '',
                     image: this.product.image || '',
-                    specifications: (this.product.specifications && this.product.specifications.length) ? JSON.parse(this.product.specifications) : []
+                    specifications: (this.product.specifications && this.product.specifications.length) ? JSON.parse(this.product.specifications) : [],
                 },
+                productVariants: this.variantProductDetails,
                 imagePreview: null,
                 categories: ['acid','aldehyde','amine','halide']
             }
         },
         methods: {
             updateProduct: function(){
+                let pVariants = this.productVariants.filter((p) => p.status == true);
                 document.getElementById("rt-custom-loader").style.display = "block";
                 if(this.product.id){
                     var data = this.createUpdateRecordFormData(this.form);
@@ -26,6 +29,7 @@
                         data.append('image',this.$refs.image.files[0]);
                     }
                     data.append('specifications',JSON.stringify(this.form.specifications));
+                    data.append('productVariants',JSON.stringify(pVariants));
                     this.$inertia.post(this.route('admin.products.update',{product: this.product.id}),data,{
                         onFinish: () => document.getElementById("rt-custom-loader").style.display = "none"
                     });
@@ -33,6 +37,7 @@
                     if(this.$refs.image){
                         this.form.image = this.$refs.image.files[0]
                     }
+                    this.form.productVariants = pVariants;
                     this.$inertia.post(this.route('admin.products.store'),this.form,{
                         onFinish: () => document.getElementById("rt-custom-loader").style.display = "none"
                     });
@@ -62,6 +67,13 @@
                         this.form.specifications = specifications;
                     }
                 });
+            },
+            updateProductVariant(index){
+                this.productVariants[index]['status'] = !this.productVariants[index]['status'];
+                this.productVariants[index]['price'] = "";
+            },
+            changePrdType(){
+                this.form.price = "";
             }
         }
     }
@@ -104,9 +116,30 @@
                         <label class="rt-cust-error" v-if="hasValidateError('cas_number')">{{ validateError('cas_number') }}</label>
                     </div>
                     <div class="form-group">
+                        <label>Product Type:</label>
+                        <select v-model="form.product_type" @change="changePrdType">
+                            <option value="regular">Regular</option>
+                            <option value="variant">Variant</option>
+                        </select>
+                        <label class="rt-cust-error" v-if="hasValidateError('category')">{{ validateError('category') }}</label>
+                    </div>
+                    <div class="form-group" v-if="(form.product_type == 'regular')">
                         <label>Price:</label>
-                        <input type="text" v-model="form.price" oninput="this.value = (this.value.replace(/[^0-9]/g,'')).substring(0,4);"/>
+                        <input type="text" v-model="form.price" oninput="this.value = (this.value.replace(/[^0-9]/g,'')).substring(0,6);" required/>
                         <label class="rt-cust-error" v-if="hasValidateError('price')">{{ validateError('price') }}</label>
+                    </div>
+                    <div class="form-group full" v-if="(form.product_type == 'variant')">
+                        <label class="label">Select Product Variants</label>
+                        <div class="variants-wrap">
+                            <div class="variant-wrap" v-for="(productVariant,index) in productVariants" :key="productVariant.id">
+                                <div class="name">{{ productVariant.name }}</div>
+                                <div class="data">
+                                    <SwitchButton :isEnabled="productVariant.status" @toggle="updateProductVariant(index)"/>
+                                    <input type="text" v-model="productVariant.price" oninput="this.value = (this.value.replace(/[^0-9]/g,'')).substring(0,6);" placeholder="Price" autoComplete="off" v-if="productVariant.status" required/>
+                                </div>
+                            </div>
+                        </div>
+                        <label class="rt-cust-error" v-if="hasValidateError('productVariants')">{{ validateError('productVariants') }}</label>
                     </div>
                     <div class="form-group full">
                         <div class='rt-cust-options'>
@@ -159,3 +192,13 @@
         </form>
     </BackendLayout>
 </template>
+<style scoped>
+    .variants-wrap{display:flex;flex-direction:column;width:300px;row-gap:10px;height:300px;overflow-y:scroll;border:1px solid #F2F2F2;border-radius:6px;background:#F2F2F2;padding:10px;box-sizing:border-box;}
+    .variants-wrap::-webkit-scrollbar{width:5px;height:5px;}
+    .variants-wrap::-webkit-scrollbar-track{box-shadow:inset 0 0 6px #00000029;}
+    .variants-wrap::-webkit-scrollbar-thumb{background-color:#333;}
+    .variants-wrap .variant-wrap{display:flex;column-gap:10px;align-items:center;}
+    .variants-wrap .variant-wrap .name{font-size:15px;color:#333;width:100px;}
+    .variants-wrap .variant-wrap .data{display:flex;align-items:center;width:160px;}
+    .variants-wrap .variant-wrap .data input{width:90px;height:35px;padding:5px;font-size:15px;text-align:center;background:#FFF;}
+</style>

@@ -6,6 +6,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\Cart;
+use Carbon\Carbon;
 
 class User extends Authenticatable
 {
@@ -19,7 +20,7 @@ class User extends Authenticatable
         return $query->where("role","customer");
     }
     public function getCreatedAtAttribute($value){
-        return \Carbon\Carbon::parse($value)->format("d M Y");
+        return Carbon::parse($value)->format("d M Y");
     }
     public function cart(){
         return $this->hasOne(Cart::class);

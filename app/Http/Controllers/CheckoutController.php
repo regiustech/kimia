@@ -19,10 +19,14 @@ class CheckoutController extends Controller
             return $cart;
         }
         $subtotal = $tax = $total = 0;
-        $cartItems = $cart->cartItems()->with("product")->get();
+        $cartItems = $cart->cartItems()->with("product","productVariant")->get();
         if(count($cartItems)){
             foreach($cartItems as $cartItem){
-                $subtotal += ((float)$cartItem->product->price * (int)$cartItem->quantity);
+                if($cartItem->product->product_type == "regular"){
+                    $subtotal += ((float)$cartItem->product->price * (int)$cartItem->quantity);
+                }else if($cartItem->product->product_type == "variant"){
+                    $subtotal += ((float)$cartItem->productVariant->price * (int)$cartItem->quantity);
+                }
             }
             $total = ((float)$subtotal + (float)$tax);
         }
@@ -92,9 +96,15 @@ class CheckoutController extends Controller
                     $orderItem = new OrderItem();
                     $orderItem->order_id = $order->id;
                     $orderItem->product_id = $cartItem->product_id;
-                    $orderItem->price = $cartItem->product->price;
+                    $orderItem->variant_detail_id = $cartItem->productVariant->variant_detail_id ?: null;
+                    if($cartItem->product->product_type == "regular"){
+                        $orderItem->price = $cartItem->product->price;
+                        $orderItem->total = ((float)$cartItem->product->price * $cartItem->quantity);
+                    }else if($cartItem->product->product_type == "variant"){
+                        $orderItem->price = $cartItem->productVariant->price;
+                        $orderItem->total = ((float)$cartItem->productVariant->price * $cartItem->quantity);
+                    }
                     $orderItem->quantity = $cartItem->quantity;
-                    $orderItem->total = ((float)$cartItem->product->price * $cartItem->quantity);
                     $orderItem->save();
                 }
             }
