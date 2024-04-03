@@ -1,6 +1,19 @@
 <script>
     export default {
+        data(){
+            return {
+                showMenu: false,
+                showSubMenu: false,
+            }
+        },
         methods: {
+            handleMenu(){
+                this.showMenu = !this.showMenu;
+                this.showSubMenu = false;
+            },
+            handleSubMenu(){
+                this.showSubMenu = !this.showSubMenu;
+            },
             logoutUser(){
                 this.$swal.fire({
                     text: "Are you sure you want to logout?",
@@ -17,7 +30,6 @@
         }
     }
 </script>
-
 <template>
     <header>
         <div class="container flex gap-100 items-verticaly-center">
@@ -27,12 +39,12 @@
                 </a>
             </div>
             <div class="nav flex-1">
-                <nav class="navbar">
+                <nav class="navbar" :class="showMenu ? 'open' : ''">
                     <ul class="primary-menu flex gap-30 items-verticaly-center">
                         <li class="nav-item"><a class="nav-link" :href="route('home')">Home</a></li>
-                        <li class="nav-item list-has-child"><a class="nav-link" :href="route('products')">Products</a>
-                            <span class="drop-drown-wrap"><span class="nav-dropdown-icon"></span></span>
-                            <span class="drop-drown-wrap"><span class="nav-dropdown-icon"></span></span>
+                        <li class="nav-item list-has-child" :class="showSubMenu ? 'list-open' : ''">
+                            <a class="nav-link" :href="route('products')">Products</a>
+                            <span class="drop-drown-wrap" @click="handleSubMenu"><span class="nav-dropdown-icon"></span></span>
                             <ul class="sub-menu">
                                 <li class="nav-item"><a class="nav-link" :href="route('productByCat','amine')">Amine</a></li>
                                 <li class="nav-item"><a class="nav-link" :href="route('productByCat','acid')">Acid</a></li>
@@ -45,7 +57,11 @@
                         <li class="nav-item"><a class="nav-link" :href="route('contacts')">Contact</a></li>
                     </ul>
                 </nav>
-                <div class="mobile-hamburger" style="display:none"><span></span> <span></span> <span></span></div>
+                <div class="mobile-hamburger" :class="showMenu ? 'active' : ''" @click="handleMenu" style="display:none">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
             <div class="header-info">
                 <ul class="flex items-verticaly-center gap-20">

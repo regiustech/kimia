@@ -22,11 +22,6 @@
                 this.form.name = "";
                 this.form.email = "";
                 this.form.msg = "";
-                if(status){
-                    document.body.classList.add('no-overflow');
-                }else{
-                    document.body.classList.remove('no-overflow');
-                }
             },
             submitForm: function(){
                 if(!this.validate()){

@@ -10,7 +10,6 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0;}
 input[type=number]{-moz-appearance:textfield;}
 body{margin:0px;padding:0px;}
-body.no-overflow{overflow:hidden;}
 .container{max-width:1280px;margin:auto;}
 .flex{display:flex;flex-wrap:wrap;}
 p,li,div,a:not(.nav-link,.btn,.product-title a,.product-nav a){font-size:18px;line-height:28px;font-weight:400;font-family:"Source Sans 3",sans-serif;}
@@ -93,7 +92,7 @@ ul{list-style:none;}
 .phone-num:hover .round-icon{background:var(--secondary-color);}
 .nav-item.list-has-child{position:relative;padding-right:30px;}
 .nav-dropdown-icon{width:10px;height:10px;border-bottom:2px solid;border-right:2px solid;transform:rotate(45deg) translate(0px,-3px);margin-left:100px;position:absolute;right:0px;top:8px;}
-.nav-item.list-has-child:hover  .nav-dropdown-icon{transform:rotate(-135deg);}
+.nav-item.list-has-child:hover .nav-dropdown-icon{transform:rotate(-135deg);}
 .sub-menu{position:absolute;background:var(--primary-color);min-width:200px;padding:0px;top:100%;left:0;transition:0.2s all;opacity:0;z-index:-99;visibility:hidden;border-radius:5px;overflow:hidden;}
 .nav-item.list-has-child:hover .sub-menu{opacity:1;z-index:9;visibility:visible;}
 .sub-menu .nav-link{display:block;border-bottom:1px solid #efe7e7;padding:5px 11px;color:var(--white-color);}
@@ -295,7 +294,7 @@ p > a{color:var(--secondary-color);}
     .form-pad{padding:30px 0px 30px 30px;}
     .navbar{position:fixed;background:var(--secondary-color);width:60vw;height:100vh;top:0;right:0;padding:50px 20px;transition:0.3s all;transform:translateX(100%);opacity:0;z-index:-99;}
     .navbar.open{transform:translateX(0);opacity:1;z-index:99;}
-    .primary-menu{flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0;}
+    .primary-menu{flex-direction:column;justify-content:flex-start;align-items:flex-start;gap:0 !important;}
     .primary-menu .nav-link{color:var(--white-color);display:block;padding:13px 10px;border:0px;}
     .nav-item{width:100%;border-bottom:1px solid #ffffff1a;}
     .primary-menu .nav-link:hover{color:var(--primary-color);}
