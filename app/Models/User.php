@@ -11,7 +11,7 @@ use Carbon\Carbon;
 class User extends Authenticatable
 {
     use HasApiTokens,HasFactory,Notifiable,SoftDeletes;
-    protected $fillable = ["first_name","last_name","email","phone","password","street_address","city","state","zipcode","country"];
+    protected $fillable = ["first_name","last_name","email","phone","password","company","street_address","city","state","zipcode","country"];
     protected $casts = [
         "email_verified_at" => "datetime",
         "password" => "hashed"

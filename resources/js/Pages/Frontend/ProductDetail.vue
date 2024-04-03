@@ -168,10 +168,11 @@
                     <div class="product-content-col flex-1">
                         <h1 class="product-title mb-3">{{ product.name }}</h1>
                         <ul class="product-short-info list-style">
-                            <li v-if="product.product_type == 'regular'"><strong>Price: </strong>{{ (product.price).toLocaleString('en-US',{style:'currency',currency:'USD'}) }}</li>
-                            <li v-if="product.product_type == 'variant' && product_variant_id"><strong>Price: </strong>{{ getPriceByUnit(product)}}</li>
-                            <li><strong>Catalog Number: </strong>{{ product.catalog_number }}</li>
-                            <li><strong>CAS Number: </strong>{{ product.cas_number }}</li>
+                            <li><strong>Category:</strong>{{ ucwords(product.category) }}</li>
+                            <li v-if="product.product_type == 'regular'"><strong>Price:</strong>{{ (product.price).toLocaleString('en-US',{style:'currency',currency:'USD'}) }}</li>
+                            <li v-if="product.product_type == 'variant' && product_variant_id"><strong>Price:</strong>{{ getPriceByUnit(product)}}</li>
+                            <li><strong>Catalog Number:</strong>{{ product.catalog_number }}</li>
+                            <li><strong>CAS Number:</strong>{{ product.cas_number }}</li>
                         </ul>
                         <div class="single-product-add-cart flex gap-20 mt-3">
                             <div class="unit-col" v-if="product.product_type == 'variant'">

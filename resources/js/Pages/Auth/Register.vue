@@ -1,7 +1,7 @@
 <script setup>
     import FrontendLayout from "@/Layouts/FrontendLayout.vue";
     import {Head,useForm} from "@inertiajs/vue3";
-    const form = useForm({first_name:"",last_name:"",email:"",phone:"",password:"",password_confirmation:""});
+    const form = useForm({first_name:"",last_name:"",email:"",phone:"",company:"",password:"",password_confirmation:""});
     const submit = () => {
         form.post(route("register"),{
             onFinish: () => form.reset("password","password_confirmation")
@@ -42,6 +42,11 @@
                                 <input type="tel" id="phone" v-model="form.phone" placeholder="Enter phone number"/>
                                 <label class="rt-cust-error" v-if="hasValidateError('phone')">{{ validateError('phone') }}</label>
                             </div>
+                            <div class="form-full-field form-field">
+                                <label for="company">Company/Institution</label>
+                                <input type="text" id="company" v-model="form.company" placeholder="Enter Company/Institution"/>
+                                <label class="rt-cust-error" v-if="hasValidateError('company')">{{ validateError('company') }}</label>
+                            </div>
                             <div class="form-half-field form-field">
                                 <label for="password">Password</label>
                                 <input type="password" id="password" v-model="form.password" placeholder="Enter password"/>
@@ -55,7 +60,7 @@
                             <div class="form-full-field form-button">
                                 <button class="btn secondary-btn" type="submit">Register</button>
                             </div>
-                            <p class="mb-0">Allready have an  Account ? <a :href="route('login')">Login</a></p>
+                            <p class="mb-0">Already have an  Account ? <a :href="route('login')">Login</a></p>
                         </div>
                     </form>
                 </div>

@@ -23,6 +23,7 @@ class RegisteredUserController extends Controller
             "last_name" => "required|string|max:100",
             "email" => "required|string|lowercase|email|max:100|unique:".User::class,
             "phone" => "required|string|max:10",
+            "company" => "string|max:100",
             "password" => ["required","confirmed",Rules\Password::defaults()],
         ]);
         $user = User::create([
@@ -30,6 +31,7 @@ class RegisteredUserController extends Controller
             "last_name" => $request->last_name,
             "email" => $request->email,
             "phone" => $request->phone,
+            "company" => $request->company,
             "role" => "customer",
             "password" => Hash::make($request->password)
         ]);

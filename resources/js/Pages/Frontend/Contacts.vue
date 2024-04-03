@@ -108,7 +108,7 @@
                     <div class="info flex gap-20 mt-2">
                         <a class="flex gap-10 items-verticaly-center" href="tel:4087481046" target="_blank"><span class="icon icon-kimia-phone"></span> (408) 748-1046</a>
                         <a class="flex gap-10 items-verticaly-center" href="mailto:info@kimiacorp.com" target="_blank"><span class="icon icon-kimia-envelope"></span>info@kimiacorp.com</a>
-                        <a class="flex gap-10 items-verticaly-center" href="#" target="_blank"><span class="icon icon-kimia-location"></span>3048 Scott Blvd. Santa Clara, CA 95054</a>
+                        <a class="flex gap-10 items-verticaly-center" href="https://maps.app.goo.gl/vpReVCVFYtTLE2ds5" target="_blank"><span class="icon icon-kimia-location"></span>3048 Scott Blvd. Santa Clara, CA 95054</a>
                     </div>
                 </div>
                 <div class="col-50 form-col">
