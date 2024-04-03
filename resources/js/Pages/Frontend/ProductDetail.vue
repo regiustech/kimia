@@ -270,6 +270,8 @@
         .product-content-col{width:100%;}
         .product-title{font-size:26px;line-height:35px;}
         .product-image-col{width:100%;}
+        .quantity-col > label{margin-right:10px;}
+        .single-product-add-cart .quantity-field input{min-height:35px;}
     }
     @media (max-width:480px){
         .full-specifications li strong{display:block;margin:0px;}
