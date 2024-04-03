@@ -272,6 +272,7 @@
         .product-image-col{width:100%;}
         .quantity-col > label{margin-right:10px;}
         .single-product-add-cart .quantity-field input{min-height:35px;}
+        .unit-col{flex-direction:row;align-items:center;gap:7px;}
     }
     @media (max-width:480px){
         .full-specifications li strong{display:block;margin:0px;}
