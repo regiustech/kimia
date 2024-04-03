@@ -250,7 +250,7 @@
     .full-specifications.list-style{background:#fafafa;}
     .full-specifications li{padding:11px 20px;margin:0px;}
     .full-specifications li:nth-child(2n +1 ){background:#f1ebf47d;}
-    .full-specifications li strong{min-width:180px;display:inline-block;color:var(--dark-color);}
+    .full-specifications li strong{min-width:50%;display:inline-block;color:var(--dark-color);}
     .related-product-section .product-card.flex-1{background:#fffbf2;}
     @media(max-width:1310px){
         .single-product-add-cart.gap-20{gap:10px;row-gap:30px;}
