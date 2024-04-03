@@ -231,7 +231,7 @@
     .unit-col{display:flex;flex-direction:column;}
     .unit-col select{width:100px;padding:8px 15px;border-radius:5px;outline:0 !important;border:1px solid #d09cea;}
     .quantity-field{gap:0 !important;}
-    .quantity-field input{max-width:45px;padding:8px;text-align:center;border:0px;outline:0px !important;border-left:1px solid #d09cea;border-right:1px solid #d09cea;}
+    .quantity-field input{max-width:45px;height:43px;padding:8px;text-align:center;border:0px;outline:0px !important;border-left:1px solid #d09cea;border-right:1px solid #d09cea;}
     .quantity-field{border:1px solid #d09cea;border-radius:5px;gap:5px;}
     .increament,
     .decreament{color:var(--secondary-color);width:44px !important;justify-content:center;border-radius:5px;cursor:pointer;transition:0.3s all;}
