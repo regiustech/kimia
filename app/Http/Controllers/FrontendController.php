@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Newsletter;
 use App\Jobs\ContactsEmailJob;
+use App\Jobs\CustomOrderEmailJob;
 
 class FrontendController extends Controller
 {
@@ -78,5 +79,11 @@ class FrontendController extends Controller
         $newsletter->email = $request->email;
         $newsletter->save();
         return json_encode(["status" => 200,"message" => "Thanks for subscribe."]);
+    }
+    public function customOrder(Request $request){
+        $data = $request->all();
+        $data["to_address"] = env("ADMIN_EMAIL_ADDRESS");
+        CustomOrderEmailJob::dispatch($data);
+        return json_encode(["message" => "Your enquiry has been submitted."]);
     }
 }

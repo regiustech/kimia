@@ -33,6 +33,7 @@ Route::get("/contact-us",[FrontendController::class,"contacts"])->name("contacts
 Route::post("/contact/send",[FrontendController::class,"sendContacts"])->name("contacts.send");
 Route::get("/products",[FrontendController::class,"products"])->name("products");
 Route::post("/products/filter",[FrontendController::class,"filterProducts"])->name("products.filter");
+Route::post("/custom-order",[FrontendController::class,"customOrder"])->name("custom-order");
 
 Route::get("/products/{slug}",[FrontendController::class,"productByCategory"])->name("productByCat");
 Route::get("/product/{slug}",[FrontendController::class,"productDetail"])->name("productDetail");

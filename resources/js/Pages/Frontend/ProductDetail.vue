@@ -1,12 +1,70 @@
 <script>
     export default {
+        props: ['product','relatedProducts'],
         data(){
             return {
                 product_variant_id: "",
-                quantity: 1
+                quantity: 1,
+                showPopup: false,
+                form: {
+                    product_id: this.product.id,
+                    product_name: this.product.name,
+                    name: "",
+                    email: "",
+                    msg: ""
+                },
+                errors: []
             }
         },
         methods: {
+            handleOrderPopup(status){
+                this.showPopup = status;
+                this.form.name = "";
+                this.form.email = "";
+                this.form.msg = "";
+                if(status){
+                    document.body.classList.add('no-overflow');
+                }else{
+                    document.body.classList.remove('no-overflow');
+                }
+            },
+            submitForm: function(){
+                if(!this.validate()){
+                    return;
+                }
+                this.submitCustomOrder();
+            },
+            validate: function(){
+                const newError = {};
+                let positionFocus = "";
+                const emailRE = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if(!this.form.name || !this.form.name.trim()){
+                    newError["name"] = "Required";
+                    positionFocus = positionFocus || "name";
+                }
+                if(!this.form.email || !this.form.email.trim()){
+                    newError["email"] = "Required";
+                    positionFocus = positionFocus || "email";
+                }else if(this.form.email && !emailRE.test(this.form.email)){
+                    newError["email"] = "Enter a valid email";
+                    positionFocus = positionFocus || "email";
+                }
+                if(!this.form.msg || !this.form.msg.trim()){
+                    newError["msg"] = "Required";
+                    positionFocus = positionFocus || "msg";
+                }
+                this.errors = newError;
+                if(positionFocus){
+                    if(document.getElementById(positionFocus)){
+                        let textbox = document.getElementById(positionFocus);
+                        if(textbox){
+                            textbox.focus();
+                        }
+                    }
+                    return false;
+                }
+                return true;
+            },
             getPriceByUnit(prd){
                 let pVariant = prd.productVariants.find((v) => v.id == this.product_variant_id);
                 if(pVariant){
@@ -38,6 +96,19 @@
                 }catch(e){
                     document.getElementById("rt-custom-loader").style.display = "none";
                 }
+            },
+            submitCustomOrder(){
+                let $vm = this;
+                document.getElementById("rt-custom-loader").style.display = "block";
+                try{
+                    axios.post($vm.route('custom-order'),$vm.form).then(({data}) => {
+                        document.getElementById("rt-custom-loader").style.display = "none";
+                        $vm.handleOrderPopup(false);
+                        toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                    });
+                }catch(e){
+                    document.getElementById("rt-custom-loader").style.display = "none";
+                }
             }
         }
     }
@@ -48,12 +119,41 @@
     import {Head} from '@inertiajs/vue3';
     import {toast} from "vue3-toastify";
     import "vue3-toastify/dist/index.css";
-    defineProps({
-        product: {type: Object},
-        relatedProducts: {type: Array}
-    });
 </script>
 <template>
+    <div class="popup-wrapper" v-if="showPopup">
+        <div class="custom-order">
+            <span class="close-btn" @click="handleOrderPopup(false)"><i class="icon-plus"></i></span>
+            <div class="form-wrapper">
+                <form @submit.prevent="submitForm">
+                    <div class="flex gap-20">
+                        <div class="form-full-field form-field">
+                            <label for="product_name">Product Name</label>               
+                            <input type="text" id="product_name" placeholder="Enter your name" :value="product.name" disabled/>
+                        </div>
+                        <div class="form-half-field form-field">
+                            <label for="name"> Name</label>               
+                            <input type="text" id="name" v-model="form.name" placeholder="Enter your name" oninput="this.value = this.value.substring(0,50);"/>
+                            <label class="rt-cust-error" v-if="hasValidationError(errors,'name')">{{ validationError(errors,'name') }}</label>
+                        </div>
+                        <div class="form-half-field form-field">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" v-model="form.email" placeholder="Enter email" oninput="this.value = this.value.substring(0,50);"/>
+                            <label class="rt-cust-error" v-if="hasValidationError(errors,'email')">{{ validationError(errors,'email') }}</label>
+                        </div>
+                        <div class="form-full-field form-field">
+                            <label for="msg">Message</label>
+                            <textarea id="msg" v-model="form.msg" oninput="this.value = this.value.substring(0,200);" cols="50" placeholder="Tell Us More"></textarea>
+                            <label class="rt-cust-error" v-if="hasValidationError(errors,'msg')">{{ validationError(errors,'msg') }}</label>
+                        </div>
+                        <div class="form-full-field form-button text-center">
+                            <button class="btn secondary-btn row" type="submit">Send</button>
+                        </div> 
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <FrontendLayout>
         <Head>
             <title>{{product.name}}</title>
@@ -91,7 +191,7 @@
                             </div>
                             <div class="button-cols flex gap-10">
                                 <a class ="btn primary-btn" @click="addToCart(product.id,quantity,product.product_type,product_variant_id)">Add to cart</a>
-                                <a class ="btn secondary-btn custom-order-btn">Add custom order</a>
+                                <a @click="handleOrderPopup(true)" class ="btn secondary-btn custom-order-btn">Add custom order</a>
                             </div>
                         </div>
                     </div>
