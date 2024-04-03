@@ -246,7 +246,7 @@ p:last-child{margin-bottom:0px;}
 .popup-wrapper.active{display:flex !important;} 
 .custom-order{max-width:600px;background:#fff;padding:30px;border-radius:10px;position:relative;overflow:hidden;} 
 .close-btn{width:30px;height:30px;background:var(--secondary-color);color:#fff;cursor:pointer;position:absolute;top:0;right:0px;justify-content:center;display:flex;}
-.close-btn .icon-plus{transform:rotate(8deg);font-size:20px;}
+.close-btn .icon-plus{transform:rotate(45deg);font-size:20px;}
 .form-wrapper label sup{line-height:normal;color:red;font-size:18px;margin-bottom:-10px;position:absolute;right:-10px;top:0;}
 .form-wrapper label{position:relative;}
 .form-onethird-field{width:calc(100% / 3 - 14px);} 
