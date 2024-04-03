@@ -37,6 +37,7 @@
 <script setup>
     import BackendLayout from '@/Layouts/BackendLayout.vue';
     import {Head} from '@inertiajs/vue3';
+    import 'vuetify/styles';
 </script>
 <template>
     <Head title="Customers"/>

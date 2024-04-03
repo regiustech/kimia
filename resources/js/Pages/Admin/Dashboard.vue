@@ -39,6 +39,7 @@
     import {Head} from '@inertiajs/vue3';
     import {Chart as ChartJS,CategoryScale,LinearScale,PointElement,LineElement,Title,Tooltip,Legend} from 'chart.js';
     import {Line} from 'vue-chartjs';
+    import 'vuetify/styles';
     defineProps({
         customers: {type: Number},
         products: {type: Number},

@@ -41,6 +41,7 @@
 <script setup>
     import FrontendLayout from '@/Layouts/FrontendLayout.vue';
     import {Head} from '@inertiajs/vue3';
+    import 'vuetify/styles';
 </script>
 <template>
     <Head title="My Orders"/>

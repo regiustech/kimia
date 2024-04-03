@@ -41,6 +41,8 @@
 <script setup>
     import FrontendLayout from '@/Layouts/FrontendLayout.vue';
     import {Head} from '@inertiajs/vue3';
+    import '@splidejs/vue-splide/css';
+    import '@splidejs/vue-splide/css/core';
     defineProps({
         amineProducts: {type: Array},
         acidProducts: {type: Array},
