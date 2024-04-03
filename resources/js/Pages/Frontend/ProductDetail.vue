@@ -269,6 +269,7 @@
         .quantity-field.flex{width:max-content;display:inline-flex;}
         .product-content-col{width:100%;}
         .product-title{font-size:26px;line-height:35px;}
+        .product-image-col{width:100%;}
     }
     @media (max-width:480px){
         .full-specifications li strong{display:block;margin:0px;}
