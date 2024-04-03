@@ -50,7 +50,7 @@
         </section>
         <section class="pad-100-15 category-section">
             <div v-if="products" class="container flex gap-20">
-                <div class="card product-card flex-1" v-for="product in products.data" :key="product.id">
+                <div class="card product-card" v-for="product in products.data" :key="product.id">
                     <div class="product-feature-image flex text-center">
                         <a :href="route('productDetail',product.slug)"><img :src="product.image" :alt="product.catalog_number"></a>
                     </div>

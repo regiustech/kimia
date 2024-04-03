@@ -210,7 +210,7 @@
                     <h2 class="h2 mb-0 mt-0">Related Products</h2>
                 </div>
                 <div class="row flex gap-20">
-                    <div v-for="item in relatedProducts" :key="item.id" class="card product-card flex-1">
+                    <div v-for="item in relatedProducts" :key="item.id" class="card product-card">
                         <div class="product-feature-image flex text-center">
                             <a :href="route('productDetail',item.slug)"><img :src="item.image" alt="KMA0202"/></a>
                         </div>

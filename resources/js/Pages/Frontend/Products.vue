@@ -104,7 +104,7 @@
                 </div>
             </div>
             <div v-if="products && products.data && products.data.length > 0" class="container flex gap-20">
-                <div class="card product-card flex-1" v-for="product in products.data" :key="product.id">
+                <div class="card product-card" v-for="product in products.data" :key="product.id">
                     <div class="product-feature-image flex text-center">
                         <a :href="route('productDetail',product.slug)"><img :src="product.image" :alt="product.catalog_number"></a>
                     </div>
