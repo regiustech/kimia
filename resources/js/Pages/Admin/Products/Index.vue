@@ -26,7 +26,7 @@
                 let $vm = this;
                 try{
                     $vm.isLoading = true
-                    axios.get(this.url,{params:{page,length: itemsPerPage,sortBy}}).then(({data}) => {
+                    axios.get(this.url,{params:{page,search: this.search,length: itemsPerPage,sortBy}}).then(({data}) => {
                         $vm.isLoading = false;
                         $vm.tableRecords = data.data;
                         $vm.totalItems = data.total;
@@ -56,6 +56,7 @@
             <div class="heading">Products</div>
             <a :href="route('admin.products.create')" class="btn-add">Add Product</a>
         </div>
+        <v-text-field v-model="search" label="Search by Name, Category, Catalog Number, and CAS Number" single-line hide-details></v-text-field>
         <v-data-table-server
             v-model:items-per-page="length"
             :headers="headers"

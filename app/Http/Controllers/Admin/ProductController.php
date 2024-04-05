@@ -18,7 +18,16 @@ class ProductController extends Controller
     }
     public function getAllProducts(Request $request){
         $length = $request->length ? $request->length : 10;
+        $search = $request->search ? $request->search : "";
         $products = Product::orderBy("id","desc");
+        if(!empty($search)){
+            $products = $products->where(function($query) use($search){
+                $query->where('name','LIKE',"%{$search}%")
+                      ->orWhere('category','LIKE',"%{$search}%")
+                      ->orWhere('catalog_number','LIKE',"%{$search}%")
+                      ->orWhere('cas_number','LIKE',"%{$search}%");
+            });
+        }
         if($length > 0){
             $output = $products->paginate($length);
         }else{

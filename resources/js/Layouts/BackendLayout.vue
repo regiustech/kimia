@@ -23,7 +23,7 @@
     }
 </script>
 <script setup>
-    import Sidebar from '@/Layouts/Sidebar.vue';
+    import Sidebar from '@/Components/Sidebar.vue';
     import {toast} from "vue3-toastify";
     import "vue3-toastify/dist/index.css";
 </script>
