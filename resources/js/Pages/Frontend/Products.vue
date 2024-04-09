@@ -90,11 +90,11 @@
                             <span class="dropdown-icon"></span> 
                         </a>
                         <ul class="search-list">
-                            <li class="search-item" @click="handleCategory('amine')">Amine</li>
-                            <li class="search-item" @click="handleCategory('acid')">Acid</li>
-                            <li class="search-item" @click="handleCategory('aldehyde')">Aldehydes</li>
-                            <li class="search-item" @click="handleCategory('halide')">Halides</li>
-                            <li class="search-item all" @click="handleCategory('')">All</li>
+                            <li class="search-item" :class="category == 'amine' ? 'active' : ''" @click="handleCategory('amine')">Amine</li>
+                            <li class="search-item" :class="category == 'acid' ? 'active' : ''" @click="handleCategory('acid')">Acid</li>
+                            <li class="search-item" :class="category == 'aldehyde' ? 'active' : ''" @click="handleCategory('aldehyde')">Aldehydes</li>
+                            <li class="search-item" :class="category == 'halide' ? 'active' : ''" @click="handleCategory('halide')">Halides</li>
+                            <li class="search-item all" :class="(category != 'amine' && category != 'acid' && category != 'aldehyde' && category != 'halide') ? 'active' : ''" @click="handleCategory('')">All</li>
                         </ul>
                     </div>
                     <div class="input search-input">
@@ -102,6 +102,9 @@
                         <button type="submit" class="submit-icon" @click="searchProducts(searchTxt,category)"><i class="icon-kimia-search"></i></button>
                     </div>
                 </div>
+            </div>
+            <div class="row mb-5 text-center">
+                <h2 class="h2 mb-0 mt-0">Products</h2>
             </div>
             <div v-if="products && products.data && products.data.length > 0" class="container flex gap-20">
                 <div class="card product-card" v-for="product in products.data" :key="product.id">

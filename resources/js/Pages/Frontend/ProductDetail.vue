@@ -204,7 +204,7 @@
                 </div>
             </div>
         </section>
-        <section v-if="relatedProducts.length > 0" class="pad-100-15 related-product-section" style="background-image: url('/assets/images/background-image.jpg');background-size:cover;">
+        <section v-if="relatedProducts.length > 0" class="pad-100-15 related-product-section category-section" style="background-image: url('/assets/images/background-image.jpg');background-size:cover;">
             <div class="container flex">
                 <div class="row mb-5 text-center">
                     <h2 class="h2 mb-0 mt-0">Related Products</h2>
@@ -228,8 +228,8 @@
     </FrontendLayout>
 </template>
 <style>
-    .unit-col{display:flex;flex-direction:column;}
-    .unit-col select{width:100px;padding:8px 15px;border-radius:5px;outline:0 !important;border:1px solid #d09cea;}
+    .unit-col{display:flex;flex-direction:column;gap:10px;}
+    .unit-col select{width:100px;padding:14px 15px;border-radius:5px;outline:0 !important;border:1px solid #d09cea;background:transparent !important;min-height:45px;}
     .quantity-field{gap:0 !important;}
     .quantity-field input{max-width:45px;height:43px;padding:8px;text-align:center;border:0px;outline:0px !important;border-left:1px solid #d09cea;border-right:1px solid #d09cea;}
     .quantity-field{border:1px solid #d09cea;border-radius:5px;gap:5px;}
@@ -239,8 +239,9 @@
     .product-image-col{width:350px;border:1px solid #81489C1C;height:350px;padding:30px;border-radius:10px;}
     .product-detail-section{border-top:1px solid #81489C1C;}
     .product-image-col img{width:100%;height:100%;object-fit:contain;}
+    .product-card img{max-width:100%;}
     .product-content-col{width:calc(100% - 420px);}
-    .product-title{font-size:32px;color:var(--secondary-color);line-height:42px;}
+    .product-title{font-size:32px;color:var(--secondary-color);line-height:42px;font-family:"Sunflower",sans-serif;word-break:break-word;}
     .list-style{margin:0px;padding:0px;}
     .list-style li strong{font-weight:500;color:var(--secondary-color);margin-right:10px;}
     .list-style li{margin-bottom:10px;}
@@ -248,7 +249,7 @@
     .single-product-add-cart .increament,
     .single-product-add-cart .decreament{width:50px;}
     .full-specifications.list-style{background:#fafafa;}
-    .full-specifications li{padding:11px 20px;margin:0px;}
+    .full-specifications li{padding:11px 20px;margin:0;display:flex;word-break:break-all;}
     .full-specifications li:nth-child(2n +1 ){background:#f1ebf47d;}
     .full-specifications li strong{min-width:50%;display:inline-block;color:var(--dark-color);}
     .related-product-section .product-card.flex-1{background:#fffbf2;}
@@ -264,6 +265,7 @@
         .single-product-add-cart .decreament{width:34px;}
         .single-product-add-cart .quantity-field input{min-height:45px;font-size:16px;min-width:50px;padding:5px;}
         .card.product-card.flex-1{width:calc(100% / 2 - 10px);flex:unset;}
+        .full-specifications li strong{min-width:120px;}
     }
     @media(max-width:767px){
         .quantity-field.flex{width:max-content;display:inline-flex;}
@@ -273,9 +275,14 @@
         .quantity-col > label{margin-right:10px;}
         .single-product-add-cart .quantity-field input{min-height:35px;}
         .unit-col{flex-direction:row;align-items:center;gap:7px;}
+        .full-specifications li{flex-wrap:wrap;}
     }
     @media (max-width:480px){
-        .full-specifications li strong{display:block;margin:0px;}
+        .full-specifications li strong{display:block;margin:0;min-width:100%;}
+        .unit-col select{padding:8px 10px;min-height:37px;}
+        .quantity-field input{height:33px;}
+        .quantity-col{display:flex;flex-direction:column;}
+        .unit-col{flex-direction:column;align-items:flex-start;width:auto;}
     }
     @media(max-width:380px){
         .card.product-card.flex-1{width:100%;}
