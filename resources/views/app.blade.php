@@ -7,7 +7,6 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,200..900;1,200..900&family=Sunflower:wght@300;500;700&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
         <link rel="shortcut icon" href="/assets/images/favicon.png"/>
         <link rel="stylesheet" href="/assets/css/fontello.css">
         <link rel="stylesheet" href="/assets/css/style.css">

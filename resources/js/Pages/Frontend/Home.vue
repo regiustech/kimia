@@ -2,7 +2,7 @@
     export default {
         data(){
             return {
-                activeTab: "amine",
+                activeTab: "catalog",
                 searchTxt: "",
                 sliderOptions: {
                     autoplay: true,
@@ -60,7 +60,7 @@
             <div class="container flex">
                 <div class="col-50 banner-text">
                     <div class="col-50-wrapper">
-                        <h1 class="text-white mb-3">Global Supplier of Chemistry Services</h1>
+                        <!-- <h1 class="text-white mb-3">Global Supplier of Chemistry Services</h1> -->
                         <p class="text-white"><strong class="text-primary">Kimia Corporation</strong> is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc.</p>
                         <a class="btn secondary-btn mt-3" :href="route('products')"><span class="btn-text">View all products</span></a>
                         <div class="input search-input mt-10">
@@ -84,12 +84,12 @@
                 </div>
                 <div class="row">
                     <ul class="product-nav flex items-verticaly-center gap-50 mt-0 text-center mb-5">
-                        <li><a :class="activeTab == 'amine' ? 'active' : ''" @click="changeTab('amine')">Amine</a></li>
-                        <li><a :class="activeTab == 'acid' ? 'active' : ''" @click="changeTab('acid')">Acid</a></li>
-                        <li><a :class="activeTab == 'aldehyde' ? 'active' : ''" @click="changeTab('aldehyde')">Aldehydes</a></li>
-                        <li><a :class="activeTab == 'halide' ? 'active' : ''" @click="changeTab('halide')">Halides </a></li>
+                        <li><a :class="activeTab == 'catalog' ? 'active' : ''" @click="changeTab('catalog')">Catalog</a></li>
+                        <li><a :class="activeTab == 'linkers' ? 'active' : ''" @click="changeTab('linkers')">Linkers</a></li>
+                        <li><a :class="activeTab == 'new-prd' ? 'active' : ''" @click="changeTab('new-prd')">New from Kimia</a></li>
+                        <li><a :class="activeTab == 'pas' ? 'active' : ''" @click="changeTab('pas')">PAS </a></li>
                     </ul>
-                    <div :class="activeTab == 'amine' ? 'tab-content active' : 'tab-content'">
+                    <div :class="activeTab == 'catalog' ? 'tab-content active' : 'tab-content'">
                         <div class="row flex gap-20" v-if="amineProducts.length">
                             <div class="card product-card" v-for="item in amineProducts" :key="item.id">
                                 <div class="product-feature-image flex text-center">
@@ -108,7 +108,7 @@
                             <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products</span></a>
                         </div>
                     </div>
-                    <div :class="activeTab == 'acid' ? 'tab-content active' : 'tab-content'">
+                    <div :class="activeTab == 'linkers' ? 'tab-content active' : 'tab-content'">
                         <div class="row flex gap-20" v-if="acidProducts.length">
                             <div class="card product-card" v-for="item in acidProducts" :key="item.id">
                                 <div class="product-feature-image flex text-center">
@@ -127,43 +127,18 @@
                             <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products</span></a>
                         </div>
                     </div>
-                    <div :class="activeTab == 'aldehyde' ? 'tab-content active' : 'tab-content'">
-                        <div class="row flex gap-20" v-if="aldehydeProducts.length">
-                            <div class="card product-card" v-for="item in aldehydeProducts" :key="item.id">
-                                <div class="product-feature-image flex text-center">
-                                    <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
-                                </div>
-                                <div class="product-content text-center">
-                                    <div class="sku mt-0 mb-1">{{item.catalog_number}}</div>
-                                    <h4 class="product-title mt-0 mb-1"><a :href="route('productDetail',item.slug)">{{item.name}}</a></h4>
-                                    <div class="btn-wrap">
-                                        <a class="btn secondary-btn" :href="route('productDetail',item.slug)"><span class="btn-text">View Detail</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center mt-5">
-                            <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products </span></a>
-                        </div>
+                    <div :class="activeTab == 'new-prd' ? 'tab-content active' : 'tab-content'">
+                        <p>Please visit here frequently to see new additions to our catalog</p>
                     </div>
-                    <div :class="activeTab == 'halide' ? 'tab-content active' : 'tab-content'">
-                        <div class="row flex gap-20" v-if="halideProducts.length">
-                            <div class="card product-card" v-for="item in halideProducts" :key="item.id">
-                                <div class="product-feature-image flex text-center">
-                                    <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
-                                </div>
-                                <div class="product-content text-center">
-                                    <div class="sku mt-0 mb-1">{{item.catalog_number}}</div>
-                                    <h4 class="product-title mt-0 mb-1"><a :href="route('productDetail',item.slug)">{{item.name}}</a></h4>
-                                    <div class="btn-wrap">
-                                        <a class="btn secondary-btn" :href="route('productDetail',item.slug)"><span class="btn-text">View Detail</span></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row text-center mt-5">
-                            <a class="btn primary-btn" :href="route('products')"><span class="btn-text">View All Products </span></a>
-                        </div>
+                    <div :class="activeTab == 'pas' ? 'tab-content active' : 'tab-content'">
+                        <p>The product line PAS is meticulously designed to expedite synthesis processes by eliminating preparatory steps, thereby saving valuable time. Beyond time efficiency, our products offer a host of advantages:</p>
+                        <ol style="padding-left:20px;">
+                            <li><strong>Cost-effectiveness:</strong> Our products provide affordable access to a wide range of compounds, ensuring that cutting-edge research remains within budgetary constraints.</li>
+                            <li><strong>Eco-friendly</strong> With minimal solvent usage and waste generation, our products promote sustainable laboratory practices, contributing to a greener environment.</li>
+                            <li><strong>Space efficiency</strong> By requiring minimal storage space, our products optimize laboratory organization and resource management.</li>
+                            <li><strong>Zero wastage</strong> Our formulations ensure that no compounds are left unused, maximizing efficiency and minimizing resource depletion.</li>
+                        </ol>
+                        <p>Browse through our catalogue to explore our diverse range of compounds, each available in a convenient 100 μmole scale, ready to catalyze your next breakthrough reaction.</p>
                     </div>
                 </div>
             </div>
@@ -226,36 +201,6 @@
                         </a>
                     </SplideSlide>
                 </Splide>
-                <swiper 
-                    :centeredSlides="true"
-                    :slidesPerView="1"
-                    :grabCursor="true"
-                    :freeMode="false"
-                    :loop="true"
-                    :mousewheel="false"
-                    :keyboard="{enabled: true}"
-                    :autoplay="{delay: 3000,disableOnInteraction: false}"
-                    :navigation="true" 
-                    :breakpoints="{360: {slidesPerView: 1,spaceBetween: 20},768: {slidesPerView: 3,spaceBetween: 20},1200: {slidesPerView: 5,spaceBetween: 20}}"
-                    :modules="modules"
-                    class="swiper-slider"
-                >
-                    <swiper-slide>
-                        
-                    </swiper-slide>
-                    <swiper-slide>
-                        
-                    </swiper-slide>
-                    <swiper-slide>
-                        
-                    </swiper-slide>
-                    <swiper-slide>
-                        
-                    </swiper-slide>
-                    <swiper-slide>
-                        
-                    </swiper-slide>
-                </swiper>
             </div>
         </section>
         <section class="about-section">

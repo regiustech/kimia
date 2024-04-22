@@ -39,18 +39,18 @@
                 <div class="row mt-10 flex  gap-20 card-wrapper">
                     <div class="quality-card text-center">
                         <span class="large-icon"><i class="icon-kimia-quality"></i></span>
-                        <h4 class="h4 mt-0 mb-1">Driven</h4>
-                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae Fusce non nisi finibus.</p>
+                        <h4 class="h4 mt-0 mb-1">Respect for Intellectual Property</h4>
+                        <p>Based in the USA, Kimia upholds the highest standards of intellectual property law and encourages open communication with clients.</p>
                     </div>
                     <div class="quality-card text-center">
                         <span class="large-icon"><i class="icon-kimia-motivated"></i></span>
-                        <h4 class="h4 mt-0 mb-1">Motivated</h4>
-                        <p>Morbi efficitur varius massa at vehicula. Morbi lacus lacus, ullamcorper at porta sed facilisis sed purus.</p>
+                        <h4 class="h4 mt-0 mb-1">Established Since 1994</h4>
+                        <p>With roots dating back to 1994, Kimia has established itself as a trusted provider of custom chemistry services. Our extensive track record speaks volumes about our commitment to customer satisfaction</p>
                     </div>
                     <div class="quality-card text-center">
                         <span class="large-icon"><i class="icon-kimia-creative"></i></span>
-                        <h4 class="h4 mt-0 mb-2">Creative</h4>
-                        <p>Vestibulum sed massa tortor. Sed egestas faucibus fermentum. Vestibulum nisi quam viverra quis interdum.</p>
+                        <h4 class="h4 mt-0 mb-2">Flexibility</h4>
+                        <p>At Kimia, we understand that every client has unique requirements. That's why we offer flexible contracting models and Statements of Work (SOWs), ensuring that our services align perfectly with your needs and preferences.</p>
                     </div>
                 </div>
             </div>

@@ -23,37 +23,30 @@
                 </div>
                 <div class="col-one-third">
                     <div class="services-inner-card">
-                        <span><i class="flat-icon  icon-kimia-design-synthesis"></i></span>
-                        <h4 class="h4 mt-3 mb-2">Design of Synthesis</h4>
-                        <p> Kimia designs the synthesis of the desired organic compound(s) with or without a reference protocol.</p>
+                        <span><i class="flat-icon icon-kimia-custom-synthesis​"></i></span>
+                        <h4 class="h4 mt-3 mb-2">Custom Synthesis​</h4>
+                        <p>Kimia is committed to executing the synthesis and delivering the desired compound(s) without being bound by previous literature precedence.</p>
                     </div>
                 </div>
                 <div class="col-one-third">
                     <div class="services-inner-card">
-                        <span><i class="flat-icon icon-kimia-custom-synthesis​"></i></span>
-                        <h4 class="h4 mt-3 mb-2">Custom Synthesis​</h4>
-                        <p> Kimia carries out the custom synthesis of the desired compound(s) using a reference provided by the customer</p>
+                        <span><i class="flat-icon  icon-kimia-design-synthesis"></i></span>
+                        <h4 class="h4 mt-3 mb-2">Protocol Write up</h4>
+                        <p>Kimia offers the option to provide written protocols for compounds synthesized in-house upon request.</p>
                     </div>
                 </div>
                 <div class="col-one-third">
                     <div class="services-inner-card">
                         <span><i class="flat-icon icon-kimia-design-and-synthesis​"></i></span>
-                        <h4 class="h4 mt-3 mb-2">Design and Synthesis​​</h4>
-                        <p> Kimia handles route design and the custom synthesis of the desired compound(s).</p>
+                        <h4 class="h4 mt-3 mb-2">Consultation​</h4>
+                        <p>Consult with Kimia's team of expert synthetic chemists for insightful advice on any aspect related to organic synthesis.</p>
                     </div>
                 </div>
                 <div class="col-one-third">
                     <div class="services-inner-card">
                         <span><i class="flat-icon icon-kimia-synthetic-method"></i></span>
-                        <h4 class="h4 mt-3 mb-2">Provide Synthetic Method​​</h4>
-                        <p>Kimia can provide the synthetic method of internally synthesized compounds. Additionally, we can provide advice on the methods used to synthesize external compounds.</p>
-                    </div>
-                </div>
-                <div class="col-one-third">
-                    <div class="services-inner-card">
-                        <span><i class="flat-icon icon-kimia-analytical-data"></i></span>
-                        <h4 class="h4 mt-3 mb-2">Interpretation of Analytical data​</h4>
-                        <p>Kimia provides interpretation of analytical data such as LCMS, NMR, FTIR, etc. of organic compounds.</p>
+                        <h4 class="h4 mt-3 mb-2">Databases for AI/ML models​</h4>
+                        <p>Kimia is pioneering the development of an industry-leading standardized database aimed at empowering the training of AI/ML models for chemical property prediction.</p>
                     </div>
                 </div>
             </div>
@@ -68,18 +61,18 @@
                 <div class="row mt-10 flex  gap-20 card-wrapper">
                     <div class="quality-card text-center">
                         <span class="large-icon"><i class="icon-kimia-quality"></i></span>
-                        <h4 class="h4 mt-0 mb-1">Driven</h4>
-                        <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae Fusce non nisi finibus.</p>
+                        <h4 class="h4 mt-0 mb-1">Respect for Intellectual Property</h4>
+                        <p>Based in the USA, Kimia upholds the highest standards of intellectual property law and encourages open communication with clients.</p>
                     </div>
                     <div class="quality-card text-center">
                         <span class="large-icon"><i class="icon-kimia-motivated"></i></span>
-                        <h4 class="h4 mt-0 mb-1">Motivated</h4>
-                        <p>Morbi efficitur varius massa at vehicula. Morbi lacus lacus, ullamcorper at porta sed facilisis sed purus.</p>
+                        <h4 class="h4 mt-0 mb-1">Established Since 1994</h4>
+                        <p>With roots dating back to 1994, Kimia has established itself as a trusted provider of custom chemistry services. Our extensive track record speaks volumes about our commitment to customer satisfaction</p>
                     </div>
                     <div class="quality-card text-center">
                         <span class="large-icon"><i class="icon-kimia-creative"></i></span>
-                        <h4 class="h4 mt-0 mb-2">Creative</h4>
-                        <p>Vestibulum sed massa tortor. Sed egestas faucibus fermentum. Vestibulum nisi quam viverra quis interdum.</p>
+                        <h4 class="h4 mt-0 mb-2">Flexibility</h4>
+                        <p>At Kimia, we understand that every client has unique requirements. That's why we offer flexible contracting models and Statements of Work (SOWs), ensuring that our services align perfectly with your needs and preferences.</p>
                     </div>
                 </div>
             </div>
