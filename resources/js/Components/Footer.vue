@@ -74,7 +74,7 @@
                             <img src="/assets/images/site-logo.svg" alt="Site logo"/>
                         </a>
                         <h6 class="text-white mb-1 mt-2">Latest News</h6>
-                        <p class="text-white mt-0">Follow the news on Kimia products and services on our Facebook and LinkedIn page.</p>
+                        <p class="text-white mt-0" style="max-width:410px;">Follow the news on Kimia products and services on our Facebook and LinkedIn page.</p>
                         <div class="ft-social-icon gap-10 flex items-verticaly-center">
                             <a class="icon"><i class="icon-kimia-facebook"></i></a>
                             <a class="icon"><i class="icon-kimia-linkedin"></i></a>
