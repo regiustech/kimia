@@ -73,12 +73,13 @@
                         <a class="ft-site-logo" :href="route('home')">
                             <img src="/assets/images/site-logo.svg" alt="Site logo"/>
                         </a>
-                        <p class="text-white mt-3">Aliquam risus magna, gravida sit amet feugiat et, dignissim ut purus. Fusce lacus est, cursus ac sem facilisis, hendrerit maximus neque. </p>
+                        <h6 class="text-white mb-1 mt-2">Latest News</h6>
+                        <p class="text-white mt-0">Follow the news on Kimia products and services on our Facebook and LinkedIn page.</p>
                         <div class="ft-social-icon gap-10 flex items-verticaly-center">
                             <a class="icon"><i class="icon-kimia-facebook"></i></a>
                             <a class="icon"><i class="icon-kimia-linkedin"></i></a>
-                            <a class="icon"><i class="icon-kimia-instagram"></i></a>
-                            <a class="icon"><i class="icon-kimia-twitter"></i></a>
+                            <!-- <a class="icon"><i class="icon-kimia-instagram"></i></a>
+                            <a class="icon"><i class="icon-kimia-twitter"></i></a> -->
                         </div>
                     </div>
                 </div>
