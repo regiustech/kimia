@@ -49,7 +49,7 @@
                     </div>
                     <div class="quality-card text-center">
                         <span class="large-icon"><i class="icon-kimia-creative"></i></span>
-                        <h4 class="h4 mt-0 mb-2">Flexibility</h4>
+                        <h4 class="h4 mt-0 mb-1">Flexibility</h4>
                         <p>At Kimia, we understand that every client has unique requirements. That's why we offer flexible contracting models and Statements of Work (SOWs), ensuring that our services align perfectly with your needs and preferences.</p>
                     </div>
                 </div>
