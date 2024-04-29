@@ -16,33 +16,33 @@
         </section>
         <section id="services" class="pad-100-15 services-section">
             <div class="container flex gap-20">
-                <div class="col-one-third services-text-col">
+                <div class="col services-text-col text-center mb-3">
                     <h5 class="sub-heading mt-0 mb-2">We Are Good At What We Do</h5>
                     <h2 class="h2 mb-2 mt-0">We Are Here To Assist</h2>
                     <p class="mb-0">Kimia Corp. offers a wide variety of services for your synthetic organic chemistry needs. Whether you need a complex compound or route scouting Kimia’s experienced scientists can help.</p>
                 </div>
-                <div class="col-one-third">
+                <div class="col-50">
                     <div class="services-inner-card">
                         <span><i class="flat-icon icon-kimia-custom-synthesis​"></i></span>
                         <h4 class="h4 mt-3 mb-2">Custom Synthesis​</h4>
                         <p>Kimia is committed to executing the synthesis and delivering the desired compound(s) without being bound by previous literature precedence.</p>
                     </div>
                 </div>
-                <div class="col-one-third">
+                <div class="col-50">
                     <div class="services-inner-card">
                         <span><i class="flat-icon  icon-kimia-design-synthesis"></i></span>
                         <h4 class="h4 mt-3 mb-2">Protocol Write up</h4>
                         <p>Kimia offers the option to provide written protocols for compounds synthesized in-house upon request.</p>
                     </div>
                 </div>
-                <div class="col-one-third">
+                <div class="col-50">
                     <div class="services-inner-card">
                         <span><i class="flat-icon icon-kimia-design-and-synthesis​"></i></span>
                         <h4 class="h4 mt-3 mb-2">Consultation​</h4>
                         <p>Consult with Kimia's team of expert synthetic chemists for insightful advice on any aspect related to organic synthesis.</p>
                     </div>
                 </div>
-                <div class="col-one-third">
+                <div class="col-50">
                     <div class="services-inner-card">
                         <span><i class="flat-icon icon-kimia-synthetic-method"></i></span>
                         <h4 class="h4 mt-3 mb-2">Databases for AI/ML models​</h4>
