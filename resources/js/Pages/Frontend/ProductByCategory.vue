@@ -2,6 +2,7 @@
     import FrontendLayout from '@/Layouts/FrontendLayout.vue';
     import {Head} from '@inertiajs/vue3';
     defineProps({
+        slug: {type: String},
         category: {type: String},
         products: {type: Object}
     });
@@ -65,16 +66,16 @@
                 <div class="row mt-5 text-center" v-if="((products.current_page > 1) || (products.current_page < products.last_page))">
                     <ul class="pagination flex gap-10 mt-0 mb-0 text-center">
                         <li>
-                            <a v-if="products.current_page > 1" class="prev page-icon" :href="route('products',{page: (products.current_page - 1)})"><i class="icon-left-open-big"></i></a>
+                            <a v-if="products.current_page > 1" class="prev page-icon" :href="route('productByCat',{slug: slug,page: (products.current_page - 1)})"><i class="icon-left-open-big"></i></a>
                             <a v-else class="prev page-icon"><i class="icon-left-open-big"></i></a>
                         </li>
                         <li v-for="page in pageRange(products.current_page,products.last_page)" :key="page">
                             <a v-if="page == products.current_page" :class="((page == products.current_page) ? 'prev page-icon active' : 'prev page-icon')">{{page}}</a>
-                            <a v-else-if="page != '...'" :class="((page == products.current_page) ? 'prev page-icon active' : 'prev page-icon')" :href="route('products',{page: page})">{{page}}</a>
+                            <a v-else-if="page != '...'" :class="((page == products.current_page) ? 'prev page-icon active' : 'prev page-icon')" :href="route('productByCat',{slug: slug,page: page})">{{page}}</a>
                             <a v-else class="prev page-icon">{{page}}</a>
                         </li>
                         <li>
-                            <a v-if="products.current_page < products.last_page" class="next page-icon" :href="route('products',{page: (products.current_page + 1)})"><i class="icon-right-open-big"></i></a>
+                            <a v-if="products.current_page < products.last_page" class="next page-icon" :href="route('productByCat',{slug: slug,page: (products.current_page + 1)})"><i class="icon-right-open-big"></i></a>
                             <a v-else class="next page-icon"><i class="icon-right-open-big"></i></a>
                         </li>
                     </ul>

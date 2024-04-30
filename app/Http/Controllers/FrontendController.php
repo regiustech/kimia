@@ -44,12 +44,13 @@ class FrontendController extends Controller
     }
     public function productByCategory(Request $request,$slug): Response{
         $products = Product::where("category",$slug)->paginate(12);
-        if($slug == "new"){
-            $slug = "New From Kimia";
-        }else if($slug == "pas"){
-            $slug = "Products for Accelerated Synthesis";
+        $category = $slug;
+        if($category == "new"){
+            $category = "New From Kimia";
+        }else if($category == "pas"){
+            $category = "Products for Accelerated Synthesis";
         }
-        return Inertia::render("Frontend/ProductByCategory",["category" => $slug,"products" => $products]);
+        return Inertia::render("Frontend/ProductByCategory",["category" => $category,"slug" => $slug,"products" => $products]);
     }
     public function productDetail(Request $request,$slug){
         $product = Product::where("slug",$slug)->first();
