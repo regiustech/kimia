@@ -54,7 +54,7 @@ class ProductController extends Controller
         $product->slug = $slug;
         $product->specifications = json_encode($request->specifications);
         $file = $request->file("image");
-        $fileName = str_replace([" ","'",'"'],"-",$file->getClientOriginalName());
+        $fileName = $this->randomString(16) . '.' . $file->getClientOriginalExtension();
         $file->move("assets/images/products",$fileName);
         $product->image = "/assets/images/products/" . $fileName;
         $product->save();
@@ -102,7 +102,7 @@ class ProductController extends Controller
                     unlink(public_path($oldImage));
                 }
             }
-            $fileName = str_replace([" ","'",'"'],"-",$file->getClientOriginalName());
+            $fileName = $this->randomString(16) . '.' . $file->getClientOriginalExtension();
             $file->move("assets/images/products",$fileName);
             $product->image = "/assets/images/products/" . $fileName;
             $product->save();
@@ -126,5 +126,14 @@ class ProductController extends Controller
     public function destroy(Product $product){
         $product->delete();
         return Inertia::location(route("admin.products.index"));
+    }
+    private function randomString($length = 16){
+        $chars = "abcdefghijklmnopqrstuvwxyz0123456789";	
+        $size = strlen($chars);
+        $string = '';
+        for($i = 0;$i < $length;$i++){
+            $string .= $chars[rand(0,$size - 1)];
+        }
+        return $string;
     }
 }
