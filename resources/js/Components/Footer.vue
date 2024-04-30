@@ -96,10 +96,10 @@
                 <div class="col-25 flex-1">
                     <div class="quick-links">
                         <h6 class="text-white">Our Products</h6>
-                        <a :href="route('productByCat','amine')">Amine</a>
-                        <a :href="route('productByCat','acid')">Acid</a>
-                        <a :href="route('productByCat','aldehyde')">Aldehyde</a>
-                        <a :href="route('productByCat','halide')">Halide</a>
+                        <a :href="route('products')">All Products</a>
+                        <a :href="route('productByCat','linkers')">Linkers</a>
+                        <a :href="route('productByCat','new')">New From Kimia</a>
+                        <a :href="route('productByCat','pas')">PAS</a>
                     </div>
                 </div>
                 <div class="col-25 flex-2">

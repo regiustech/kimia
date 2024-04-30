@@ -14,16 +14,9 @@ use App\Jobs\CustomOrderEmailJob;
 class FrontendController extends Controller
 {
     public function index(Request $request): Response{
-        $amineProducts = Product::where(["category" => "amine"])->orderBy("id","DESC")->limit(6)->get();
-        $acidProducts = Product::where(["category" => "acid"])->orderBy("id","DESC")->limit(6)->get();
-        $aldehydeProducts = Product::where(["category" => "aldehyde"])->orderBy("id","DESC")->limit(6)->get();
-        $halideProducts = Product::where(["category" => "halide"])->orderBy("id","DESC")->limit(6)->get();
-        return Inertia::render("Frontend/Home",[
-            "amineProducts" => $amineProducts,
-            "acidProducts" => $acidProducts,
-            "aldehydeProducts" => $aldehydeProducts,
-            "halideProducts" => $halideProducts
-        ]);
+        $allProducts = Product::orderBy("id","DESC")->limit(6)->get();
+        $linkersProducts = Product::where(["category" => "linkers"])->orderBy("id","DESC")->limit(6)->get();
+        return Inertia::render("Frontend/Home",compact("allProducts","linkersProducts"));
     }
     public function about(Request $request): Response{
         return Inertia::render("Frontend/About");
@@ -51,6 +44,11 @@ class FrontendController extends Controller
     }
     public function productByCategory(Request $request,$slug): Response{
         $products = Product::where("category",$slug)->paginate(12);
+        if($slug == "new"){
+            $slug = "New From Kimia";
+        }else if($slug == "pas"){
+            $slug = "Products for Accelerated Synthesis";
+        }
         return Inertia::render("Frontend/ProductByCategory",["category" => $slug,"products" => $products]);
     }
     public function productDetail(Request $request,$slug){

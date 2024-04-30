@@ -16,7 +16,7 @@
                 },
                 productVariants: this.variantProductDetails,
                 imagePreview: null,
-                categories: ['acid','aldehyde','amine','halide']
+                categories: ['linkers','new','pas']
             }
         },
         methods: {
@@ -100,7 +100,7 @@
                     <div class="form-group">
                         <label>Category:</label>
                         <select v-model="form.category">
-                            <option value="">Select Category</option>
+                            <option value="">All Category</option>
                             <option :value="category" v-for="category in categories" :key="category">{{ ucwords(category) }}</option>
                         </select>
                         <label class="rt-cust-error" v-if="hasValidateError('category')">{{ validateError('category') }}</label>

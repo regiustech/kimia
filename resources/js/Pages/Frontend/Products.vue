@@ -90,11 +90,10 @@
                             <span class="dropdown-icon"></span> 
                         </a>
                         <ul class="search-list">
-                            <li class="search-item" :class="category == 'amine' ? 'active' : ''" @click="handleCategory('amine')">Amine</li>
-                            <li class="search-item" :class="category == 'acid' ? 'active' : ''" @click="handleCategory('acid')">Acid</li>
-                            <li class="search-item" :class="category == 'aldehyde' ? 'active' : ''" @click="handleCategory('aldehyde')">Aldehydes</li>
-                            <li class="search-item" :class="category == 'halide' ? 'active' : ''" @click="handleCategory('halide')">Halides</li>
-                            <li class="search-item all" :class="(category != 'amine' && category != 'acid' && category != 'aldehyde' && category != 'halide') ? 'active' : ''" @click="handleCategory('')">All</li>
+                            <li class="search-item all" :class="(category != 'linkers' && category != 'new' && category != 'pas') ? 'active' : ''" @click="handleCategory('')">All Products</li>
+                            <li class="search-item" :class="category == 'linkers' ? 'active' : ''" @click="handleCategory('linkers')">Linkers</li>
+                            <li class="search-item" :class="category == 'new' ? 'active' : ''" @click="handleCategory('new')">New From Kimia</li>
+                            <li class="search-item" :class="category == 'pas' ? 'active' : ''" @click="handleCategory('pas')">PAS</li>
                         </ul>
                     </div>
                     <div class="input search-input">

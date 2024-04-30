@@ -44,10 +44,8 @@
     import '@splidejs/vue-splide/css';
     import '@splidejs/vue-splide/css/core';
     defineProps({
-        amineProducts: {type: Array},
-        acidProducts: {type: Array},
-        aldehydeProducts: {type: Array},
-        halideProducts: {type: Array}
+        allProducts: {type: Array},
+        linkersProducts: {type: Array}
     });
 </script>
 <template>
@@ -90,8 +88,8 @@
                         <li><a :class="activeTab == 'pas' ? 'active' : ''" @click="changeTab('pas')">PAS </a></li>
                     </ul>
                     <div :class="activeTab == 'catalog' ? 'tab-content active' : 'tab-content'">
-                        <div class="row flex gap-20" v-if="amineProducts.length">
-                            <div class="card product-card" v-for="item in amineProducts" :key="item.id">
+                        <div class="row flex gap-20" v-if="allProducts.length">
+                            <div class="card product-card" v-for="item in allProducts" :key="item.id">
                                 <div class="product-feature-image flex text-center">
                                     <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
                                 </div>
@@ -109,8 +107,8 @@
                         </div>
                     </div>
                     <div :class="activeTab == 'linkers' ? 'tab-content active' : 'tab-content'">
-                        <div class="row flex gap-20" v-if="acidProducts.length">
-                            <div class="card product-card" v-for="item in acidProducts" :key="item.id">
+                        <div class="row flex gap-20" v-if="linkersProducts.length">
+                            <div class="card product-card" v-for="item in linkersProducts" :key="item.id">
                                 <div class="product-feature-image flex text-center">
                                     <a :href="route('productDetail',item.slug)"><img :src="item.image" :alt="item.catalog_number"/></a>
                                 </div>
