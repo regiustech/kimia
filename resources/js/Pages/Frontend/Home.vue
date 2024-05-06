@@ -59,7 +59,7 @@
                 <div class="col-50 banner-text">
                     <div class="col-50-wrapper">
                         <!-- <h1 class="text-white mb-3">Global Supplier of Chemistry Services</h1> -->
-                        <p class="text-white"><strong class="text-primary">Kimia Corporation</strong> is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc.</p>
+                        <p class="text-white"><strong class="text-primary">Kimia Corp.</strong> is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc.</p>
                         <a class="btn secondary-btn mt-3" :href="route('products')"><span class="btn-text">View all products</span></a>
                         <div class="input search-input mt-10">
                             <input type="text" v-model="searchTxt" @keypress="onKeyPress($event)" placeholder="Search by Name, CAS Number, Catalog Number or Molecular Formula"/>
@@ -134,8 +134,7 @@
                             <ol>
                                 <li>
                                     <span class="large-icon"><img src="/assets/images/cost-effective-icon.png" width="35"/></span>
-                                    <strong>Cost-effectiveness:</strong>
-                                    Our products provide affordable access to a wide range of compounds, ensuring that cutting-edge research remains within budgetary constraints.
+                                    <strong>Cost-effectiveness</strong> Our products provide affordable access to a wide range of compounds, ensuring that cutting-edge research remains within budgetary constraints.
                                 </li>
                                 <li>   <span class="large-icon"><img src="/assets/images/eco-friendly-icon.png" width="30"/></span>
                                     <strong>Eco-friendly</strong> With minimal solvent usage and waste generation, our products promote sustainable laboratory practices, contributing to a greener environment.
@@ -145,8 +144,7 @@
                                 </li>
                                 <li>  
                                     <span class="large-icon"><img src="/assets/images/zero-wastage-icon.png" width="35"/></span>
-                                    <strong>Zero wastage</strong> 
-                                    Our formulations ensure that no compounds are left unused, maximizing efficiency and minimizing resource depletion.
+                                    <strong>Zero wastage</strong> Our formulations ensure that no compounds are left unused, maximizing efficiency and minimizing resource depletion.
                                 </li>
                             </ol>
                         </div>

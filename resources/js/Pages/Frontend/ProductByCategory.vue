@@ -50,6 +50,31 @@
             </div>
         </section>
         <section class="pad-100-15 category-section">
+            <div v-if="slug == 'new'" class="container">
+                <p class="text-center">Coming soon</p>
+            </div>
+            <div v-else-if="slug == 'pas'" class="container">
+                <p class="text-center">The product line PAS is meticulously designed to expedite synthesis processes by eliminating preparatory steps, thereby saving valuable time. Beyond time efficiency, our products offer a host of advantages:</p>
+                <div class="pas-content">
+                    <ol>
+                        <li>
+                            <span class="large-icon"><img src="/assets/images/cost-effective-icon.png" width="35"/></span>
+                            <strong>Cost-effectiveness</strong> Our products provide affordable access to a wide range of compounds, ensuring that cutting-edge research remains within budgetary constraints.
+                        </li>
+                        <li>   <span class="large-icon"><img src="/assets/images/eco-friendly-icon.png" width="30"/></span>
+                            <strong>Eco-friendly</strong> With minimal solvent usage and waste generation, our products promote sustainable laboratory practices, contributing to a greener environment.
+                        </li>
+                        <li>  <span class="large-icon"><img src="/assets/images/space-efficiency-icon.png" width="30"/></span>
+                            <strong>Space efficiency</strong> By requiring minimal storage space, our products optimize laboratory organization and resource management.
+                        </li>
+                        <li>  
+                            <span class="large-icon"><img src="/assets/images/zero-wastage-icon.png" width="35"/></span>
+                            <strong>Zero wastage</strong> Our formulations ensure that no compounds are left unused, maximizing efficiency and minimizing resource depletion.
+                        </li>
+                    </ol>
+                </div>
+                <p class="text-center">Browse through our catalogue to explore our diverse range of compounds, each available in a convenient 100 μmole scale, ready to catalyze your next breakthrough reaction.</p>
+            </div>
             <div v-if="products" class="container flex gap-20">
                 <div class="card product-card" v-for="product in products.data" :key="product.id">
                     <div class="product-feature-image flex text-center">
