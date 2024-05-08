@@ -13,7 +13,7 @@ body{margin:0px;padding:0px;}
 .flex{display:flex;flex-wrap:wrap;}
 p,li,div,a:not(.nav-link,.btn,.product-title a,.product-nav a){font-size:18px;line-height:28px;font-weight:400;font-family:"Source Sans 3",sans-serif;}
 p{margin-top:0px;margin-bottom:20px;}
-.text-primary{color:var(--primary-color);}
+.text-primary1{color:var(--primary-color);}
 .primary-menu{list-style:none;}
 .nav-link{font-family:"Source Sans 3",sans-serif;font-size:18px;color:var(--text-color);font-weight:600;text-transform:uppercase;transition:0.3s all;}
 .nav-link:hover{color:var(--secondary-color);}

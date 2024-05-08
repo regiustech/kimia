@@ -59,7 +59,7 @@
                 <div class="col-50 banner-text">
                     <div class="col-50-wrapper">
                         <!-- <h1 class="text-white mb-3">Global Supplier of Chemistry Services</h1> -->
-                        <p class="text-white"><strong class="text-primary">Kimia Corp.</strong> is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc.</p>
+                        <p class="text-white"><strong class="text-primary1">Kimia Corp.</strong> is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc.</p>
                         <a class="btn secondary-btn mt-3" :href="route('products')"><span class="btn-text">View all products</span></a>
                         <div class="input search-input mt-10">
                             <input type="text" v-model="searchTxt" @keypress="onKeyPress($event)" placeholder="Search by Name, CAS Number, Catalog Number or Molecular Formula"/>
