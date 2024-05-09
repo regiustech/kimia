@@ -178,7 +178,7 @@ footer .info a,
 .ft-site-logo img{filter:brightness(100);}
 .copyright-section{padding:30px 15px;border-top:1px solid #3D3D3D;}
 p:last-child{margin-bottom:0px;}
-.product-feature-image img{max-height:80px;}
+.product-feature-image img{max-height:80px;width:100%;object-fit:contain;}
 .ft-social-icon .icon:hover,
 .info a:hover .icon{background:var(--primary-color);}
 .inner-banner{position:relative;z-index:1;padding:160px 15px;background-size:cover;}
