@@ -85,7 +85,7 @@
     import "vue3-toastify/dist/index.css";
 </script>
 <template>
-    <Head title="Profile"/>
+    <Head title="Profile &#8211; Kimia Corp."/>
     <FrontendLayout>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');">
             <div class="container flex text-center">

@@ -5,8 +5,8 @@
 <template>
     <FrontendLayout>
         <Head>
-            <title>Services</title>
-            <meta name="description" content="Kimia description">
+            <title>Services &#8211; Kimia Corp.</title>
+            <meta name="description" content="">
         </Head>
         <section class="inner-banner" style="background-image: url('/assets/images/about-banner.jpg');">
             <div class="container  flex text-center">

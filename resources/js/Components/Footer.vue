@@ -97,9 +97,9 @@
                     <div class="quick-links">
                         <h6 class="text-white">Our Products</h6>
                         <a :href="route('products')">All Products</a>
-                        <a :href="route('productByCat','linkers')">Linkers</a>
-                        <a :href="route('productByCat','new')">New From Kimia</a>
-                        <a :href="route('productByCat','pas')">PAS</a>
+                        <a :href="route('productDetail','linkers')">Linkers</a>
+                        <a :href="route('productDetail','new')">New From Kimia</a>
+                        <a :href="route('productDetail','pas')">PAS</a>
                     </div>
                 </div>
                 <div class="col-25 flex-2">
@@ -121,7 +121,7 @@
         </section>
         <section class="copyright-section">
             <div class="container text-center">
-                <p>Copyright 2024 .All Rights Reserved.</p>
+                <p>Copyright © 2024 .All Rights Reserved. Website designed by <a href="https://www.solution21.com/" target="_blank">Solution21</a></p>
             </div>
         </section>
     </footer>

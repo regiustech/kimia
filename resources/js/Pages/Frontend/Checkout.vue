@@ -270,8 +270,8 @@
 <template>
     <FrontendLayout>
         <Head>
-            <title>Checkout</title>
-            <meta name="description" content="Checkout description">
+            <title>Checkout &#8211; Kimia Corp.</title>
+            <meta name="description" content="">
         </Head>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');background-size:cover;">
             <div class="container flex">

@@ -7,7 +7,7 @@
     });
 </script>
 <template>
-    <Head title="View Order"/>
+    <Head title="View Order &#8211; Kimia Corp."/>
     <FrontendLayout>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');">
             <div class="container flex text-center">

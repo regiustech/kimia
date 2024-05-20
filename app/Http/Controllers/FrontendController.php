@@ -42,26 +42,27 @@ class FrontendController extends Controller
         $products = $products->paginate(12);
         return Inertia::render("Frontend/Products",compact("products","category","search"));
     }
-    public function productByCategory(Request $request,$slug): Response{
-        $products = Product::where("category",$slug)->paginate(12);
-        $category = $slug;
-        if($category == "new"){
-            $category = "New From Kimia";
-        }else if($category == "pas"){
-            $category = "Products for Accelerated Synthesis";
-        }
-        return Inertia::render("Frontend/ProductByCategory",["category" => $category,"slug" => $slug,"products" => $products]);
-    }
     public function productDetail(Request $request,$slug){
-        $product = Product::where("slug",$slug)->first();
-        if(!$product){
-            return Redirect::route("home");
+        if(in_array($slug,["linkers","new","pas"])){
+            $products = Product::where("category",$slug)->paginate(12);
+            $category = $slug;
+            if($category == "new"){
+                $category = "New From Kimia";
+            }else if($category == "pas"){
+                $category = "Products for Accelerated Synthesis";
+            }
+            return Inertia::render("Frontend/ProductByCategory",["category" => $category,"slug" => $slug,"products" => $products]);
+        }else{
+            $product = Product::where("slug",$slug)->first();
+            if(!$product){
+                return Redirect::route("home");
+            }
+            if($product->product_type == "variant"){
+                $product->productVariants = ProductVariant::with("variantDetail")->where("product_id",$product->id)->get(["id","variant_detail_id","price"]);
+            }
+            $relatedProducts = Product::where("category",$product->category)->where("slug","!=",$slug)->orderBy("id","DESC")->limit(4)->get();
+            return Inertia::render("Frontend/ProductDetail",compact("product","relatedProducts"));
         }
-        if($product->product_type == "variant"){
-            $product->productVariants = ProductVariant::with("variantDetail")->where("product_id",$product->id)->get(["id","variant_detail_id","price"]);
-        }
-        $relatedProducts = Product::where("category",$product->category)->where("slug","!=",$slug)->orderBy("id","DESC")->limit(4)->get();
-        return Inertia::render("Frontend/ProductDetail",compact("product","relatedProducts"));
     }
     public function sendContacts(Request $request){
         $data = $request->all();

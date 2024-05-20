@@ -44,7 +44,7 @@
     import 'vuetify/styles';
 </script>
 <template>
-    <Head title="My Orders"/>
+    <Head title="My Orders &#8211; Kimia Corp."/>
     <FrontendLayout>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');">
             <div class="container flex text-center">

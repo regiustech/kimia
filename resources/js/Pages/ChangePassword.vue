@@ -85,7 +85,7 @@
     import "vue3-toastify/dist/index.css";
 </script>
 <template>
-    <Head title="Change Password"/>
+    <Head title="Change Password &#8211; Kimia Corp."/>
     <FrontendLayout>
         <section class="sign-up-section pad-100-15" style="background-image: url('/assets/images/background-image.jpg'); background-size:cover;">
             <div class="container flex mob-flex-rev">

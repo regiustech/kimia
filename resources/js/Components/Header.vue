@@ -47,9 +47,9 @@
                             <span class="drop-drown-wrap" @click="handleSubMenu"><span class="nav-dropdown-icon"></span></span>
                             <ul class="sub-menu">
                                 <li class="nav-item"><a class="nav-link" :href="route('products')">All Products</a></li>
-                                <li class="nav-item"><a class="nav-link" :href="route('productByCat','linkers')">Linkers</a></li>
-                                <li class="nav-item"><a class="nav-link" :href="route('productByCat','new')">New From Kimia</a></li>
-                                <li class="nav-item"><a class="nav-link" :href="route('productByCat','pas')">PAS</a></li>
+                                <li class="nav-item"><a class="nav-link" :href="route('productDetail','linkers')">Linkers</a></li>
+                                <li class="nav-item"><a class="nav-link" :href="route('productDetail','new')">New From Kimia</a></li>
+                                <li class="nav-item"><a class="nav-link" :href="route('productDetail','pas')">PAS</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" :href="route('services')">Services</a></li>

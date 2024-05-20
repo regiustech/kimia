@@ -13,7 +13,7 @@
 </script>
 <template>
     <FrontendLayout>
-        <Head title="Email Verification"/>
+        <Head title="Email Verification &#8211; Kimia Corp."/>
         <section class="sign-up-section pad-100-15" style="background-image: url('/assets/images/background-image.jpg');background-size:cover;">
             <div class="container flex mob-flex-rev">
                 <div class="col-40">

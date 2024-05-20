@@ -22,6 +22,7 @@
             </div>
         </div>
         @inertia
+        <script src="https://cdn.userway.org/widget.js" data-account="kK46UJI4iw"></script>
     </body>
     <script src="https://js.stripe.com/v3"></script>
 </html>

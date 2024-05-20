@@ -27,15 +27,14 @@ use App\Http\Controllers\Admin\OrderController;
 */
 
 Route::get("/",[FrontendController::class,"index"])->name("home");
-Route::get("/about-us",[FrontendController::class,"about"])->name("about");
+Route::get("/about",[FrontendController::class,"about"])->name("about");
 Route::get("/services",[FrontendController::class,"services"])->name("services");
-Route::get("/contact-us",[FrontendController::class,"contacts"])->name("contacts");
+Route::get("/contact",[FrontendController::class,"contacts"])->name("contacts");
 Route::post("/contact/send",[FrontendController::class,"sendContacts"])->name("contacts.send");
-Route::get("/products",[FrontendController::class,"products"])->name("products");
+Route::get("/product",[FrontendController::class,"products"])->name("products");
 Route::post("/products/filter",[FrontendController::class,"filterProducts"])->name("products.filter");
 Route::post("/custom-order",[FrontendController::class,"customOrder"])->name("custom-order");
 
-Route::get("/products/{slug}",[FrontendController::class,"productByCategory"])->name("productByCat");
 Route::get("/product/{slug}",[FrontendController::class,"productDetail"])->name("productDetail");
 Route::post("/newsletter/subscribe",[FrontendController::class,"Newsletter"])->name("newsletter");
 

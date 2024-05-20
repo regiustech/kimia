@@ -82,8 +82,8 @@
 <template>
     <FrontendLayout>
         <Head>
-            <title>Cart</title>
-            <meta name="description" content="Cart description">
+            <title>Cart &#8211; Kimia Corp.</title>
+            <meta name="description" content="">
         </Head>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');background-size:cover;">
             <div class="container flex text-center">

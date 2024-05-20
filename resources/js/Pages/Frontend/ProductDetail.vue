@@ -151,8 +151,8 @@
     </div>
     <FrontendLayout>
         <Head>
-            <title>{{product.name}}</title>
-            <meta name="description" content="Kimia Product description">
+            <title>{{product.name}} &#8211; Kimia Corp.</title>
+            <meta name="description" content="">
         </Head>
         <section class="product-detail-section pad-100-15">
             <div class="container">

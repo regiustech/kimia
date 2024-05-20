@@ -51,8 +51,8 @@
 <template>
     <FrontendLayout>
         <Head>
-            <title>Kimia</title>
-            <meta name="description" content="Kimia description">
+            <title>Kimia Corp. &#8211; Custom Synthesis</title>
+            <meta name="description" content="">
         </Head>
         <section class="hero">
             <div class="container flex">
@@ -217,8 +217,8 @@
             <div class="container flex">
                 <div class="col-40 flex items-verticaly-center">
                     <div class="dual-image-wrapper">
-                        <img class="dual-img-1" src="/assets/images/about-image-1.jpg"/>
-                        <img class="dual-img-2" src="/assets/images/about-image-2.jpg"/>
+                        <img class="dual-img-1" src="/assets/images/about-image-1.jpg" alt="About Kimia Corp"/>
+                        <img class="dual-img-2" src="/assets/images/about-image-2.jpg" alt="About Kimia Corp"/>
                     </div>
                 </div>
                 <div class="col-60">

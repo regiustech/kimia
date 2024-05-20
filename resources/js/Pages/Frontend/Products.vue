@@ -73,8 +73,8 @@
 <template>
     <FrontendLayout>
         <Head>
-            <title>Products</title>
-            <meta name="description" content="Kimia Products description">
+            <title>Product &#8211; Kimia Corp.</title>
+            <meta name="description" content="">
         </Head>
         <section class="pad-100-15 product-cat-section">
             <div class="products-bar mb-5">
