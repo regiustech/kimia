@@ -2,6 +2,7 @@
     import axios from "axios";
     export default {
         data(){
+            let siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY
             return {
                 form: {
                     name: "",
@@ -9,12 +10,30 @@
                     email: "",
                     phone: "",
                     subject: "",
-                    msg: ""
+                    msg: "",
+                    token: ""
                 },
-                errors: []
+                errors: [],
+                siteKey: siteKey
             }
         },
+        mounted: function(){
+            this.initReCaptcha();
+        },
         methods: {
+            initReCaptcha: function(){
+                var self = this;
+                setTimeout(function(){
+                    if(typeof grecaptcha === 'undefined'){
+                        self.initReCaptcha();
+                    }else{
+                        grecaptcha.render('g-recaptcha',{sitekey: self.siteKey,size: 'normal',badge: 'inline',callback: self.submit});
+                    }
+                },100);
+            },
+            submit: function(token){
+                this.form.token = token;
+            },
             submitContacts: function(){
                 if(this.submitting){
                     return;
@@ -55,6 +74,10 @@
                     newError["msg"] = "Required";
                     positionFocus = positionFocus || "msg";
                 }
+                if(!this.form.token || !this.form.token.trim()){
+                    newError["token"] = "Required";
+                    positionFocus = positionFocus || "g-recaptcha";
+                }
                 this.errors = newError;
                 if(positionFocus){
                     if(document.getElementById(positionFocus)){
@@ -73,8 +96,10 @@
                 try{
                     axios.post($vm.route('contacts.send'),$vm.form).then(({data}) => {
                         document.getElementById("rt-custom-loader").style.display = "none";
-                        toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
-                        $vm.form = {name: "",company: "",email: "",phone: "",subject: "",msg: ""}
+                        toast(data.message,{"type": data.status,"autoClose": 3000,"transition": "slide"});
+                        if(data.status == "success"){
+                            $vm.form = {name: "",company: "",email: "",phone: "",subject: "",msg: "",token: ""}
+                        }
                     });
                 }catch(e){
                     document.getElementById("rt-custom-loader").style.display = "none";
@@ -147,6 +172,10 @@
                                     <label for="msg">Message</label>
                                     <textarea id="msg" v-model="form.msg" oninput="this.value = this.value.substring(0,200);" cols="50" placeholder="Tell Us More"></textarea>
                                     <label class="rt-cust-error" v-if="hasValidationError(errors,'msg')">{{ validationError(errors,'msg') }}</label>
+                                </div>
+                                <div class="form-full-field form-field">
+                                    <div id="g-recaptcha" class="g-recaptcha" :data-sitekey="siteKey"></div>
+                                    <label class="rt-cust-error" v-if="hasValidationError(errors,'token')">{{ validationError(errors,'token') }}</label>
                                 </div>
                                 <div class="form-full-field form-button text-center">
                                     <button class="btn secondary-btn" type="submit">Submit</button>

@@ -11,6 +11,7 @@
         <link rel="stylesheet" href="/assets/css/fontello.css">
         <link rel="stylesheet" href="/assets/css/style.css">
         <link rel="stylesheet" href="/assets/css/admin.css">
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
         @routes
         @vite(['resources/js/app.js',"resources/js/Pages/{$page['component']}.vue"])
         @inertiaHead

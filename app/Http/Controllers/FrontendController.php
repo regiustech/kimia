@@ -65,10 +65,15 @@ class FrontendController extends Controller
         }
     }
     public function sendContacts(Request $request){
-        $data = $request->all();
-        $data["to_address"] = env("ADMIN_EMAIL_ADDRESS");
-        ContactsEmailJob::dispatch($data);
-        return json_encode(["message" => "Your enquiry has been submitted."]);
+        $response = $this->verifyRecaptcha($request->token);
+        if($response && $response->success){
+            $data = $request->except("token");
+            $data["to_address"] = env("ADMIN_EMAIL_ADDRESS");
+            ContactsEmailJob::dispatch($data);
+            return json_encode(["status" => "success","message" => "Your enquiry has been submitted."]);
+        }else{
+            return json_encode(["status" => "error","message" => "Invalid Recaptcha"]);
+        }
     }
     public function Newsletter(Request $request){
         $newsletter = Newsletter::where("email",$request->email)->first();
@@ -85,5 +90,22 @@ class FrontendController extends Controller
         $data["to_address"] = env("ADMIN_EMAIL_ADDRESS");
         CustomOrderEmailJob::dispatch($data);
         return json_encode(["message" => "Your enquiry has been submitted."]);
+    }
+    private function verifyRecaptcha($token){
+        $url = 'https://www.google.com/recaptcha/api/siteverify?secret='.env('RECAPTCHA_SECRET_SITE_KEY').'&response='.$token;
+        $curl = curl_init();
+        curl_setopt_array($curl,[
+            CURLOPT_URL => $url,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET'
+        ]);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($response);
     }
 }

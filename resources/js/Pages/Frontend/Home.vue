@@ -224,8 +224,8 @@
                 <div class="col-60">
                     <div class="abot-text-wrapper">
                         <div class="about-text">
-                            <img class="bg-1" src="/assets/images/about-bg-1.svg"/>
-                            <img class="bg-2" src="/assets/images/about-bg-2.svg"/>
+                            <img class="bg-1" src="/assets/images/about-bg-1.svg" alt="About Kimia Corp"/>
+                            <img class="bg-2" src="/assets/images/about-bg-2.svg" alt="About Kimia Corp"/>
                             <h5 class="sub-heading mb-2">About Us</h5>
                             <h2 class="h2 mb-3 mt-0">About Kimia Corp.</h2>
                             <p>Kimia Corporation is a contract research organization based in Santa Clara, California that focuses on custom synthesis for several industries such as drug discovery, diagnostics, etc. Kimia also has a catalog of small molecules that continues to expand.</p>
