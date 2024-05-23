@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -96,7 +97,7 @@ class CheckoutController extends Controller
                     $orderItem = new OrderItem();
                     $orderItem->order_id = $order->id;
                     $orderItem->product_id = $cartItem->product_id;
-                    $orderItem->variant_detail_id = $cartItem->productVariant->variant_detail_id ?: null;
+                    $orderItem->variant_detail_id = $cartItem->productVariant && $cartItem->productVariant->variant_detail_id ? $cartItem->productVariant->variant_detail_id : null;
                     if($cartItem->product->product_type == "regular"){
                         $orderItem->price = $cartItem->product->price;
                         $orderItem->total = ((float)$cartItem->product->price * $cartItem->quantity);
@@ -130,6 +131,7 @@ class CheckoutController extends Controller
             OrderConfirmEmailJob::dispatch($adminData);
             return Redirect::route("thankyou")->with("success","Order Placed Sucessfully.");
         }catch(\Exception $e){
+            Log::info($e);
             return Redirect::route("cart.index")->with("error",$e->getMessage());
         }
     }
