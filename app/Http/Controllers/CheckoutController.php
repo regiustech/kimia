@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -131,7 +130,6 @@ class CheckoutController extends Controller
             OrderConfirmEmailJob::dispatch($adminData);
             return Redirect::route("thankyou")->with("success","Order Placed Sucessfully.");
         }catch(\Exception $e){
-            Log::info($e);
             return Redirect::route("cart.index")->with("error",$e->getMessage());
         }
     }
