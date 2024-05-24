@@ -3,6 +3,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\VariantDetail;
@@ -48,10 +49,9 @@ class ProductController extends Controller
         return Inertia::render("Admin/Products/Edit",["product" => new Product,"variantProductDetails" => $variantProductDetails]);
     }
     public function store(ProductStoreRequest $request){
-        $slug = "PRD" . Carbon::now()->format("mdY") . rand(000000,999999);
         $request->price = $request->price ? $request->price : null;
         $product = new Product($request->except("image","productVariants","specifications"));
-        $product->slug = $slug;
+        $product->slug = $this->generateSlug($request->name);
         $product->specifications = json_encode($request->specifications);
         $file = $request->file("image");
         $fileName = $this->randomString(16) . '.' . $file->getClientOriginalExtension();
@@ -94,6 +94,8 @@ class ProductController extends Controller
         $product = Product::findOrfail($id);
         $request->price = $request->price ? $request->price : null;
         $product->update($request->except("_method","slug","image","productVariants"));
+        $product->slug = $this->generateSlug($request->name,$id);
+        $product->save();
         $file = $request->file("image");
         if($file){
             $oldImage = $product->image;
@@ -135,5 +137,17 @@ class ProductController extends Controller
             $string .= $chars[rand(0,$size - 1)];
         }
         return $string;
+    }
+    private function generateSlug($title,$id = null){
+        $slug =  Str::slug($title,"-");
+        $product = Product::where("slug",$slug);
+        if($id){
+            $product = $product->where("id","!=",$id);
+        }
+        $count = $product->count();
+        if($count > 0){
+            $slug = $slug."-".((int)$count + 1);
+        }
+        return $slug;
     }
 }
