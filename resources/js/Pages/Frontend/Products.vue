@@ -74,7 +74,7 @@
     <FrontendLayout>
         <Head>
             <title>Product &#8211; Kimia Corp.</title>
-            <meta name="description" content="">
+            <meta name="description" content="Contact Kimia Corp. today for more information!">
         </Head>
         <section class="pad-100-15 product-cat-section">
             <div class="products-bar mb-5">

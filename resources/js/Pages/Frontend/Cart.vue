@@ -83,7 +83,7 @@
     <FrontendLayout>
         <Head>
             <title>Cart &#8211; Kimia Corp.</title>
-            <meta name="description" content="">
+            <meta name="description" content="Contact Kimia Corp. today for more information!">
         </Head>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');background-size:cover;">
             <div class="container flex text-center">
