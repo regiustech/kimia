@@ -52,7 +52,7 @@
     <FrontendLayout>
         <Head>
             <title>Kimia Corp. &#8211; Custom Synthesis</title>
-            <meta name="description" content="">
+            <meta name="description" content="Contact Kimia Corp. today for more information!">
         </Head>
         <section class="hero">
             <div class="container flex">
