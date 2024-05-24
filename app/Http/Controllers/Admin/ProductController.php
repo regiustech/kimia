@@ -150,11 +150,4 @@ class ProductController extends Controller
         }
         return $slug;
     }
-    public function changeSlug(Request $request){
-        $products = Product::get();
-        foreach($products as $product){
-            $product->slug = $this->generateSlug($product->name,$product->id);
-            $product->save();
-        }
-    }
 }
