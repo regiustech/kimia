@@ -74,6 +74,7 @@ Route::middleware(["auth"])->group(function(){
             "except" => ["create","store"]
         ]);
   
+        Route::get("products/change-slug",[ProductController::class,"changeSlug"]);
         Route::get("products/all",[ProductController::class,"getAllProducts"])->name("products.all");
         Route::resource("products",ProductController::class,[
             "except" => ["show"]
