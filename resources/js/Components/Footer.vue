@@ -2,12 +2,20 @@
     import axios from "axios";
     export default {
         data(){
+            let facebookUrl = import.meta.env.VITE_FACEBOOK_URL || "";
+            let linkedinUrl = import.meta.env.VITE_LINKEDIN_URL || "";
+            let instagramUrl = import.meta.env.VITE_INSTAGRAM_URL || "";
+            let twitterUrl = import.meta.env.VITE_TWITTER_URL || "";
             return {
                 form: {
                     email: ""
                 },
                 submitting: false,
-                errors: []
+                errors: [],
+                facebook: facebookUrl,
+                linkedin: linkedinUrl,
+                instagram: instagramUrl,
+                twitter: twitterUrl
             }
         },
         methods: {
@@ -76,10 +84,10 @@
                         <h6 class="text-white mb-1 mt-2">Latest News</h6>
                         <p class="text-white mt-0" style="max-width:410px;">Follow the news on Kimia products and services on our Facebook and LinkedIn page.</p>
                         <div class="ft-social-icon gap-10 flex items-verticaly-center">
-                            <a class="icon"><i class="icon-kimia-facebook"></i></a>
-                            <a class="icon"><i class="icon-kimia-twitter"></i></a>
-                            <!-- <a class="icon"><i class="icon-kimia-instagram"></i></a>
-                            <a class="icon"><i class="icon-kimia-twitter"></i></a> -->
+                            <a v-if="facebook" :href="facebook" target="_blank" class="icon"><i class="icon-facebook"></i></a>
+                            <a v-if="linkedin" :href="linkedin" target="_blank" class="icon"><i class="icon-linkedin"></i></a>
+                            <a v-if="instagram" :href="instagram" target="_blank" class="icon"><i class="icon-kimia-instagram"></i></a>
+                            <a v-if="twitter" :href="twitter" target="_blank" class="icon"><i class="icon-twitter"></i></a>
                         </div>
                     </div>
                 </div>

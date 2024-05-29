@@ -396,7 +396,7 @@
                     </div>
                 </div>
                 <div class="col-30 order-col">
-                    <div class="card">
+                    <div class="card flex flex-column-tab">
                         <h2 class="h3 mt-0 mb-0">Your Order</h2>
                         <table id="order-detail" class="cart_total_table">
                             <tbody>
@@ -420,7 +420,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="card payment-methode-card flex gap-20">
+                    <div class="card payment-methode-card flex flex-column-tab gap-20">
                         <h2 class="h3 mt-0 mb-0">Payment Details</h2>
                         <div class="flex gap-20 card-detail payment-type">
                             <div class="form-full-field form-field">
