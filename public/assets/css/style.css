@@ -259,6 +259,11 @@ p > a{color:var(--secondary-color);}
 #services .col-50{width:calc(100% / 2 - 10px);}
 #services .services-inner-card{padding:40px;}
 
+.tax-wrapper{margin-top:20px;}
+.tax-wrapper .tax-data{border:1px solid #81489C1C;padding:20px;display:flex;flex-direction:column;row-gap:15px;}
+.tax-wrapper .tax-data input{width:100%;border:1px solid #4848488c;padding:10px;border-radius:5px;font-size:16px;line-height:20px;font-weight:400;background:transparent;}
+.tax-wrapper .tax-data button{width:120px;padding:12px 10px 8px;}
+
 /*** media  query start ****/
 @media (max-width:1310px){
     .gap-50{gap:40px;padding:0px;}

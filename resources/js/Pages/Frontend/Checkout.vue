@@ -8,6 +8,8 @@
                 stripe: stripe,
                 cartItems: ((this.cart && this.cart.cartItems.length) ? this.cart.cartItems : []),
                 subtotal: ((this.cart && this.cart.subtotal) ? this.cart.subtotal : 0),
+                shipping_amount: ((this.cart && this.cart.shipping_amount) ? this.cart.shipping_amount : 0),
+                tax_percent: ((this.cart && this.cart.tax_percent) ? this.cart.tax_percent : 0),
                 tax: ((this.cart && this.cart.tax) ? this.cart.tax : 0),
                 total: ((this.cart && this.cart.total) ? this.cart.total : 0),
                 form: {
@@ -30,7 +32,8 @@
                     shipping_zipcode: "",
                     additional_notes: "",
                     card_name: "",
-                    policy: 0
+                    policy: 0,
+                    invoice: 0,
                 },
                 submitting: false,
                 errors: []
@@ -256,6 +259,9 @@
             },
             onPolicyChange(){
                 this.form.policy = ((this.form.policy == "1") ? "0" : "1");
+            },
+            onInvoiceChange(){
+                this.form.invoice = ((this.form.invoice == "1") ? "0" : "1");
             }
         }
     }
@@ -410,7 +416,11 @@
                                     <td>{{(subtotal).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Tax</th>
+                                    <th>Shipping</th>
+                                    <td>{{(shipping_amount).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tax{{ (tax_percent ? " ("+tax_percent+"%)" : "") }}</th>
                                     <td>{{(tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
                                 </tr>
                                 <tr>
@@ -448,10 +458,13 @@
                         <div class="form-full-field form-field">
                             <div class="checkbox_field privacy-policy-text flex gap-10 wrap-unset">
                                 <input type ="checkbox" id="agree_withi_policies" @change="onPolicyChange" :checked="(form.policy == 1)">
-                                <label for="agree_withi_policies">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.
-                                </label>
+                                <label for="agree_withi_policies">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.</label>
                             </div>
                             <label class="rt-cust-error" v-if="hasValidationError(errors,'policy')">{{ validationError(errors,'policy') }}</label>
+                            <div class="checkbox_field privacy-policy-text flex gap-10 wrap-unset">
+                                <input type ="checkbox" id="invoice" @change="onInvoiceChange" :checked="(form.invoice == 1)">
+                                <label for="agree_withi_policies">Invoice me</label>
+                            </div>
                             <div class="form-full-field mt-1">
                                 <button class="btn secondary-btn flex-1 mt-1" @click="submitOrder"><span class="btn-text">Place your order</span></button>
                             </div>

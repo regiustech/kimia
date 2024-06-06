@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class VariantDetail extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable = ["variant_id","name","order_no"];
+    protected $guarded = [];
     protected $hidden = [];
     protected $casts = [
         "variant_id" => "integer",

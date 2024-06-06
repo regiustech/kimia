@@ -92,6 +92,11 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2"></td>
+                                    <td style="text-align:right;padding:8px;font-size:14px;border-top:1px solid #ddd;">Shipping:</td>
+                                    <td style="padding:8px;font-size:14px;border-top:1px solid #ddd;">${!! $order['shipping_amount'] !!}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2"></td>
                                     <td style="text-align:right;padding:8px;font-size:14px;border-top:1px solid #ddd;">Tax:</td>
                                     <td style="padding:8px;font-size:14px;border-top:1px solid #ddd;">${!! $order['tax'] !!}</td>
                                 </tr>

@@ -28,7 +28,10 @@ class CheckoutController extends Controller
                     $subtotal += ((float)$cartItem->productVariant->price * (int)$cartItem->quantity);
                 }
             }
-            $total = ((float)$subtotal + (float)$tax);
+            if($cart->tax_percent > 0){
+                $tax = (((float)$subtotal * (float)$cart->tax_percent)/100);
+            }
+            $total = ((float)$subtotal + (float)$cart->shipping_amount + (float)$tax);
         }
         $cart->cartItems = $cartItems;
         $cart->subtotal = $subtotal;
@@ -54,6 +57,8 @@ class CheckoutController extends Controller
         if(!$cart){
             return Redirect::route("cart.index")->with("error","Cart is Empty");
         }
+        $cart->tax = number_format($cart->tax,2);
+        $cart->total = number_format($cart->total,2);
         try{
             $stripe = new \Stripe\StripeClient(env("STRIPE_SECRET_KEY"));
             $charge = $stripe->charges->create([
@@ -88,8 +93,11 @@ class CheckoutController extends Controller
             $order->charge_id = $charge->id;
             $order->response = json_encode($charge);
             $order->subtotal = $cart->subtotal;
+            $order->shipping_amount = $cart->shipping_amount;
+            $order->tax_percent = $cart->tax_percent;
             $order->tax = $cart->tax;
             $order->total = $cart->total;
+            $order->send_invoice_me = (($request->invoice == "1") ? true : false);
             $order->save();
             if(count($cart->cartItems)){
                 foreach($cart->cartItems as $cartItem){
@@ -111,23 +119,25 @@ class CheckoutController extends Controller
             CartItem::where("cart_id",$cart->id)->delete();
             $cart->delete();
             $order->orderItems = $order->orderItems()->with('product')->get();
-            $data = [
-                "to_address" => (Auth::user() ? Auth::user()->email : $order->billing_email),
-                "subject" => env("APP_NAME")." - Your Order #".$order->id." has been placed",
-                "name" => (Auth::user() ? Auth::user()->first_name : $order->billing_name),
-                "order" => $order,
-                "type" => "customer"
-            ];
-            OrderConfirmEmailJob::dispatch($data);
-            $adminData = [
-                "to_address" => env("ADMIN_EMAIL_ADDRESS"),
-                "subject" => env("APP_NAME")." - Order #".$order->id." placed on website",
-                "name" => "Admin",
-                "order" => $order,
-                "type" => "admin",
-                "user_name" => $data["name"]
-            ];
-            OrderConfirmEmailJob::dispatch($adminData);
+            if($order->id){
+                $data = [
+                    "to_address" => (Auth::user() ? Auth::user()->email : $order->billing_email),
+                    "subject" => "Kimia Corp. - Your Order #" . $order->id . " has been placed",
+                    "name" => (Auth::user() ? Auth::user()->first_name : $order->billing_name),
+                    "order" => $order,
+                    "type" => "customer"
+                ];
+                OrderConfirmEmailJob::dispatch($data);
+                $adminData = [
+                    "to_address" => env("ADMIN_EMAIL_ADDRESS"),
+                    "subject" => "Kimia Corp. - Order #" . $order->id . " placed on website",
+                    "name" => "Admin",
+                    "order" => $order,
+                    "type" => "admin",
+                    "user_name" => $data["name"]
+                ];
+                OrderConfirmEmailJob::dispatch($adminData);
+            }
             return Redirect::route("thankyou")->with("success","Order Placed Sucessfully.");
         }catch(\Exception $e){
             return Redirect::route("cart.index")->with("error",$e->getMessage());
