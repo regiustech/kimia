@@ -60,7 +60,7 @@
                         <label><b>Order Date: </b></label>
                         <span>{{ order.created_at }}</span>
                     </div>
-                    <div class="order-info-item align-center mtb6" v-if="order.order_status">
+                    <div class="order-info-item items-verticaly-center mtb6" v-if="order.order_status">
                         <label><b>Order Status: </b></label>
                         <select v-model="form.order_status" @change="handleChangeStatus" :disabled="disabledStatus.includes(form.order_status)">
                             <option value="pending" disabled>Pending</option>
@@ -70,6 +70,10 @@
                             <option value="completed">Completed</option>
                             <option value="cancelled">Cancelled</option>
                         </select>
+                    </div>
+                    <div class="order-info-item">
+                        <label><b>Payment Method: </b></label>
+                        <span>{{ ((order.send_invoice_me == 1) ? "Pay Later" : "Stripe/Credit Card") }}</span>
                     </div>
                 </div>
             </div>
