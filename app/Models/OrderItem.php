@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class OrderItem extends Model
 {
     use HasFactory;
-    protected $fillable = ["order_id","product_id","variant_detail_id","price","quantity","total"];
+    protected $guarded = [];
     protected $hidden = [];
     protected $casts = [
         "price" => "float",

@@ -122,9 +122,14 @@
                                     <td class="rt-data" style="font-weight:600 !important;">Subtotal</td>
                                     <td class="rt-data" style="font-weight:600 !important;">{{ (order.subtotal).toLocaleString('en-US',{style:'currency',currency:'USD'}) }}</td>
                                 </tr>
+                                <tr class="rt-body-row" v-if="order.shipping_amount">
+                                    <td class="rt-data" colspan="3"></td>
+                                    <td class="rt-data" style="font-weight:600 !important;">Shipping</td>
+                                    <td class="rt-data" style="font-weight:600 !important;">{{ (order.shipping_amount).toLocaleString('en-US',{style:'currency',currency:'USD'}) }}</td>
+                                </tr>
                                 <tr class="rt-body-row">
                                     <td class="rt-data" colspan="3"></td>
-                                    <td class="rt-data" style="font-weight:600 !important;">Tax</td>
+                                    <td class="rt-data" style="font-weight:600 !important;">Tax{{ (order.tax_percent ? " ("+order.tax_percent+"%)" : "") }}</td>
                                     <td class="rt-data" style="font-weight:600 !important;">{{ (order.tax).toLocaleString('en-US',{style:'currency',currency:'USD'}) }}</td>
                                 </tr>
                                 <tr class="rt-body-row">

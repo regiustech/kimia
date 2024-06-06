@@ -7,7 +7,7 @@ use Carbon\Carbon;
 class Newsletter extends Model
 {
     use HasFactory;
-    protected $fillable = ["email"];
+    protected $guarded = [];
 
     public function getCreatedAtAttribute($value){
         return Carbon::parse($value)->format("d M Y");

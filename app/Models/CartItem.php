@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class CartItem extends Model
 {
     use HasFactory;
-    protected $fillable = ["cart_id","product_id","product_variant_id","quantity"];
+    protected $guarded = [];
     protected $hidden = [];
     protected $casts = [];
     public function getCreatedAtAttribute($value){

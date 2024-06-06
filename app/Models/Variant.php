@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class Variant extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable = ["name"];
+    protected $guarded = [];
     protected $hidden = [];
     protected $casts = [];
     public function getCreatedAtAttribute($value){

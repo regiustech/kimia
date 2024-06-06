@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class Order extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable = ["slug","name","email","phone","company","country","street_address","city","state","zipcode","additional_notes","subtotal","tax","total"];
+    protected $guarded = [];
     protected $hidden = [];
     protected $casts = [
         "subtotal" => "float",

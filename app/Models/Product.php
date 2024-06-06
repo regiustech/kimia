@@ -8,7 +8,7 @@ use Carbon\Carbon;
 class Product extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable = ["name","product_type","category","catalog_number","cas_number","price","image","description","specifications"];
+    protected $guarded = [];
     protected $hidden = [];
     protected $casts = [
         "price" => "float",

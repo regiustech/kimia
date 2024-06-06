@@ -41,6 +41,7 @@ Route::post("/newsletter/subscribe",[FrontendController::class,"Newsletter"])->n
 Route::get("/cart",[CartController::class,"index"])->name("cart.index");
 Route::post("/cart/add",[CartController::class,"add"])->name("cart.add");
 Route::post("/cart/update",[CartController::class,"update"])->name("cart.update");
+Route::post("/cart/tax-update",[CartController::class,"updateTax"])->name("cart.tax-update");
 Route::post("/cart/remove",[CartController::class,"remove"])->name("cart.remove");
 
 Route::get("/checkout",[CheckoutController::class,"index"])->name("checkout");

@@ -6,8 +6,11 @@
             return {
                 cartItems: ((this.cart && this.cart.cartItems.length) ? this.cart.cartItems : []),
                 subtotal: ((this.cart && this.cart.subtotal) ? this.cart.subtotal : 0),
+                shipping_amount: ((this.cart && this.cart.shipping_amount) ? this.cart.shipping_amount : 0),
+                tax_percent: ((this.cart && this.cart.tax_percent) ? this.cart.tax_percent : 0),
                 tax: ((this.cart && this.cart.tax) ? this.cart.tax : 0),
-                total: ((this.cart && this.cart.total) ? this.cart.total : 0)
+                total: ((this.cart && this.cart.total) ? this.cart.total : 0),
+                taxRate: (this.cart ? this.cart.tax_percent : 0)
             }
         },
         methods: {
@@ -29,11 +32,15 @@
                         if(data.cart){
                             $vm.cartItems = data.cart.cartItems;
                             $vm.subtotal = data.cart.subtotal;
+                            $vm.shipping_amount = data.cart.shipping_amount;
+                            $vm.tax_percent = data.cart.tax_percent;
                             $vm.tax = data.cart.tax;
                             $vm.total = data.cart.total;
                         }else{
                             $vm.cartItems = [];
                             $vm.subtotal = 0;
+                            $vm.shipping_amount = 0;
+                            $vm.tax_percent = 0;
                             $vm.tax = 0;
                             $vm.total = 0;
                         }
@@ -57,11 +64,43 @@
                         if(data.cart){
                             $vm.cartItems = data.cart.cartItems;
                             $vm.subtotal = data.cart.subtotal;
+                            $vm.shipping_amount = data.cart.shipping_amount;
+                            $vm.tax_percent = data.cart.tax_percent;
                             $vm.tax = data.cart.tax;
                             $vm.total = data.cart.total;
                         }else{
                             $vm.cartItems = [];
                             $vm.subtotal = 0;
+                            $vm.shipping_amount = 0;
+                            $vm.tax_percent = 0;
+                            $vm.tax = 0;
+                            $vm.total = 0;
+                        }
+                    });
+                }catch(e){
+                    document.getElementById("rt-custom-loader").style.display = "none";
+                }
+            },
+            updateTax(){
+                let $vm = this;
+                document.getElementById("rt-custom-loader").style.display = "block";
+                try{
+                    axios.post(route('cart.tax-update'),{cart_id: this.cart.id,tax_percent: this.taxRate}).then(({data}) => {
+                        document.getElementById("rt-custom-loader").style.display = "none";
+                        toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                        document.querySelector(".rtCartCount").innerHTML = data.itemCount;
+                        if(data.cart){
+                            $vm.cartItems = data.cart.cartItems;
+                            $vm.subtotal = data.cart.subtotal;
+                            $vm.shipping_amount = data.cart.shipping_amount;
+                            $vm.tax_percent = data.cart.tax_percent;
+                            $vm.tax = data.cart.tax;
+                            $vm.total = data.cart.total;
+                        }else{
+                            $vm.cartItems = [];
+                            $vm.subtotal = 0;
+                            $vm.shipping_amount = 0;
+                            $vm.tax_percent = 0;
                             $vm.tax = 0;
                             $vm.total = 0;
                         }
@@ -149,7 +188,11 @@
                                     <td>{{(subtotal).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Tax</th>
+                                    <th>Shipping</th>
+                                    <td>{{(shipping_amount).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
+                                </tr>
+                                <tr>
+                                    <th>Tax{{ (tax_percent ? " ("+tax_percent+"%)" : "") }}</th>
                                     <td>{{(tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
                                 </tr>
                                 <tr>
@@ -164,6 +207,13 @@
                             </tbody>
                         </table>
                     </div>
+                    <form class="tax-wrapper" @submit.prevent="updateTax">
+                        <h2 class="h2 mt-0  mb-0 text-white text-center">Tax Rate</h2>
+                        <div class="tax-data">
+                            <input type="text" v-model="taxRate" oninput="this.value = this.value.replace(/[^0-9.]/g,'').replace(/(\..*)\./g,'$1');"/>
+                            <button class="btn tertory-btn">Update</button>
+                        </div>
+                    </form> 
                 </div>
             </div>
             <div class="container rt-empty-cart" v-else>

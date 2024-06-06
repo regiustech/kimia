@@ -10,7 +10,7 @@ use Carbon\Carbon;
 class ProductVariant extends Model
 {
     use HasFactory;
-    protected $fillable = ["product_id","variant_id","variant_detail_id","price"];
+    protected $guarded = [];
     protected $hidden = [];
     protected $casts = [
         "product_id" => "integer",
