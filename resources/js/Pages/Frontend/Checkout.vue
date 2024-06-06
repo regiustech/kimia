@@ -84,7 +84,11 @@
                 if(!this.validate()){
                     return;
                 }
-                this.createToken();
+                if(this.form.invoice == 1){
+                    this.makeOrder();
+                }else{
+                    this.createToken();
+                }
             },
             validate: function(){
                 const newError = {};
@@ -202,12 +206,14 @@
                     newError["additional_notes"] = "Maximum 500 characters allowed";
                     positionFocus = positionFocus || "additional_notes";
                 }
-                if(!this.form.card_name || !this.form.card_name.trim()){
-                    newError["card_name"] = "Required";
-                    positionFocus = positionFocus || "card_name";
-                }else if(this.form.card_name && this.form.card_name.length > 100){
-                    newError["card_name"] = "Maximum 100 characters allowed";
-                    positionFocus = positionFocus || "card_name";
+                if(this.form.invoice == 0){
+                    if(!this.form.card_name || !this.form.card_name.trim()){
+                        newError["card_name"] = "Required";
+                        positionFocus = positionFocus || "card_name";
+                    }else if(this.form.card_name && this.form.card_name.length > 100){
+                        newError["card_name"] = "Maximum 100 characters allowed";
+                        positionFocus = positionFocus || "card_name";
+                    }
                 }
                 if(this.form.policy == 0){
                     newError["policy"] = "Required";
@@ -247,11 +253,11 @@
                     this.errors = newError;
                     return;
                 }
-                this.makeOrder(token);
+                this.makeOrder(token.id);
             },
-            makeOrder(token){
+            makeOrder(tokenId = null){
                 let $vm = this;
-                $vm.form.token = token.id;
+                $vm.form.token = tokenId;
                 document.getElementById("rt-custom-loader").style.display = "block";
                 this.$inertia.post($vm.route('checkout.order'),$vm.form,{
                     onFinish: () => document.getElementById("rt-custom-loader").style.display = "none"
@@ -433,27 +439,31 @@
                     <div class="card payment-methode-card flex flex-column-tab gap-20">
                         <h2 class="h3 mt-0 mb-0">Payment Details</h2>
                         <div class="flex gap-20 card-detail payment-type">
-                            <div class="form-full-field form-field">
+                            <div class="flex gap-10 invoiceMe items-verticaly-center">
+                                <input type ="checkbox" id="invoice_me" @change="onInvoiceChange" :checked="(form.invoice == 1)">
+                                <label for="invoice_me">Invoice me</label>
+                            </div>
+                            <div class="form-full-field form-field" v-if="(form.invoice != 1)">
                                 <label for="card-name">Name on card</label>
                                 <input type="text" v-model="form.card_name" id="card-name" placeholder="Name on card" style="padding:0 12px;height:45px;font-size:16px;">
                                 <label class="rt-cust-error" v-if="hasValidationError(errors,'card_name')">{{ validationError(errors,'card_name') }}</label>
                             </div>
-                            <div class="form-full-field form-field">
+                            <div class="form-full-field form-field" v-if="(form.invoice != 1)">
                                 <label for="card-number">Card number</label>
                                 <div id="card-number" style="border:1px solid #4848488c;padding:0 12px;border-radius:5px;box-sizing:border-box;"></div>
                                 <label class="rt-cust-error" v-if="hasValidationError(errors,'card_number')">{{ validationError(errors,'card_number') }}</label>
                             </div>
-                            <div class="form-half-field form-field">
+                            <div class="form-half-field form-field" v-if="(form.invoice != 1)">
                                 <label for="card-expiry">Card Expire Date</label>
                                 <div id="card-expiry" style="border:1px solid #4848488c;padding:0 12px;border-radius:5px;box-sizing:border-box;"></div>
                                 <label class="rt-cust-error" v-if="hasValidationError(errors,'card_expiry')">{{ validationError(errors,'card_expiry') }}</label>
                             </div>
-                            <div class="form-half-field form-field">
+                            <div class="form-half-field form-field" v-if="(form.invoice != 1)">
                                 <label for="card-cvc">Card CVV</label>
                                 <div id="card-cvc" style="border:1px solid #4848488c;padding:0 12px;border-radius:5px;box-sizing:border-box;"></div>
                                 <label class="rt-cust-error" v-if="hasValidationError(errors,'card_cvc')">{{ validationError(errors,'card_cvc') }}</label>
                             </div>
-                            <div id="card-error" class="rt-cust-error"></div>
+                            <div id="card-error" class="rt-cust-error" v-if="(form.invoice != 1)"></div>
                         </div>
                         <div class="form-full-field form-field">
                             <div class="checkbox_field privacy-policy-text flex gap-10 wrap-unset">
@@ -461,10 +471,6 @@
                                 <label for="agree_withi_policies">Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our <a href="#">privacy policy</a>.</label>
                             </div>
                             <label class="rt-cust-error" v-if="hasValidationError(errors,'policy')">{{ validationError(errors,'policy') }}</label>
-                            <div class="checkbox_field privacy-policy-text flex gap-10 wrap-unset">
-                                <input type ="checkbox" id="invoice" @change="onInvoiceChange" :checked="(form.invoice == 1)">
-                                <label for="agree_withi_policies">Invoice me</label>
-                            </div>
                             <div class="form-full-field mt-1">
                                 <button class="btn secondary-btn flex-1 mt-1" @click="submitOrder"><span class="btn-text">Place your order</span></button>
                             </div>

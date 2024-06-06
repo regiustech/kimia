@@ -60,66 +60,19 @@ class CheckoutController extends Controller
         $cart->tax = number_format($cart->tax,2);
         $cart->total = number_format($cart->total,2);
         try{
-            $stripe = new \Stripe\StripeClient(env("STRIPE_SECRET_KEY"));
-            $charge = $stripe->charges->create([
-                "amount" => ((float)$cart->total * 100),
-                "currency" => "usd",
-                "source" => $request->token,
-                "description" => "Order Payment " . ((float)$cart->total)
-            ]);
-            $order = new Order();
-            if($userId){
-                $order->user_id = $userId;
+            if($request->invoice == "1"){
+                $order = $this->insertOrder($userId,$cart,$request);
+            }else{
+                $stripe = new \Stripe\StripeClient(env("STRIPE_SECRET_KEY"));
+                $charge = $stripe->charges->create([
+                    "amount" => ((float)$cart->total * 100),
+                    "currency" => "usd",
+                    "source" => $request->token,
+                    "description" => "Order Payment " . ((float)$cart->total)
+                ]);
+                $order = $this->insertOrder($userId,$cart,$request,$charge);
             }
-            $slug = "o" . Carbon::now()->format("mdY") . rand(000000,999999);
-            $order->slug = $slug;
-            $order->billing_name = $request->billing_name;
-            $order->billing_email = $request->billing_email;
-            $order->billing_phone = $request->billing_phone;
-            $order->billing_company = $request->billing_company;
-            $order->billing_country = $request->billing_country;
-            $order->billing_street_address = $request->billing_street_address;
-            $order->billing_city = $request->billing_city;
-            $order->billing_state = $request->billing_state;
-            $order->billing_zipcode = $request->billing_zipcode;
-            $order->shipping_name = ($request->same_as_billing ? $request->billing_name : $request->shipping_name);
-            $order->shipping_company = ($request->same_as_billing ? $request->billing_company : $request->shipping_company);
-            $order->shipping_country = ($request->same_as_billing ? $request->billing_country : $request->shipping_country);
-            $order->shipping_street_address = ($request->same_as_billing ? $request->billing_street_address : $request->shipping_street_address);
-            $order->shipping_city = ($request->same_as_billing ? $request->billing_city : $request->shipping_city);
-            $order->shipping_state = ($request->same_as_billing ? $request->billing_state : $request->shipping_state);
-            $order->shipping_zipcode = ($request->same_as_billing ? $request->billing_zipcode : $request->shipping_zipcode);
-            $order->additional_notes = $request->additional_notes;
-            $order->charge_id = $charge->id;
-            $order->response = json_encode($charge);
-            $order->subtotal = $cart->subtotal;
-            $order->shipping_amount = $cart->shipping_amount;
-            $order->tax_percent = $cart->tax_percent;
-            $order->tax = $cart->tax;
-            $order->total = $cart->total;
-            $order->send_invoice_me = (($request->invoice == "1") ? true : false);
-            $order->save();
-            if(count($cart->cartItems)){
-                foreach($cart->cartItems as $cartItem){
-                    $orderItem = new OrderItem();
-                    $orderItem->order_id = $order->id;
-                    $orderItem->product_id = $cartItem->product_id;
-                    $orderItem->variant_detail_id = $cartItem->productVariant && $cartItem->productVariant->variant_detail_id ? $cartItem->productVariant->variant_detail_id : null;
-                    if($cartItem->product->product_type == "regular"){
-                        $orderItem->price = $cartItem->product->price;
-                        $orderItem->total = ((float)$cartItem->product->price * $cartItem->quantity);
-                    }else if($cartItem->product->product_type == "variant"){
-                        $orderItem->price = $cartItem->productVariant->price;
-                        $orderItem->total = ((float)$cartItem->productVariant->price * $cartItem->quantity);
-                    }
-                    $orderItem->quantity = $cartItem->quantity;
-                    $orderItem->save();
-                }
-            }
-            CartItem::where("cart_id",$cart->id)->delete();
-            $cart->delete();
-            $order->orderItems = $order->orderItems()->with('product')->get();
-            if($order->id){
+            if($order && $order->id){
                 $data = [
                     "to_address" => (Auth::user() ? Auth::user()->email : $order->billing_email),
                     "subject" => "Kimia Corp. - Your Order #" . $order->id . " has been placed",
@@ -142,6 +95,63 @@ class CheckoutController extends Controller
         }catch(\Exception $e){
             return Redirect::route("cart.index")->with("error",$e->getMessage());
         }
+    }
+    private function insertOrder($userId,$cart,$request,$charge = null){
+        $order = new Order();
+        if($userId){
+            $order->user_id = $userId;
+        }
+        $slug = "o" . Carbon::now()->format("mdY") . rand(000000,999999);
+        $order->slug = $slug;
+        $order->billing_name = $request->billing_name;
+        $order->billing_email = $request->billing_email;
+        $order->billing_phone = $request->billing_phone;
+        $order->billing_company = $request->billing_company;
+        $order->billing_country = $request->billing_country;
+        $order->billing_street_address = $request->billing_street_address;
+        $order->billing_city = $request->billing_city;
+        $order->billing_state = $request->billing_state;
+        $order->billing_zipcode = $request->billing_zipcode;
+        $order->shipping_name = ($request->same_as_billing ? $request->billing_name : $request->shipping_name);
+        $order->shipping_company = ($request->same_as_billing ? $request->billing_company : $request->shipping_company);
+        $order->shipping_country = ($request->same_as_billing ? $request->billing_country : $request->shipping_country);
+        $order->shipping_street_address = ($request->same_as_billing ? $request->billing_street_address : $request->shipping_street_address);
+        $order->shipping_city = ($request->same_as_billing ? $request->billing_city : $request->shipping_city);
+        $order->shipping_state = ($request->same_as_billing ? $request->billing_state : $request->shipping_state);
+        $order->shipping_zipcode = ($request->same_as_billing ? $request->billing_zipcode : $request->shipping_zipcode);
+        $order->additional_notes = $request->additional_notes;
+        if($charge){
+            $order->charge_id = $charge->id;
+            $order->response = json_encode($charge);
+        }
+        $order->subtotal = $cart->subtotal;
+        $order->shipping_amount = $cart->shipping_amount;
+        $order->tax_percent = $cart->tax_percent;
+        $order->tax = $cart->tax;
+        $order->total = $cart->total;
+        $order->send_invoice_me = (($request->invoice == "1") ? true : false);
+        $order->save();
+        if(count($cart->cartItems)){
+            foreach($cart->cartItems as $cartItem){
+                $orderItem = new OrderItem();
+                $orderItem->order_id = $order->id;
+                $orderItem->product_id = $cartItem->product_id;
+                $orderItem->variant_detail_id = $cartItem->productVariant && $cartItem->productVariant->variant_detail_id ? $cartItem->productVariant->variant_detail_id : null;
+                if($cartItem->product->product_type == "regular"){
+                    $orderItem->price = $cartItem->product->price;
+                    $orderItem->total = ((float)$cartItem->product->price * $cartItem->quantity);
+                }else if($cartItem->product->product_type == "variant"){
+                    $orderItem->price = $cartItem->productVariant->price;
+                    $orderItem->total = ((float)$cartItem->productVariant->price * $cartItem->quantity);
+                }
+                $orderItem->quantity = $cartItem->quantity;
+                $orderItem->save();
+            }
+        }
+        CartItem::where("cart_id",$cart->id)->delete();
+        $cart->delete();
+        $order->orderItems = $order->orderItems()->with('product')->get();
+        return $order;
     }
     public function thankyou(Request $request){
         return Inertia::render("Frontend/Thankyou");

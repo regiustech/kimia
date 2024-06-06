@@ -12,6 +12,7 @@
                     {title: 'Billing Email', key: 'billing_email',sortable: false},
                     {title: 'Billing Address', key: 'billing_street_address',sortable: false},
                     {title: 'Shipping Address', key: 'shipping_street_address',sortable: false},
+                    {title: 'Payment Method', key: 'send_invoice_me',sortable: false},
                     {title: 'Order Status', key: 'order_status',sortable: false},
                     {title: 'Subtotal', key: 'subtotal',sortable: false},
                     {title: 'Tax', key: 'tax',sortable: false},
@@ -83,6 +84,7 @@
                             <template v-if="item.shipping_zipcode">{{ `, ${item.shipping_zipcode}` }}</template>
                         </span>
                     </td>
+                    <td>{{ ((item.send_invoice_me == 1) ? "Pay Later" : "Stripe/Credit Card") }}</td>
                     <td>{{ucwords(item.order_status)}}</td>
                     <td>{{(item.subtotal).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
                     <td>{{(item.tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>

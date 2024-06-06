@@ -38,14 +38,6 @@ class CartController extends Controller
         $userId = Auth::user() ? Auth::user()->id : null;
         $sessionId = app("request")->session()->getId();
         $cart = Cart::userSession($userId,$sessionId)->first();
-        if(!$cart->shipping_amount){
-            $cart->shipping_amount = env("VITE_SHIPPING_AMOUNT","4.99");
-            $cart->save();
-        }
-        if(!$cart->tax_percent && $cart->tax_percent != 0){
-            $cart->tax_percent = env("VITE_TAX_RATE","7.5");
-            $cart->save();
-        }
         $cart = $this->calcTotal($cart);
         return Inertia::render("Frontend/Cart",compact("cart"));
     }
@@ -58,8 +50,8 @@ class CartController extends Controller
         $cart = Cart::userSession($userId,$sessionId)->first();
         if(!$cart){
             $cart = new Cart();
-            $cart->shipping_amount = env("VITE_SHIPPING_AMOUNT","4.99");
-            $cart->tax_percent = env("VITE_TAX_RATE","7.5");
+            $cart->shipping_amount = env("SHIPPING_AMOUNT","4.99");
+            $cart->tax_percent = env("TAX_RATE","7.5");
         }
         $cart->user_id = $userId;
         $cart->session_id = $sessionId;

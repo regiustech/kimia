@@ -28,6 +28,10 @@
                                 <label><b>Order Status: </b></label>
                                 <span>{{ ucwords(order.order_status) }}</span>
                             </div>
+                            <div class="order-info-item">
+                                <label><b>Payment Method: </b></label>
+                                <span>{{ ((order.send_invoice_me == 1) ? "Pay Later" : "Stripe/Credit Card") }}</span>
+                            </div>
                         </div>
                     </div>
                     <div class="rt-box">
