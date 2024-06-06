@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('shipping_state')->nullable();
             $table->string('shipping_zipcode')->nullable();
             $table->longText('additional_notes')->nullable();
-            $table->enum('order_status',["pending","processing","hold","unholed","completed","cancelled"])->default("pending");
+            $table->enum('order_status',["pending","processing","hold","unhold","shipped","completed","cancelled"])->default("pending");
             $table->string('charge_id')->nullable();
             $table->longText('response')->nullable();
             $table->unsignedFloat('subtotal',8,2);
