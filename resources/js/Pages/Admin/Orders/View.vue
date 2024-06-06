@@ -66,7 +66,8 @@
                             <option value="pending" disabled>Pending</option>
                             <option value="processing">Processing</option>
                             <option value="hold">Hold</option>
-                            <option value="unholed">Unholed</option>
+                            <option value="unhold">Unhold</option>
+                            <option value="shipped">Shipped</option>
                             <option value="completed">Completed</option>
                             <option value="cancelled">Cancelled</option>
                         </select>

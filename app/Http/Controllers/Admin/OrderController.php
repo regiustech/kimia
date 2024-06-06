@@ -78,8 +78,10 @@ class OrderController extends Controller
             $data["order_message"] = "We wanted to inform you that your order is currently being processed. We appreciate your patience.";
         }else if($order->order_status == "hold"){
             $data["order_message"] = "We regret to inform you that your order is currently on hold. Our team is working to resolve this promptly. We apologize for any inconvenience caused and appreciate your patience.";
-        }else if($order->order_status == "unholed"){
+        }else if($order->order_status == "unhold"){
             $data["order_message"] = "We're pleased to inform you that your order is now off hold and processing is back on track. Thank you for your patience.";
+        }else if($order->order_status == "shipped"){
+            $data["order_message"] = "We're pleased to inform you that your order has been shipped.";
         }else if($order->order_status == "completed"){
             $data["order_message"] = "We're pleased to inform you that your order has been successfully completed! Thank you for choosing us.";
         }else if($order->order_status == "cancelled"){
