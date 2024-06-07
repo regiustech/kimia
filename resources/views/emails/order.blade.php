@@ -109,6 +109,11 @@
                         </table>
                     </td>
                 </tr>
+                @if(($type != "admin") && ($order['send_invoice_me'] == '1'))
+                    <tr>
+                        <td style="padding:20px;font-size:14px;line-height:20px;">You will receive an invoice from Kimia to complete the payment for this purchase.</td>
+                    </tr>
+                @endif
                 <tr>
                     <td style="padding:20px;font-size:14px;line-height:20px;">Thank you for shopping with us. If you have any questions regarding your order, feel free to contact us.</td>
                 </tr>

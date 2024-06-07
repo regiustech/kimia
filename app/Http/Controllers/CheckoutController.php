@@ -82,7 +82,7 @@ class CheckoutController extends Controller
                 ];
                 OrderConfirmEmailJob::dispatch($data);
                 $adminData = [
-                    "to_address" => env("ADMIN_EMAIL_ADDRESS"),
+                    "to_address" => env("SALES_EMAIL_ADDRESS"),
                     "subject" => "Kimia Corp. - Order #" . $order->id . " placed on website",
                     "name" => "Admin",
                     "order" => $order,
