@@ -68,7 +68,7 @@ class FrontendController extends Controller
         $response = $this->verifyRecaptcha($request->token);
         if($response && $response->success){
             $data = $request->except("token");
-            $data["to_address"] = env("ADMIN_EMAIL_ADDRESS");
+            $data["to_address"] = env("CONTACTS_EMAIL_ADDRESS");
             ContactsEmailJob::dispatch($data);
             return json_encode(["status" => "success","message" => "Your enquiry has been submitted."]);
         }else{
@@ -87,7 +87,7 @@ class FrontendController extends Controller
     }
     public function customOrder(Request $request){
         $data = $request->all();
-        $data["to_address"] = env("ADMIN_EMAIL_ADDRESS");
+        $data["to_address"] = env("ORDERS_EMAIL_ADDRESS");
         CustomOrderEmailJob::dispatch($data);
         return json_encode(["message" => "Your enquiry has been submitted."]);
     }
