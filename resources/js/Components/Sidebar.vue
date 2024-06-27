@@ -71,6 +71,12 @@
                     <span>Orders</span>
                 </a>
             </li>
+            <li :class="isRoute('admin.email-templates.index','admin.email-templates.edit') ? 'menu-item active' : 'menu-item'">
+                <a :href="route('admin.email-templates.index')" class="menu-link">
+                    <svg viewBox="0 0 32 32" width="26" height="26" fill="#81499d"><path d="M27 17H15c-1.654 0-3 1.346-3 3v7c0 1.654 1.346 3 3 3h12c1.654 0 3-1.346 3-3v-7c0-1.654-1.346-3-3-3zm-.547 2L22.2 22.6c-.691.515-1.758.478-2.355.037L15.548 19zM27 28H15a1 1 0 0 1-1-1v-6.69l4.602 3.891c.688.515 1.54.799 2.398.799s1.71-.284 2.445-.836L28 20.31V27a1 1 0 0 1-1 1z"/><path d="M10 28H4V4h10v5a1 1 0 0 0 1 1h5v5a1 1 0 1 0 2 0V8a1 1 0 0 0-.293-.707l-5-5A1 1 0 0 0 16 2H3a1 1 0 0 0-1 1v26a1 1 0 0 0 1 1h7a1 1 0 1 0 0-2zm9.586-20H16V4.414z"/><path d="M17 11H7a1 1 0 1 0 0 2h10a1 1 0 1 0 0-2zM17 14H7a1 1 0 1 0 0 2h10a1 1 0 1 0 0-2zM10 17H7a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2zM10 20H7a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2zM10 23H7a1 1 0 1 0 0 2h3a1 1 0 1 0 0-2z"/></svg>
+                    <span>Email Templates</span>
+                </a>
+            </li>
         </ul>
         <div :class="(!isActiveSidebar ? 'logout logout-hide' : 'logout')">
             <div class="name-wrap">

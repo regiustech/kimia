@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\VariantController;
 use App\Http\Controllers\Admin\VariantDetailController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\EmailTemplateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,6 +95,11 @@ Route::middleware(["auth"])->group(function(){
         Route::post("orders/change-status",[OrderController::class,"changeOrderStatus"])->name("orders.status");
         Route::resource("orders",OrderController::class,[
             "only" => ["index","show"]
+        ]);
+
+        Route::get("email-templates/all",[EmailTemplateController::class,"getAllTemplates"])->name("email-templates.all");
+        Route::resource("email-templates",EmailTemplateController::class,[
+            "only" => ["index","edit","update"]
         ]);
     });
 });

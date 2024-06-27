@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Models\EmailTemplate;
 use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Newsletter;
@@ -69,7 +70,31 @@ class FrontendController extends Controller
         if($response && $response->success){
             $data = $request->except("token");
             $data["to_address"] = env("CONTACTS_EMAIL_ADDRESS");
-            ContactsEmailJob::dispatch($data);
+            $emailTemplate = EmailTemplate::where("type","contacts")->first();
+            if($emailTemplate){
+                $subject = str_replace("%site_title%","Kimia Corp.",$emailTemplate->subject);
+                $subject = str_replace("%site_url%","https://kimiacorp.com",$subject);
+                $subject = str_replace("%subject%",$data['subject'],$subject);
+                $subject = str_replace("%name%",$data['name'],$subject);
+                $subject = str_replace("%company%",$data['company'],$subject);
+                $subject = str_replace("%email%",$data['email'],$subject);
+                $subject = str_replace("%phone%",$data['phone'],$subject);
+                $subject = str_replace("<p",'<p style="margin:0;"',$subject);
+
+                $content = str_replace("%site_title%","Kimia Corp.",$emailTemplate->email_content);
+                $content = str_replace("%site_url%","https://kimiacorp.com",$content);
+                $content = str_replace("%subject%",$data['subject'],$content);
+                $content = str_replace("%name%",$data['name'],$content);
+                $content = str_replace("%company%",$data['company'],$content);
+                $content = str_replace("%email%",$data['email'],$content);
+                $content = str_replace("%phone%",$data['phone'],$content);
+                $content = str_replace("%message%",$data['msg'],$content);
+                $content = str_replace("<p",'<p style="margin:0;"',$content);
+
+                $data['content'] = $content;
+                $data['subject'] = $subject;
+                ContactsEmailJob::dispatch($data);
+            }
             return json_encode(["status" => "success","message" => "Your enquiry has been submitted."]);
         }else{
             return json_encode(["status" => "error","message" => "Invalid Recaptcha"]);
@@ -88,7 +113,27 @@ class FrontendController extends Controller
     public function customOrder(Request $request){
         $data = $request->all();
         $data["to_address"] = env("ORDERS_EMAIL_ADDRESS");
-        CustomOrderEmailJob::dispatch($data);
+        $emailTemplate = EmailTemplate::where("type","custom_order")->first();
+        if($emailTemplate){
+            $subject = str_replace("%site_title%","Kimia Corp.",$emailTemplate->subject);
+            $subject = str_replace("%site_url%","https://kimiacorp.com",$subject);
+            $subject = str_replace("%product_name%",$data['product_name'],$subject);
+            $subject = str_replace("%name%",$data['name'],$subject);
+            $subject = str_replace("%email%",$data['email'],$subject);
+            $subject = str_replace("<p",'<p style="margin:0;"',$subject);
+
+            $content = str_replace("%site_title%","Kimia Corp.",$emailTemplate->email_content);
+            $content = str_replace("%site_url%","https://kimiacorp.com",$content);
+            $content = str_replace("%product_name%",$data['product_name'],$content);
+            $content = str_replace("%name%",$data['name'],$content);
+            $content = str_replace("%email%",$data['email'],$content);
+            $content = str_replace("%message%",$data['msg'],$content);
+            $content = str_replace("<p",'<p style="margin:0;"',$content);
+
+            $data['content'] = $content;
+            $data['subject'] = $subject;
+            CustomOrderEmailJob::dispatch($data);
+        }
         return json_encode(["message" => "Your enquiry has been submitted."]);
     }
     private function verifyRecaptcha($token){
