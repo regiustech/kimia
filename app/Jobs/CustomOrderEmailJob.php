@@ -16,7 +16,7 @@ class CustomOrderEmailJob implements ShouldQueue
     }
     public function handle(){
         $data = $this->details;
-        Mail::send(['html' => 'emails.custom-order'],$data,function($mail) use ($data){
+        Mail::send(['html' => 'emails.dbMail'],$data,function($mail) use ($data){
             $mail->to($data["to_address"])->subject($data["subject"]);
         });
     }

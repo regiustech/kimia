@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
+use App\Models\EmailTemplate;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Jobs\OrderChangeStatusEmailJob;
@@ -70,7 +71,6 @@ class OrderController extends Controller
         $order->save();
         $data = [
             "to_address" => $order->billing_email,
-            "subject" => env("APP_NAME")." - Order #".$order->id." notification",
             "name" => $order->billing_name,
             "order_message" => ""
         ];
@@ -94,7 +94,27 @@ class OrderController extends Controller
                 $data["name"] = $user->first_name;
             }
         }
-        OrderChangeStatusEmailJob::dispatch($data);
+        $emailTemplate = EmailTemplate::where("type","order_change_status")->first();
+        if($emailTemplate){
+            $subject = str_replace("%site_title%","Kimia Corp.",$emailTemplate->subject);
+            $subject = str_replace("%site_url%","https://kimiacorp.com",$subject);
+            $subject = str_replace("%name%",$data['name'],$subject);
+            $subject = str_replace("%order_id%",$order->id,$subject);
+            $subject = str_replace("%order_status%",$order->order_status,$subject);
+            $subject = str_replace("<p",'<p style="margin:0;"',$subject);
+
+            $content = str_replace("%site_title%","Kimia Corp.",$emailTemplate->email_content);
+            $content = str_replace("%site_url%","https://kimiacorp.com",$content);
+            $content = str_replace("%name%",$data['name'],$content);
+            $content = str_replace("%order_id%",$order->id,$content);
+            $content = str_replace("%order_status%",$order->order_status,$content);
+            $content = str_replace("%order_change_message%",$data["order_message"],$content);
+            $content = str_replace("<p",'<p style="margin:0;"',$content);
+
+            $data['content'] = $content;
+            $data['subject'] = $subject;
+            OrderChangeStatusEmailJob::dispatch($data);
+        }
         return json_encode(["status" => 200,"message" => "Order status changed successfully."]);
     }
 }
