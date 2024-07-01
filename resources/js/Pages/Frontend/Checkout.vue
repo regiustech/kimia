@@ -34,6 +34,8 @@
                     card_name: "",
                     policy: 0,
                     invoice: 0,
+                    allow_fedex: false,
+                    fedex_account_number: ""
                 },
                 submitting: false,
                 errors: []
@@ -206,6 +208,10 @@
                     newError["additional_notes"] = "Maximum 500 characters allowed";
                     positionFocus = positionFocus || "additional_notes";
                 }
+                if(this.form.allow_fedex && (!this.form.fedex_account_number || !this.form.fedex_account_number.trim())){
+                    newError["fedex_account_number"] = "Required";
+                    positionFocus = positionFocus || "fedex_account_number";
+                }
                 if(this.form.invoice == 0){
                     if(!this.form.card_name || !this.form.card_name.trim()){
                         newError["card_name"] = "Required";
@@ -268,6 +274,9 @@
             },
             onInvoiceChange(){
                 this.form.invoice = ((this.form.invoice == "1") ? "0" : "1");
+            },
+            handlFedex(){
+                this.form.fedex_account_number = "";
             }
         }
     }
@@ -394,6 +403,15 @@
                                     <option v-for="(country,index) in countries" :key="index" :value="country.code">{{country.name}}</option>
                                 </select>
                                 <label class="rt-cust-error" v-if="hasValidationError(errors,'shipping_country')">{{ validationError(errors,'shipping_country') }}</label>
+                            </div>
+                            <div class="form-half-field form-field rt-checkbox-field">
+                                <input type="checkbox" id="allow_fedex" v-model="form.allow_fedex" @change="handlFedex">
+                                <label for="allow_fedex">Add my fedex detail</label>
+                            </div>
+                            <div class="form-half-field form-field" v-if="form.allow_fedex">
+                                <label for="fedex_account_number">Fedex Account Number</label>
+                                <input type="text" id="fedex_account_number" v-model="form.fedex_account_number"/>
+                                <label class="rt-cust-error" v-if="hasValidationError(errors,'fedex_account_number')">{{ validationError(errors,'fedex_account_number') }}</label>
                             </div>
                         </div>
                     </div>

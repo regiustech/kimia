@@ -76,6 +76,10 @@
                         <label><b>Payment Method: </b></label>
                         <span>{{ ((order.send_invoice_me == 1) ? "Pay Later" : "Stripe/Credit Card") }}</span>
                     </div>
+                    <div class="order-info-item" v-if="order.fedex_account_number">
+                        <label><b>Fedex Account Number: </b></label>
+                        <span>{{ order.fedex_account_number }}</span>
+                    </div>
                 </div>
             </div>
             <div class="rt-box">
