@@ -231,6 +231,7 @@ class CheckoutController extends Controller
             $content = str_replace("%shipping_name%",$order->shipping_name,$content);
             $content = str_replace("%shipping_address%",$shippingAddress,$content);
             $content = str_replace("%order_items%",$oHtml,$content);
+            $content = str_replace("%fedex_account_number%",$order->fedex_account_number,$content);
             if($type == "customer" && $order->send_invoice_me){
                 $content = str_replace("%is_send_invoice%","You will receive an invoice from Kimia to complete the payment for this purchase.",$content);
             }

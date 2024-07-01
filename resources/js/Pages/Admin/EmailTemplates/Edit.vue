@@ -17,7 +17,7 @@
                 emailTypes: [
                     {label: "Contacts",value: "contacts",variables: ['%subject%','%name%','%company%','%email%','%phone%','%message%']},
                     {label: "Custom Order",value: "custom_order",variables: ['%product_name%','%name%','%email%','%message%']},
-                    {label: "New Order",value: "new_order",variables: ['%name%','%order_id%','%order_date%','%billing_name%','%billing_address%','%shipping_name%','%shipping_address%','%order_items%','%is_send_invoice%']},
+                    {label: "New Order",value: "new_order",variables: ['%name%','%order_id%','%order_date%','%billing_name%','%billing_address%','%shipping_name%','%shipping_address%','%order_items%','%is_send_invoice%','%fedex_account_number%']},
                     {label: "Change Order Status",value: "order_change_status",variables: ['%name%','%order_id%','%order_status%','%order_change_message%']}
                 ],
                 variables: ['%site_title%','%site_url%']
