@@ -43,6 +43,7 @@ Route::get("/cart",[CartController::class,"index"])->name("cart.index");
 Route::post("/cart/add",[CartController::class,"add"])->name("cart.add");
 Route::post("/cart/update",[CartController::class,"update"])->name("cart.update");
 Route::post("/cart/remove",[CartController::class,"remove"])->name("cart.remove");
+Route::post("/cart/addFedexAccount",[CartController::class,"addFedexAccount"])->name("cart.addFedexAccount");
 
 Route::get("/checkout",[CheckoutController::class,"index"])->name("checkout");
 Route::post("/checkout/order",[CheckoutController::class,"makeOrder"])->name("checkout.order");

@@ -23,9 +23,9 @@ class CartController extends Controller
                     $subtotal += ((float)$cartItem->productVariant->price * (int)$cartItem->quantity);
                 }
             }
-            if($cart->tax_percent > 0){
-                $tax = (((float)$subtotal * (float)$cart->tax_percent)/100);
-            }
+            // if($cart->tax_percent > 0){
+            //     $tax = (((float)$subtotal * (float)$cart->tax_percent)/100);
+            // }
             $total = ((float)$subtotal + (float)$cart->shipping_amount + (float)$tax);
         }
         $cart->cartItems = $cartItems;
@@ -39,7 +39,7 @@ class CartController extends Controller
         $sessionId = app("request")->session()->getId();
         $cart = Cart::userSession($userId,$sessionId)->first();
         $cart = $this->calcTotal($cart);
-        return Inertia::render("Frontend/Cart",compact("cart"));
+        return Inertia::render("Frontend/Cart",["cartObj" => $cart]);
     }
     public function add(Request $request){
         $productId = $request->product_id;
@@ -50,7 +50,7 @@ class CartController extends Controller
         $cart = Cart::userSession($userId,$sessionId)->first();
         if(!$cart){
             $cart = new Cart();
-            $cart->shipping_amount = env("SHIPPING_AMOUNT","4.99");
+            $cart->shipping_amount = !empty($cart->fedex_account) ? env("SHIPPING_AMOUNT","4.99") : 0;
             $cart->tax_percent = env("TAX_RATE","7.5");
         }
         $cart->user_id = $userId;
@@ -65,6 +65,18 @@ class CartController extends Controller
         $cartItem->save();
         $itemCount = $cart->cartItems()->sum("quantity");
         return json_encode(["status" => 200,"message" => "Product Added Sucessfully.","itemCount" => $itemCount]);
+    }
+    public function addFedexAccount(Request $request){
+        $cartId = $request->cart_id;
+        $cart = Cart::where("id",$cartId)->first();
+        if(!$cart){
+            return json_encode(["status" => 412,"message" => "Cart not found."]);
+        }
+        $cart->fedex_account = $request->fedex_account;
+        $cart->shipping_amount = empty($cart->fedex_account) ? env("SHIPPING_AMOUNT","4.99") : 0;
+        $cart->save();
+        $cart = $this->calcTotal($cart);
+        return json_encode(["status" => 200,"message" => (!empty($request->fedex_account) ? "FedEx Account Added Sucessfully." : "FedEx Account Removed Sucessfully"), "cart" => $cart]);
     }
     public function update(Request $request){
         $cartId = $request->cart_id;

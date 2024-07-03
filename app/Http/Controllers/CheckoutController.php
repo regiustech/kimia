@@ -29,9 +29,9 @@ class CheckoutController extends Controller
                     $subtotal += ((float)$cartItem->productVariant->price * (int)$cartItem->quantity);
                 }
             }
-            if($cart->tax_percent > 0){
-                $tax = (((float)$subtotal * (float)$cart->tax_percent)/100);
-            }
+            // if($cart->tax_percent > 0){
+            //     $tax = (((float)$subtotal * (float)$cart->tax_percent)/100);
+            // }
             $total = ((float)$subtotal + (float)$cart->shipping_amount + (float)$tax);
         }
         $cart->cartItems = $cartItems;
@@ -48,7 +48,7 @@ class CheckoutController extends Controller
         if(!$cart || ($cart && $cart->cartItems && count($cart->cartItems) < 1)){
             return Redirect::route("cart.index")->with("error","Cart is Empty");
         }
-        return Inertia::render("Frontend/Checkout",compact("cart"));
+        return Inertia::render("Frontend/Checkout",["cartObj" => $cart]);
     }
     public function makeOrder(Request $request){
         $userId = Auth::user() ? Auth::user()->id : null;
@@ -126,7 +126,7 @@ class CheckoutController extends Controller
         $order->tax = $cart->tax;
         $order->total = $cart->total;
         $order->send_invoice_me = (($request->invoice == "1") ? true : false);
-        $order->fedex_account_number = $request->fedex_account_number ? $request->fedex_account_number : null;
+        $order->fedex_account_number = $request->fedex_account ? $request->fedex_account : null;
         $order->save();
         if(count($cart->cartItems)){
             foreach($cart->cartItems as $cartItem){
