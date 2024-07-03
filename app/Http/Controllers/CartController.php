@@ -50,7 +50,7 @@ class CartController extends Controller
         $cart = Cart::userSession($userId,$sessionId)->first();
         if(!$cart){
             $cart = new Cart();
-            $cart->shipping_amount = !empty($cart->fedex_account) ? env("SHIPPING_AMOUNT","4.99") : 0;
+            $cart->shipping_amount = empty($cart->fedex_account) ? env("SHIPPING_AMOUNT","4.99") : 0;
             $cart->tax_percent = env("TAX_RATE","7.5");
         }
         $cart->user_id = $userId;
