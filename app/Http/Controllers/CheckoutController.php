@@ -82,6 +82,7 @@ class CheckoutController extends Controller
                 OrderConfirmEmailJob::dispatch($data);
                 $adminOrderData = [
                     "to_address" => env("SALES_EMAIL_ADDRESS"),
+                    "name" => "Admin",
                     "user_name" => (Auth::user() ? Auth::user()->first_name : $order->billing_name)
                 ];
                 $adminData = $this->prepareOrderMail($order,$adminOrderData,"admin");
