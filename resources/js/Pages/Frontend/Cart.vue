@@ -1,15 +1,33 @@
 <script>
     import axios from "axios";
     export default {
-        props: ['cart'],
+        props: ['cartObj'],
         data(){
             return {
-                cartItems: ((this.cart && this.cart.cartItems.length) ? this.cart.cartItems : []),
-                subtotal: ((this.cart && this.cart.subtotal) ? this.cart.subtotal : 0),
-                shipping_amount: ((this.cart && this.cart.shipping_amount) ? this.cart.shipping_amount : 0),
-                tax_percent: ((this.cart && this.cart.tax_percent) ? this.cart.tax_percent : 0),
-                tax: ((this.cart && this.cart.tax) ? this.cart.tax : 0),
-                total: ((this.cart && this.cart.total) ? this.cart.total : 0)
+                allow_fedex: this.cartObj.fedex_account ? true : false,
+                fedex_account: "",
+                fedex_account: this.cartObj.fedex_account ? this.cartObj.fedex_account : "",
+                cart: this.cartObj
+            }
+        },
+        computed: {
+            cartItems(){
+                return this.cart.cartItems || [];
+            },
+            subtotal(){
+                return this.cart.subtotal || 0;
+            },
+            shipping_amount(){
+                return this.cart.shipping_amount || 0;
+            },
+            tax_percent(){
+                return this.cart.tax_percent || 0;
+            },
+            tax(){
+                return this.cart.tax || 0;
+            },
+            total(){
+                return this.cart.total || 0;
             }
         },
         methods: {
@@ -79,7 +97,27 @@
                 }catch(e){
                     document.getElementById("rt-custom-loader").style.display = "none";
                 }
-            }
+            },
+            handlFedex(){
+                if(!this.allow_fedex && this.fedex_account){
+                    this.fedex_account = "";
+                    this.addAccountNumberToCart();
+                }
+                this.fedex_account = "";
+            },
+            addAccountNumberToCart(){
+                axios.post(this.route('cart.addFedexAccount'),{fedex_account: this.fedex_account, cart_id: this.cart.id}).then(response => {
+                    if(response.data.cart){
+                        toast(response.data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                        this.cart = response.data.cart;
+                    }else{
+                        toast(response.data.message,{"type": "error","autoClose": 3000,"transition": "slide"});
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    toast("Something went wrong. Please try again later.",{"type": "error","autoClose": 3000,"transition": "slide"});
+                });
+            },
         }
     }
 </script>
@@ -163,8 +201,21 @@
                                     <td>{{(shipping_amount).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
                                 </tr>
                                 <tr>
+                                    <td colspan="2">
+                                        <div class="form-field rt-checkbox-field">
+                                            <input type="checkbox" id="allow_fedex" v-model="allow_fedex" @change="handlFedex">
+                                            <label for="allow_fedex">Add my FedEx Detail</label>
+                                        </div>
+                                        <div class="form-field" v-if="allow_fedex">
+                                            <label for="fedex_account">Fedex Account Number</label>
+                                            <input type="text" id="fedex_account" v-model="fedex_account" @change.lazy="addAccountNumberToCart"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th>Tax{{ (tax_percent ? " ("+tax_percent+"%)" : "") }}</th>
-                                    <td>{{(tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
+                                    <!-- <td>{{(tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td> -->
+                                     <td>TBD</td>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
@@ -246,6 +297,8 @@
     .product-row span.cross{margin-left:5px;}
     #order-detail tr:last-child{border:0px;}
     .related-product-section .product-card.flex-1{background:#fffbf2;}
+    .rt-checkbox-field{display:flex;align-items:center;column-gap:10px;}
+    .rt-checkbox-field input{width:20px;height:20px;}
 
     @media(max-width:1310px){
         .order-col{min-width:350px;}
