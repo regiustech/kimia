@@ -29,8 +29,8 @@
                     card_name: "",
                     policy: 0,
                     invoice: 0,
-                    allow_fedex: this.cartObj.fedex_account ? true : false,
-                    fedex_account: this.cartObj.fedex_account ? this.cartObj.fedex_account : "",
+                    allow_fedex: this.cartObj && this.cartObj.fedex_account ? true : false,
+                    fedex_account: this.cartObj && this.cartObj.fedex_account ? this.cartObj.fedex_account : "",
                 },
                 submitting: false,
                 errors: []
@@ -324,7 +324,7 @@
     <FrontendLayout>
         <Head>
             <title>Checkout &#8211; Kimia Corp.</title>
-            <meta name="description" content="Contact Kimia Corp. today for more information!">
+            <meta name="description" content="">
         </Head>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');background-size:cover;">
             <div class="container flex">
