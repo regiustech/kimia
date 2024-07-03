@@ -46,21 +46,7 @@
                         document.getElementById("rt-custom-loader").style.display = "none";
                         toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
                         document.querySelector(".rtCartCount").innerHTML = data.itemCount;
-                        if(data.cart){
-                            $vm.cartItems = data.cart.cartItems;
-                            $vm.subtotal = data.cart.subtotal;
-                            $vm.shipping_amount = data.cart.shipping_amount;
-                            $vm.tax_percent = data.cart.tax_percent;
-                            $vm.tax = data.cart.tax;
-                            $vm.total = data.cart.total;
-                        }else{
-                            $vm.cartItems = [];
-                            $vm.subtotal = 0;
-                            $vm.shipping_amount = 0;
-                            $vm.tax_percent = 0;
-                            $vm.tax = 0;
-                            $vm.total = 0;
-                        }
+                        $vm.cart = data.cart;
                     });
                 }catch(e){
                     document.getElementById("rt-custom-loader").style.display = "none";
