@@ -4,30 +4,29 @@
         props: ['cartObj'],
         data(){
             return {
-                allow_fedex: this.cartObj.fedex_account ? true : false,
-                fedex_account: "",
-                fedex_account: this.cartObj.fedex_account ? this.cartObj.fedex_account : "",
+                allow_fedex: this.cartObj && this.cartObj.fedex_account ? true : false,
+                fedex_account: this.cartObj && this.cartObj.fedex_account ? this.cartObj.hasOwnProperty(fedex_account) && cartObj.fedex_account : "",
                 cart: this.cartObj
             }
         },
         computed: {
             cartItems(){
-                return this.cart.cartItems || [];
+                return this.cart ? this.cart.cartItems : [];
             },
             subtotal(){
-                return this.cart.subtotal || 0;
+                return this.cart ? this.cart.subtotal : 0;
             },
             shipping_amount(){
-                return this.cart.shipping_amount || 0;
+                return this.cart ? this.cart.shipping_amount : 0;
             },
             tax_percent(){
-                return this.cart.tax_percent || 0;
+                return this.cart ? this.cart.tax_percent : 0;
             },
             tax(){
-                return this.cart.tax || 0;
+                return this.cart ? this.cart.tax : 0;
             },
             total(){
-                return this.cart.total || 0;
+                return this.cart ? this.cart.total : 0;
             }
         },
         methods: {
@@ -46,7 +45,21 @@
                         document.getElementById("rt-custom-loader").style.display = "none";
                         toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
                         document.querySelector(".rtCartCount").innerHTML = data.itemCount;
-                        $vm.cart = data.cart;
+                        if(data.cart){
+                            $vm.cartItems = data.cart.cartItems;
+                            $vm.subtotal = data.cart.subtotal;
+                            $vm.shipping_amount = data.cart.shipping_amount;
+                            $vm.tax_percent = data.cart.tax_percent;
+                            $vm.tax = data.cart.tax;
+                            $vm.total = data.cart.total;
+                        }else{
+                            $vm.cartItems = [];
+                            $vm.subtotal = 0;
+                            $vm.shipping_amount = 0;
+                            $vm.tax_percent = 0;
+                            $vm.tax = 0;
+                            $vm.total = 0;
+                        }
                     });
                 }catch(e){
                     document.getElementById("rt-custom-loader").style.display = "none";
@@ -64,21 +77,7 @@
                         document.getElementById("rt-custom-loader").style.display = "none";
                         toast(data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
                         document.querySelector(".rtCartCount").innerHTML = data.itemCount;
-                        if(data.cart){
-                            $vm.cartItems = data.cart.cartItems;
-                            $vm.subtotal = data.cart.subtotal;
-                            $vm.shipping_amount = data.cart.shipping_amount;
-                            $vm.tax_percent = data.cart.tax_percent;
-                            $vm.tax = data.cart.tax;
-                            $vm.total = data.cart.total;
-                        }else{
-                            $vm.cartItems = [];
-                            $vm.subtotal = 0;
-                            $vm.shipping_amount = 0;
-                            $vm.tax_percent = 0;
-                            $vm.tax = 0;
-                            $vm.total = 0;
-                        }
+                        $vm.cart = data.cart;
                     });
                 }catch(e){
                     document.getElementById("rt-custom-loader").style.display = "none";
@@ -117,7 +116,7 @@
     <FrontendLayout>
         <Head>
             <title>Cart &#8211; Kimia Corp.</title>
-            <meta name="description" content="Contact Kimia Corp. today for more information!">
+            <meta name="description" content="">
         </Head>
         <section class="inner-banner pad-60-15" style="background-image: url('/assets/images/about-banner.jpg');background-size:cover;">
             <div class="container flex text-center">
