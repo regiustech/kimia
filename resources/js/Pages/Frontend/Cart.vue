@@ -104,8 +104,9 @@
                     toast("Something went wrong. Please try again later.",{"type": "error","autoClose": 3000,"transition": "slide"});
                 });
             },
-            addFedexCourierToCart(){
-                axios.post(this.route('cart.addFedexCourier'),{fedex_courier_name: this.fedex_courier_name,cart_id: this.cart.id}).then(response => {
+            addFedexCourierToCart(courierName){
+                this.fedex_courier_name = courierName
+                axios.post(this.route('cart.addFedexCourier'),{fedex_courier_name: courierName,cart_id: this.cart.id}).then(response => {
                     if(response.data.cart){
                         toast(response.data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
                         this.cart = response.data.cart;
@@ -205,18 +206,30 @@
                                             <input type="checkbox" id="allow_fedex" v-model="allow_fedex" @change="handlFedex">
                                             <label for="allow_fedex">Add my FedEx Detail</label>
                                         </div>
-                                        <div class="form-field" v-if="allow_fedex">
+                                        <div class="form-field mb10" v-if="allow_fedex">
                                             <label for="fedex_account">Fedex Account Number</label>
                                             <input type="text" id="fedex_account" v-model="fedex_account" @change.lazy="addAccountNumberToCart"/>
                                         </div>
                                         <div class="form-field" v-if="allow_fedex">
-                                            <label for="fedex_courier_name">Fedex Courier Name</label>
-                                            <select id="fedex_courier_name" v-model="fedex_courier_name" @change.lazy="addFedexCourierToCart">
-                                                <option value="">Select</option>
-                                                <option value="FedEx ground">FedEx ground</option>
-                                                <option value="FedEx 2 days">FedEx 2 days</option>
-                                                <option value="FedEx overnight">FedEx overnight</option>
-                                            </select>
+                                            <label>Select Shipping</label>
+                                            <div class="radio-wrap">
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="Default" id="fedexDefault" @click="addFedexCourierToCart('Default')" :checked="(fedex_courier_name == 'Default' || fedex_courier_name == '')"/>
+                                                    <label for="fedexDefault">Default</label>
+                                                </div>
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="FedEx ground" id="fedexGround" @click="addFedexCourierToCart('FedEx ground')" :checked="(fedex_courier_name == 'FedEx ground')"/>
+                                                    <label for="fedexGround">FedEx ground</label>
+                                                </div>
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="FedEx 2 days" id="fedex2Days" @click="addFedexCourierToCart('FedEx 2 days')" :checked="(fedex_courier_name == 'FedEx 2 days')"/>
+                                                    <label for="fedex2Days">FedEx 2 days</label>
+                                                </div>
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="FedEx overnight" id="fedexOvernight" @click="addFedexCourierToCart('FedEx overnight')" :checked="(fedex_courier_name == 'FedEx overnight')"/>
+                                                    <label for="fedexOvernight">FedEx overnight</label>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
                                 </tr>
@@ -307,6 +320,11 @@
     .related-product-section .product-card.flex-1{background:#fffbf2;}
     .rt-checkbox-field{display:flex;align-items:center;column-gap:10px;}
     .rt-checkbox-field input{width:20px;height:20px;}
+    .mb10{margin-bottom:10px;}
+    .radio-wrap{display:flex;flex-direction:column;gap:6px;margin-top:5px;}
+    .radio-wrap .radio-item{display:flex;gap:10px;align-items:center;}
+    .radio-wrap .radio-item input{width:15px;height:15px;flex-shrink:0;margin:0;cursor:pointer;}
+    .radio-wrap .radio-item label{margin:0;font-size:16px;line-height:22px;cursor:pointer;}
 
     @media(max-width:1310px){
         .order-col{min-width:350px;}

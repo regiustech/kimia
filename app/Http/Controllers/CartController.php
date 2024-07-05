@@ -74,7 +74,7 @@ class CartController extends Controller
         }
         $cart->fedex_account = $request->fedex_account;
         if($cart->fedex_courier_name == "FedEx ground"){
-            $cart->shipping_amount = env("FEDEX_GROUND_AMOUNT",15);
+            $cart->shipping_amount = env("FEDEX_GROUND",15);
         }else if($cart->fedex_courier_name == "FedEx 2 days"){
             $cart->shipping_amount = env("FEDEX_2DAYS",25);
         }else if($cart->fedex_courier_name == "FedEx overnight"){
@@ -93,7 +93,7 @@ class CartController extends Controller
         }
         $cart->fedex_courier_name = $request->fedex_courier_name;
         if($request->fedex_courier_name == "FedEx ground"){
-            $cart->shipping_amount = env("FEDEX_GROUND_AMOUNT",15);
+            $cart->shipping_amount = env("FEDEX_GROUND",15);
         }else if($request->fedex_courier_name == "FedEx 2 days"){
             $cart->shipping_amount = env("FEDEX_2DAYS",25);
         }else if($request->fedex_courier_name == "FedEx overnight"){
