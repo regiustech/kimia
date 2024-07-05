@@ -4,8 +4,9 @@
         props: ['cartObj'],
         data(){
             return {
-                allow_fedex: this.cartObj && this.cartObj.fedex_account ? true : false,
-                fedex_account: this.cartObj && this.cartObj.fedex_account ? this.cartObj.hasOwnProperty(fedex_account) && cartObj.fedex_account : "",
+                allow_fedex: this.cartObj && (this.cartObj.fedex_account || this.cartObj.fedex_courier_name) ? true : false,
+                fedex_account: this.cartObj && this.cartObj.fedex_account ? this.cartObj.fedex_account : "",
+                fedex_courier_name: this.cartObj && this.cartObj.fedex_courier_name ? this.cartObj.fedex_courier_name : "",
                 cart: this.cartObj
             }
         },
@@ -103,6 +104,19 @@
                     toast("Something went wrong. Please try again later.",{"type": "error","autoClose": 3000,"transition": "slide"});
                 });
             },
+            addFedexCourierToCart(){
+                axios.post(this.route('cart.addFedexCourier'),{fedex_courier_name: this.fedex_courier_name,cart_id: this.cart.id}).then(response => {
+                    if(response.data.cart){
+                        toast(response.data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                        this.cart = response.data.cart;
+                    }else{
+                        toast(response.data.message,{"type": "error","autoClose": 3000,"transition": "slide"});
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    toast("Something went wrong. Please try again later.",{"type": "error","autoClose": 3000,"transition": "slide"});
+                });
+            }
         }
     }
 </script>
@@ -194,6 +208,15 @@
                                         <div class="form-field" v-if="allow_fedex">
                                             <label for="fedex_account">Fedex Account Number</label>
                                             <input type="text" id="fedex_account" v-model="fedex_account" @change.lazy="addAccountNumberToCart"/>
+                                        </div>
+                                        <div class="form-field" v-if="allow_fedex">
+                                            <label for="fedex_courier_name">Fedex Courier Name</label>
+                                            <select id="fedex_courier_name" v-model="fedex_courier_name" @change.lazy="addFedexCourierToCart">
+                                                <option value="">Select</option>
+                                                <option value="FedEx ground">FedEx ground</option>
+                                                <option value="FedEx 2 days">FedEx 2 days</option>
+                                                <option value="FedEx overnight">FedEx overnight</option>
+                                            </select>
                                         </div>
                                     </td>
                                 </tr>

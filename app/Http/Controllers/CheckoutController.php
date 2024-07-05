@@ -128,6 +128,7 @@ class CheckoutController extends Controller
         $order->total = $cart->total;
         $order->send_invoice_me = (($request->invoice == "1") ? true : false);
         $order->fedex_account_number = $request->fedex_account ? $request->fedex_account : null;
+        $order->fedex_courier_name = $cart->fedex_courier_name ? $cart->fedex_courier_name : null;
         $order->save();
         if(count($cart->cartItems)){
             foreach($cart->cartItems as $cartItem){
