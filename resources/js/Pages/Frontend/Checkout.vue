@@ -30,7 +30,7 @@
                     card_name: "",
                     policy: 0,
                     invoice: 0,
-                    allow_fedex: this.cartObj && (this.cartObj.fedex_account || this.cartObj.fedex_courier_name) ? true : false,
+                    allow_fedex: this.cartObj && this.cartObj.fedex_account ? true : false,
                     fedex_account: this.cartObj && this.cartObj.fedex_account ? this.cartObj.fedex_account : "",
                 },
                 submitting: false,
@@ -311,10 +311,12 @@
                 });
             },
             addFedexCourierToCart(courierName){
-                this.fedex_courier_name = courierName
+                this.fedex_courier_name = courierName;
                 axios.post(this.route('cart.addFedexCourier'),{fedex_courier_name: courierName,cart_id: this.cart.id}).then(response => {
                     if(response.data.cart){
-                        toast(response.data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                        if(courierName != "Custom"){
+                            toast(response.data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                        }
                         this.cart = response.data.cart;
                     }else{
                         toast(response.data.message,{"type": "error","autoClose": 3000,"transition": "slide"});
@@ -483,22 +485,9 @@
                                 </tr>
                                 <tr>
                                     <td colspan="2">
-                                        <div class="form-field rt-checkbox-field">
-                                            <input type="checkbox" id="allow_fedex" v-model="form.allow_fedex" @change="handlFedex">
-                                            <label for="allow_fedex">Add my FedEx Detail</label>
-                                        </div>
-                                        <div class="form-field mb10" v-if="form.allow_fedex">
-                                            <label for="fedex_account">Fedex Account Number</label>
-                                            <input type="text" id="fedex_account" v-model="form.fedex_account" @change.lazy="addAccountNumberToCart"/>
-                                            <label class="rt-cust-error" v-if="hasValidationError(errors,'fedex_account')">{{ validationError(errors,'fedex_account') }}</label>
-                                        </div>
-                                        <div class="form-field" v-if="form.allow_fedex">
+                                        <div class="form-field mb10">
                                             <label>Select Shipping</label>
                                             <div class="radio-wrap">
-                                                <div class="radio-item">
-                                                    <input type="radio" name="fedex_courier_name" value="Default" id="fedexDefault" @click="addFedexCourierToCart('Default')" :checked="(fedex_courier_name == 'Default' || fedex_courier_name == '')"/>
-                                                    <label for="fedexDefault">Default</label>
-                                                </div>
                                                 <div class="radio-item">
                                                     <input type="radio" name="fedex_courier_name" value="FedEx ground" id="fedexGround" @click="addFedexCourierToCart('FedEx ground')" :checked="(fedex_courier_name == 'FedEx ground')"/>
                                                     <label for="fedexGround">FedEx ground</label>
@@ -511,14 +500,19 @@
                                                     <input type="radio" name="fedex_courier_name" value="FedEx overnight" id="fedexOvernight" @click="addFedexCourierToCart('FedEx overnight')" :checked="(fedex_courier_name == 'FedEx overnight')"/>
                                                     <label for="fedexOvernight">FedEx overnight</label>
                                                 </div>
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="Custom" id="myFedExAccount" @click="addFedexCourierToCart('Custom')" :checked="(fedex_courier_name == 'Custom')"/>
+                                                    <label for="myFedExAccount">My FedEx Account</label>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="form-field " v-if="fedex_courier_name == 'Custom'">
+                                            <input type="text" id="fedex_account" v-model="fedex_account" @change.lazy="addAccountNumberToCart" placeholder="Enter Fedex Account Number"/>
                                         </div>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th>Tax
-                                        <!-- {{ (tax_percent ? " ("+tax_percent+"%)" : "") }} -->
-                                    </th>
+                                    <th>Tax</th>
                                     <!-- <td>{{(tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td> -->
                                     <td>TBD</td>
                                 </tr>

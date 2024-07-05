@@ -51,7 +51,8 @@ class CartController extends Controller
         $cart = Cart::userSession($userId,$sessionId)->first();
         if(!$cart){
             $cart = new Cart();
-            $cart->shipping_amount = empty($cart->fedex_account) ? env("SHIPPING_AMOUNT","4.99") : 0;
+            $cart->shipping_amount = env("FEDEX_GROUND",15);
+            $cart->fedex_courier_name = "FedEx ground";
             $cart->tax_percent = env("TAX_RATE","7.5");
         }
         $cart->user_id = $userId;
@@ -72,16 +73,9 @@ class CartController extends Controller
         if(!$cart){
             return json_encode(["status" => 412,"message" => "Cart not found."]);
         }
+        $cart->fedex_courier_name = "Custom";
         $cart->fedex_account = $request->fedex_account;
-        if($cart->fedex_courier_name == "FedEx ground"){
-            $cart->shipping_amount = env("FEDEX_GROUND",15);
-        }else if($cart->fedex_courier_name == "FedEx 2 days"){
-            $cart->shipping_amount = env("FEDEX_2DAYS",25);
-        }else if($cart->fedex_courier_name == "FedEx overnight"){
-            $cart->shipping_amount = env("FEDEX_OVERNIGHT",40);
-        }else{
-            $cart->shipping_amount = env("SHIPPING_AMOUNT",4.99);
-        }
+        $cart->shipping_amount = 0;
         $cart->save();
         $cart = $this->calcTotal($cart);
         return json_encode(["status" => 200,"message" => (!empty($request->fedex_account) ? "FedEx Account Added Sucessfully." : "FedEx Account Removed Sucessfully"),"cart" => $cart]);
@@ -99,7 +93,7 @@ class CartController extends Controller
         }else if($request->fedex_courier_name == "FedEx overnight"){
             $cart->shipping_amount = env("FEDEX_OVERNIGHT",40);
         }else{
-            $cart->shipping_amount = env("SHIPPING_AMOUNT",4.99);
+            $cart->shipping_amount = 0;
         }
         $cart->save();
         $cart = $this->calcTotal($cart);
