@@ -6,7 +6,7 @@
     <FrontendLayout>
         <Head>
             <title>Thank You &#8211; Kimia Corp.</title>
-            <meta name="description" content="">
+            <meta name="description" content="Contact Kimia Corp. today for more information!">
         </Head>
         <section class="pad-100-15 thankyou-page-template text-center" style="background-image: url('/assets/images/background-image.jpg');background-size:cover;">
             <div class="container text-center ">

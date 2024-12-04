@@ -1,17 +1,13 @@
 <script>
     export default {
-        props: ['cart'],
+        props: ['cartObj'],
         data(){
             let stripe = window.Stripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
             let user = this.$page.props.auth.user;
             return {
                 stripe: stripe,
-                cartItems: ((this.cart && this.cart.cartItems.length) ? this.cart.cartItems : []),
-                subtotal: ((this.cart && this.cart.subtotal) ? this.cart.subtotal : 0),
-                shipping_amount: ((this.cart && this.cart.shipping_amount) ? this.cart.shipping_amount : 0),
-                tax_percent: ((this.cart && this.cart.tax_percent) ? this.cart.tax_percent : 0),
-                tax: ((this.cart && this.cart.tax) ? this.cart.tax : 0),
-                total: ((this.cart && this.cart.total) ? this.cart.total : 0),
+                cart: this.cartObj,
+                fedex_courier_name: this.cartObj && this.cartObj.fedex_courier_name ? this.cartObj.fedex_courier_name : "",
                 form: {
                     billing_name: ((user && user.first_name) ? user.first_name : ""),
                     billing_company: ((user && user.company) ? user.company : ""),
@@ -34,8 +30,8 @@
                     card_name: "",
                     policy: 0,
                     invoice: 0,
-                    allow_fedex: false,
-                    fedex_account_number: ""
+                    allow_fedex: this.cartObj && this.cartObj.fedex_account ? true : false,
+                    fedex_account: this.cartObj && this.cartObj.fedex_account ? this.cartObj.fedex_account : "",
                 },
                 submitting: false,
                 errors: []
@@ -44,7 +40,26 @@
         computed: {
             stripeElements(){
                 return this.stripe.elements();
+            },
+            shipping_amount(){
+                return this.cart.shipping_amount;
+            },
+            tax_percent(){
+                return this.cart.tax_percent;
+            },
+            subtotal(){
+                return this.cart.subtotal;
+            },
+            tax(){
+                return this.cart.tax;
+            },
+            total(){
+                return this.cart.total;
+            },
+            cartItems(){
+                return this.cart.cartItems;
             }
+
         },
         mounted(){
             const style = {
@@ -208,9 +223,9 @@
                     newError["additional_notes"] = "Maximum 500 characters allowed";
                     positionFocus = positionFocus || "additional_notes";
                 }
-                if(this.form.allow_fedex && (!this.form.fedex_account_number || !this.form.fedex_account_number.trim())){
-                    newError["fedex_account_number"] = "Required";
-                    positionFocus = positionFocus || "fedex_account_number";
+                if(this.form.allow_fedex && (!this.form.fedex_account || !this.form.fedex_account.trim())){
+                    newError["fedex_account"] = "Required";
+                    positionFocus = positionFocus || "fedex_account";
                 }
                 if(this.form.invoice == 0){
                     if(!this.form.card_name || !this.form.card_name.trim()){
@@ -276,7 +291,40 @@
                 this.form.invoice = ((this.form.invoice == "1") ? "0" : "1");
             },
             handlFedex(){
-                this.form.fedex_account_number = "";
+                if(!this.form.allow_fedex && this.form.fedex_account){
+                    this.form.fedex_account = "";
+                    this.addAccountNumberToCart();
+                }
+                this.form.fedex_account = "";
+            },
+            addAccountNumberToCart(){
+                axios.post(this.route('cart.addFedexAccount'),{fedex_account: this.form.fedex_account, cart_id: this.cart.id}).then(response => {
+                    if(response.data.cart){
+                        toast(response.data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                        this.cart = response.data.cart;
+                    }else{
+                        toast(response.data.message,{"type": "error","autoClose": 3000,"transition": "slide"});
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    toast("Something went wrong. Please try again later.",{"type": "error","autoClose": 3000,"transition": "slide"});
+                });
+            },
+            addFedexCourierToCart(courierName){
+                this.fedex_courier_name = courierName;
+                axios.post(this.route('cart.addFedexCourier'),{fedex_courier_name: courierName,cart_id: this.cart.id}).then(response => {
+                    if(response.data.cart){
+                        if(courierName != "Custom"){
+                            toast(response.data.message,{"type": "success","autoClose": 3000,"transition": "slide"});
+                        }
+                        this.cart = response.data.cart;
+                    }else{
+                        toast(response.data.message,{"type": "error","autoClose": 3000,"transition": "slide"});
+                    }
+                }).catch(error => {
+                    console.log(error);
+                    toast("Something went wrong. Please try again later.",{"type": "error","autoClose": 3000,"transition": "slide"});
+                });
             }
         }
     }
@@ -285,6 +333,7 @@
     import FrontendLayout from '@/Layouts/FrontendLayout.vue';
     import countries from '@/countries.json';
     import {Head} from '@inertiajs/vue3';
+    import axios from 'axios';
     import {toast} from "vue3-toastify";
     import "vue3-toastify/dist/index.css";
 </script>
@@ -404,15 +453,6 @@
                                 </select>
                                 <label class="rt-cust-error" v-if="hasValidationError(errors,'shipping_country')">{{ validationError(errors,'shipping_country') }}</label>
                             </div>
-                            <div class="form-half-field form-field rt-checkbox-field">
-                                <input type="checkbox" id="allow_fedex" v-model="form.allow_fedex" @change="handlFedex">
-                                <label for="allow_fedex">Add my fedex detail</label>
-                            </div>
-                            <div class="form-half-field form-field" v-if="form.allow_fedex">
-                                <label for="fedex_account_number">Fedex Account Number</label>
-                                <input type="text" id="fedex_account_number" v-model="form.fedex_account_number"/>
-                                <label class="rt-cust-error" v-if="hasValidationError(errors,'fedex_account_number')">{{ validationError(errors,'fedex_account_number') }}</label>
-                            </div>
                         </div>
                     </div>
                     <div class="form-wrapper">
@@ -441,11 +481,40 @@
                                 </tr>
                                 <tr>
                                     <th>Shipping</th>
-                                    <td>{{(shipping_amount).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
+                                    <td>{{(parseFloat(shipping_amount)).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
                                 </tr>
                                 <tr>
-                                    <th>Tax{{ (tax_percent ? " ("+tax_percent+"%)" : "") }}</th>
-                                    <td>{{(tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td>
+                                    <td colspan="2">
+                                        <div class="form-field mb10">
+                                            <label>Select Shipping</label>
+                                            <div class="radio-wrap">
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="FedEx ground" id="fedexGround" @click="addFedexCourierToCart('FedEx ground')" :checked="(fedex_courier_name == 'FedEx ground')"/>
+                                                    <label for="fedexGround">FedEx ground</label>
+                                                </div>
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="FedEx 2 days" id="fedex2Days" @click="addFedexCourierToCart('FedEx 2 days')" :checked="(fedex_courier_name == 'FedEx 2 days')"/>
+                                                    <label for="fedex2Days">FedEx 2 days</label>
+                                                </div>
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="FedEx overnight" id="fedexOvernight" @click="addFedexCourierToCart('FedEx overnight')" :checked="(fedex_courier_name == 'FedEx overnight')"/>
+                                                    <label for="fedexOvernight">FedEx overnight</label>
+                                                </div>
+                                                <div class="radio-item">
+                                                    <input type="radio" name="fedex_courier_name" value="Custom" id="myFedExAccount" @click="addFedexCourierToCart('Custom')" :checked="(fedex_courier_name == 'Custom')"/>
+                                                    <label for="myFedExAccount">My FedEx Account</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-field " v-if="fedex_courier_name == 'Custom'">
+                                            <input type="text" id="fedex_account" v-model="fedex_account" @change.lazy="addAccountNumberToCart" placeholder="Enter Fedex Account Number"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Tax</th>
+                                    <!-- <td>{{(tax).toLocaleString('en-US',{style:'currency',currency:'USD'})}}</td> -->
+                                    <td>TBD</td>
                                 </tr>
                                 <tr>
                                     <th>Total</th>
@@ -527,6 +596,11 @@
     .payment-methode-card .btn{width:100%;}
     .rt-checkbox-field{display:flex;align-items:center;column-gap:10px;}
     .rt-checkbox-field input{width:20px;height:20px;}
+    .mb10{margin-bottom:10px;}
+    .radio-wrap{display:flex;flex-direction:column;gap:6px;margin-top:5px;}
+    .radio-wrap .radio-item{display:flex;gap:10px;align-items:center;}
+    .radio-wrap .radio-item input{width:15px;height:15px;flex-shrink:0;margin:0;cursor:pointer;}
+    .radio-wrap .radio-item label{margin:0;font-size:16px;line-height:22px;cursor:pointer;}
 
     @media(max-width:1310px){
         .order-col{min-width:350px;}

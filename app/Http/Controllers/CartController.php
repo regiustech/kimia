@@ -23,11 +23,12 @@ class CartController extends Controller
                     $subtotal += ((float)$cartItem->productVariant->price * (int)$cartItem->quantity);
                 }
             }
-            if($cart->tax_percent > 0){
-                $tax = (((float)$subtotal * (float)$cart->tax_percent)/100);
-            }
+            // if($cart->tax_percent > 0){
+            //     $tax = (((float)$subtotal * (float)$cart->tax_percent)/100);
+            // }
             $total = ((float)$subtotal + (float)$cart->shipping_amount + (float)$tax);
         }
+        $cart->shipping_amount = (float)$cart->shipping_amount;
         $cart->cartItems = $cartItems;
         $cart->subtotal = $subtotal;
         $cart->tax = $tax;
@@ -39,7 +40,7 @@ class CartController extends Controller
         $sessionId = app("request")->session()->getId();
         $cart = Cart::userSession($userId,$sessionId)->first();
         $cart = $this->calcTotal($cart);
-        return Inertia::render("Frontend/Cart",compact("cart"));
+        return Inertia::render("Frontend/Cart",["cartObj" => $cart]);
     }
     public function add(Request $request){
         $productId = $request->product_id;
@@ -50,7 +51,8 @@ class CartController extends Controller
         $cart = Cart::userSession($userId,$sessionId)->first();
         if(!$cart){
             $cart = new Cart();
-            $cart->shipping_amount = env("SHIPPING_AMOUNT","4.99");
+            $cart->shipping_amount = env("FEDEX_GROUND",15);
+            $cart->fedex_courier_name = "FedEx ground";
             $cart->tax_percent = env("TAX_RATE","7.5");
         }
         $cart->user_id = $userId;
@@ -65,6 +67,37 @@ class CartController extends Controller
         $cartItem->save();
         $itemCount = $cart->cartItems()->sum("quantity");
         return json_encode(["status" => 200,"message" => "Product Added Sucessfully.","itemCount" => $itemCount]);
+    }
+    public function addFedexAccount(Request $request){
+        $cart = Cart::where("id",$request->cart_id)->first();
+        if(!$cart){
+            return json_encode(["status" => 412,"message" => "Cart not found."]);
+        }
+        $cart->fedex_courier_name = "Custom";
+        $cart->fedex_account = $request->fedex_account;
+        $cart->shipping_amount = 0;
+        $cart->save();
+        $cart = $this->calcTotal($cart);
+        return json_encode(["status" => 200,"message" => (!empty($request->fedex_account) ? "FedEx Account Added Sucessfully." : "FedEx Account Removed Sucessfully"),"cart" => $cart]);
+    }
+    public function addFedexCourier(Request $request){
+        $cart = Cart::where("id",$request->cart_id)->first();
+        if(!$cart){
+            return json_encode(["status" => 412,"message" => "Cart not found."]);
+        }
+        $cart->fedex_courier_name = $request->fedex_courier_name;
+        if($request->fedex_courier_name == "FedEx ground"){
+            $cart->shipping_amount = env("FEDEX_GROUND",15);
+        }else if($request->fedex_courier_name == "FedEx 2 days"){
+            $cart->shipping_amount = env("FEDEX_2DAYS",25);
+        }else if($request->fedex_courier_name == "FedEx overnight"){
+            $cart->shipping_amount = env("FEDEX_OVERNIGHT",40);
+        }else{
+            $cart->shipping_amount = 0;
+        }
+        $cart->save();
+        $cart = $this->calcTotal($cart);
+        return json_encode(["status" => 200,"message" => "Shipping Updated Sucessfully.","cart" => $cart]);
     }
     public function update(Request $request){
         $cartId = $request->cart_id;

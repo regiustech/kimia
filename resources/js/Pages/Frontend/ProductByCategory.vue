@@ -42,7 +42,7 @@
     <FrontendLayout>
         <Head>
             <title>{{category}} &#8211; Kimia Corp.</title>
-            <meta name="description" content="">
+            <meta name="description" content="Contact Kimia Corp. today for more information!">
         </Head>
         <section class="inner-banner" style="background-image: url('/assets/images/about-banner.jpg');">
             <div class="container flex text-center">
